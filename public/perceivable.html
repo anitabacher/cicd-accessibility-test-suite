@@ -758,6 +758,31 @@
                     </div>
                 </div>
 
+                <h3 id="guideline-1-4-2">1.4.2: Audio Control (Level A)</h3>
+                <p>
+                    If any audio on a Web page plays automatically for more than 3 seconds, either a mechanism is available to pause or stop the audio, or a mechanism is available to control audio volume independently from the overall system volume level.
+                </p>
+                <h3>Example:</h3>
+                <h4>1. Autoplay audio without controls.</h4>
+                <div class="example-box">
+                    <div class="correct">
+                        <h3>Correct</h3>
+                        <p>The audio below does NOT play automatically and has controls.</p>
+                        <audio controls>
+                            <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    <div class="wrong">
+                        <h3>Wrong</h3>
+                        <p>The audio below plays automatically (autoplay) and has NO controls to stop it.</p>
+                        <audio autoplay loop>
+                            <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+
                 <!-- https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum -->
                 <h3 id="guideline-1-4-3">1.4.3: Contrast Minimum (Level AA)</h3>
                 <p>

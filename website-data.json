@@ -1,10 +1,10 @@
 {
-    "criterionsImplemented": 24,
-    "totalExampleErrors": 38,
+    "criterionsImplemented": 25,
+    "totalExampleErrors": 39,
     "perceivable": {
-        "perceivableCriterions": 12,
-        "perceivableExampleErrors": 36,
-        "perceivablePageErrors": 38, 
+        "perceivableCriterions": 13,
+        "perceivableExampleErrors": 37,
+        "perceivablePageErrors": 39,
         "implementedCriterions": {
             "1.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#non-text-content",
@@ -159,6 +159,18 @@
                         "row": 750,
                         "element": "<form action='#'>",
                         "description": "Only using a color to display errors in a form is insufficient."
+                    }
+                }
+            },
+            "1.4.2": {
+                "urlToCriterion": "https://www.w3.org/TR/WCAG21/#audio-control",
+                "level": "A",
+                "examplesGiven": 1,
+                "examples": {
+                    "autoplayNoControls": {
+                        "row": 780,
+                        "element": "<audio autoplay loop>",
+                        "description": "Audio playing automatically for more than 3 seconds must have controls."
                     }
                 }
             },
