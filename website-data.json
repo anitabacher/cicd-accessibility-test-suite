@@ -1,6 +1,6 @@
 {
-    "criterionsImplemented": 25,
-    "totalExampleErrors": 39,
+    "criterionsImplemented": 26,
+    "totalExampleErrors": 40,
     "perceivable": {
         "perceivableCriterions": 13,
         "perceivableExampleErrors": 37,
@@ -281,9 +281,9 @@
             }
     },
     "operable": {
-        "operableCriterions": 13,
-        "operableExampleErrors": 22,
-        "operablePageErrors": 20,
+        "operableCriterions": 14,
+        "operableExampleErrors": 23,
+        "operablePageErrors": 21,
         "implementedCriterions": {
             "2.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#keyboard",
@@ -345,6 +345,19 @@
                         "row": 166,
                         "element": "<div id='gl-2-3-1-sign-w' class='quick-flashing'>",
                         "description": "The rule automatically fails because of the test case given in 2.3.1 that flashes 5 times per second."
+                    }
+                }
+            },
+            "2.4.1": {
+                "urlToCriterion": "https://www.w3.org/TR/WCAG21/#bypass-blocks",
+                "level": "A",
+                "examplesGiven": 1,
+                "examples": {
+                    "missingSkipLink": {
+                        "row": 15,
+                        "page": "home",
+                        "element": "<body>",
+                        "description": "The page is missing a mechanism to bypass blocks of content (Skip Link)."
                     }
                 }
             },

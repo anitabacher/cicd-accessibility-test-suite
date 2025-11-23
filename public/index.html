@@ -13,6 +13,15 @@
         <title>Web Accessibility Testing Page</title>
     </head>
     <body>
+    <a href="#main-content" class="skip-link" style="position: absolute; left: -9999px; z-index: 1000; background: #003366; color: #ffffff; padding: 10px; font-weight: bold; border: 2px solid #000000; text-decoration: none;">
+        Skip to Main Content
+    </a>
+    <style>
+        a.skip-link:focus {
+            position: static !important;
+            left: auto !important;
+        }
+    </style>
         <header>
             <h1>Expanded Evaluation Webpage for Web Accessibility Testing Tools!</h1>
             <nav>
@@ -31,7 +40,7 @@
                 </form>
             </div>
         </header>
-        <main>
+        <main id="main-content">
             <h1>Home</h1>
             <p>
                 This website is part of Moser and Högback's thesis project: <a href="https://www.diva-portal.org/smash/record.jsf?pid=diva2%3A1887999&dswid=7155" target="_blank">
