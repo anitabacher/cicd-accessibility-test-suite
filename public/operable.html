@@ -426,6 +426,24 @@
                         Make it easier for users to operate functionality through various inputs beyond keyboard.
                     </p>
 
+                    <h3>2.5.2: Pointer Cancellation (Level A)</h3>
+                    <p>
+                        For functionality that can be operated using a single pointer, at least one of the following is true: No Down-Event, Abort or Undo, Up Reversal, or Essential.
+                    </p>
+                    <h3>Example:</h3>
+                    <h4>1. Execution on Down-Event.</h4>
+                    <div class="example-box">
+                        <div class="correct">
+                            <h3>Correct</h3>
+                            <p>This button executes the action on the "click" event, which means only after the release of the mouse button (up-event). You can press down, move away, and release to cancel.</p>
+                            <button onclick="alert('Correct! Action executed on Release (Up-Event).')">Click Me (Standard)</button>
+                        </div>
+                        <div class="wrong">
+                            <h3>Wrong</h3>
+                            <p>This button executes the action immediately on "mousedown" (down-event), making it impossible to cancel the click by moving the mouse away.</p>
+                            <button onmousedown="alert('Violation! Action executed immediately on Down-Event.')">Click Me (No Cancel)</button>
+                        </div>
+                    </div>
                     <h3>2.5.3: Label in Name (Level A)</h3>
                     <p>
                         For user interface components with labels that include text or images of text, the name contains the text that is presented visually.

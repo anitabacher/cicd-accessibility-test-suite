@@ -1,6 +1,6 @@
 {
-    "criterionsImplemented": 27,
-    "totalExampleErrors": 41,
+    "criterionsImplemented": 28,
+    "totalExampleErrors": 42,
     "perceivable": {
         "perceivableCriterions": 13,
         "perceivableExampleErrors": 37,
@@ -281,9 +281,9 @@
             }
     },
     "operable": {
-        "operableCriterions": 15,
-        "operableExampleErrors": 24,
-        "operablePageErrors": 22,
+        "operableCriterions": 16,
+        "operableExampleErrors": 25,
+        "operablePageErrors": 23,
         "implementedCriterions": {
             "2.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#keyboard",
@@ -475,6 +475,18 @@
                         "row": 372,
                         "element": "<button class='gl-2-4-13-button'>Reveal the hidden text</button>",
                         "description": "Insufficient contrast to make focus distinct."
+                    }
+                }
+            },
+            "2.5.2": {
+                "urlToCriterion": "https://www.w3.org/TR/WCAG21/#pointer-cancellation",
+                "level": "A",
+                "examplesGiven": 1,
+                "examples": {
+                    "executionOnDownEvent": {
+                        "row": 460,
+                        "element": "<button onmousedown='...'>",
+                        "description": "Event handler triggers on mousedown instead of release/mouseup, preventing cancellation."
                     }
                 }
             },
