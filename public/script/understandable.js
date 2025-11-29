@@ -1,6 +1,7 @@
 (function(){
     guideLine322();
     guideLine331();
+    guideLine337();
 })();
 
 function guideLine322() {
@@ -134,4 +135,19 @@ function passwordValidation(pwToValidate) {
     if (!containsSpecial.test(pwToValidate)) errors.push("The password needs to contain at least 1 symbol.");
 
     return errors;
+}
+
+function guideLine337(){
+    const checkbox = document.getElementById('same-address');
+    const billingInput = document.getElementById('billing-street-correct');
+    const shippingInput = document.getElementById('shipping-street-correct');
+
+    if (checkbox && billingInput && shippingInput) {
+        checkbox.addEventListener('change', e => {
+            // Disabling Input when the checkbox is marked as checked.
+            shippingInput.disabled = checkbox.checked;
+            // If checked, copy billingInput, else return empty string
+            shippingInput.value = checkbox.checked ? billingInput.value : "";
+        });
+    }
 }

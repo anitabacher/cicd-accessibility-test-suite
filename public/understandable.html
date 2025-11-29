@@ -1,465 +1,509 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <base id="base" href="">
-        <link rel="icon" type="image/x-icon" href="images/u-favicon.png">
-        <link rel="stylesheet" type="text/css" href="style/understandable.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-        <title>Web Accessibility Testing Page</title>
-        <script src="script/understandable.js" type="text/javascript" defer></script>
-        <script src="script/script.js" type="text/javascript" defer></script>
-    </head>
-    <body>
-        <footer>
-            <h3>Contact Us:</h3>
-            <p>Made by <a href="https://github.com/Ylih">Ylih</a> and <a href="https://github.com/elemoser">elemoser</a></p>
-            <p>Further developed by <a href="https://github.com/np222je">Nils</a> and <a href="https://github.com/robinkxl">Robin</a></p>
-        </footer>
-        <main>
-            <article>
-                <h1>Understandable</h1>
-                <p>Information and the operation of the user interface must be understandable.</p>
-                <section id="guideline-3-1">
-                    <h2>Guideline 3.1: Readable</h2>
-                    <p>
-                        Make text content readable and understandable.
-                    </p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base id="base" href="">
+    <link rel="icon" type="image/x-icon" href="images/u-favicon.png">
+    <link rel="stylesheet" type="text/css" href="style/understandable.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>Web Accessibility Testing Page</title>
+    <script src="script/understandable.js" type="text/javascript" defer></script>
+    <script src="script/script.js" type="text/javascript" defer></script>
+</head>
+<body>
+<footer>
+    <h3>Contact Us:</h3>
+    <p>Made by <a href="https://github.com/Ylih">Ylih</a> and <a href="https://github.com/elemoser">elemoser</a></p>
+    <p>Further developed by <a href="https://github.com/np222je">Nils</a> and <a href="https://github.com/robinkxl">Robin</a></p>
+</footer>
+<main>
+    <article>
+        <h1>Understandable</h1>
+        <p>Information and the operation of the user interface must be understandable.</p>
+        <section id="guideline-3-1">
+            <h2>Guideline 3.1: Readable</h2>
+            <p>
+                Make text content readable and understandable.
+            </p>
 
-                    <h3>3.1.1: Language of Page (Level A)</h3>
+            <h3>3.1.1: Language of Page (Level A)</h3>
+            <p>
+                The default human language of each Web page can be programmatically determined.
+            </p>
+            <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H57.html -->
+            <div class="disclaimer-box">
+                <div class="disclaimer">
                     <p>
-                        The default human language of each Web page can be programmatically determined.
+                        To demonstrate this violation, the web page html tag is using the wrong lang tag.
+                        The lang tag should be "en" since the primary language used in this web page is english
+                        but the tag is set as "fr" for french.
                     </p>
-                    <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H57.html -->
-                    <div class="disclaimer-box">
-                        <div class="disclaimer">
-                            <p>
-                                To demonstrate this violation, the web page html tag is using the wrong lang tag.
-                                The lang tag should be "en" since the primary language used in this web page is english 
-                                but the tag is set as "fr" for french.
-                            </p>
-                        </div>
-                        <div class="disclaimer">
-                            <p>
-                                To further demonstrate this violation, the lang tag is removed on the perceivable page.
-                            </p>
-                        </div>
-                    </div>
+                </div>
+                <div class="disclaimer">
+                    <p>
+                        To further demonstrate this violation, the lang tag is removed on the perceivable page.
+                    </p>
+                </div>
+            </div>
 
-                    <h3>3.1.2: Language of Parts (Level AA)</h3>
-                    <p>
-                        The human language of each passage or phrase in the content can be programmatically 
-                        determined except for proper names, technical terms, words of indeterminate language, 
-                        and words or phrases that have become part of the vernacular of the immediately surrounding text.
-                    </p>
-                    <!-- https://www.w3.org/WAI/WCAG21/Techniques/html/H58 -->
-                    <h3>Example:</h3>
-                    <h4>1. Language attributes.</h4>
-                    <div class="example-box">
-                        <div class="correct">
-                            <h3>Correct</h3>
-                            <p>The texts below uses the lang attribute to help determin which language the text is written in.</p>
-                            <div>
-                                <h4>Swedish Text (lang="sv"):</h4>
-                                <p lang="sv">
-                                    Denna text använder lang-attributet för att ange att innehållet är på svenska. Detta gör att 
-                                    texten uppfyller riktlinjerna för regel 3.1.2.
-                                </p>
-                            </div>
-                            <div>
-                                <h4>English Text (lang="en"):</h4>
-                                <p lang="en">
-                                    The web page has the lang tag "fr" which would suggest that all text written in English 
-                                    besides this text should fail on tests.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="wrong">
-                            <h3>Wrong</h3>
-                            <p>The texts below does not use the lang attribute to help determin which language the text is written in.</p>
-                            <div>
-                                <h4>Swedish Text (lang="sv"):</h4>
-                                <p>Denna text använder inte lang-attributet för att ange att innehållet är på svenska. Detta 
-                                    gör att texten inte uppfyller riktlinjerna.</p>
-                            </div>
-                            <div>
-                                <h4>English Text (lang="en"):</h4>
-                                <p>The web page has the lang tag "fr" which would suggest that all text written in english should fail on tests.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3>3.1.3: Unusual Words (Level AAA)</h3>
-                    <p>
-                        A mechanism is available for identifying specific definitions of words or phrases used in an unusual or 
-                        restricted way, including idioms and jargon.
-                    </p>
-                    <h3>Example:</h3>
-                    <h4>1. Provided dictionary definitions.</h4>
-                    <div class="example-box">
-                        <div class="correct">
-                            <h3>Correct</h3>
-                            <p>
-                                Below are a few examples that uses idioms and jargon that may need to be explained further.
-                                They contain a link to a dictionary on the site that explains the term.
-                            </p>
-                            <div class="color-example">
-                                <p>Victor did <a href="dictionary#spillthebeans">spill the beans</a> about an incident at work last week.</p>
-                                <p>It may be necessary to update the <a href="dictionary#driverinsoftware">driver</a> for your printer.</p>
-                            </div>
-                        </div>
-                        <div class="wrong">
-                            <h3>Wrong</h3>
-                            <p>Below are the same examples but without a mechanism to identifying the definitions.</p>
-                            <div class="color-example">
-                                <p>Victor did spill the beans about an incident at work last week.</p>
-                                <p>It may be necessary to update the driver for your printer.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3>3.1.4: Abbreviations (Level AAA)</h3>
-                    <p>
-                        A mechanism for identifying the expanded form or meaning of abbreviations is available.
-                    </p>
-                    <h3>Example:</h3>
-                    <h4>1. Provided definitions for abbreviations.</h4>
-                    <div class="example-box">
-                        <div class="correct">
-                            <h3>Correct</h3>
-                            <p>
-                                Below are a few examples that uses abbreviations. The abbreviations are linked to the website 
-                                dictionary where they are explained.
-                            </p>
-                            <div class="color-example">
-                                <p><a href="dictionary#WCAG">WCAG</a> compliance increases the quality of your website.</p>
-                                <p>The <a href="dictionary#W3C">W3C</a> is an international organization that creates standards 
-                                    for the World Wide Web.</p>
-                                <p>Sometimes I ponder if there is an <a href="dictionary#API">API</a> for this...</p>
-                            </div>
-                        </div>
-                        <div class="wrong">
-                            <h3>Wrong</h3>
-                            <p>
-                                Below are a few examples that uses abbreviations but without a mechanism to identifying them.
-                            </p>
-                            <div class="color-example">
-                                <p>WCAG compliance increases the quality of your website.</p>
-                                <p>The W3C is an international organization that creates standards for the World Wide Web.</p>
-                                <p>Sometimes I ponder if there is an API for this...</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="guideline-3-2">
-                    <h2>Guideline 3.2: Predictable</h2>
-                    <p>
-                        Make Web pages appear and operate in predictable ways.
-                    </p>
-                    <h3>3.2.1: On Focus (Level A)</h3>
-                    <p>
-                        When any user interface component receives focus, it does not initiate a change of context.
-                    </p>
-                    <p>W3C explains changes of context as "major changes that, if made without user awareness, can disorient 
-                        users who are not able to view the entire page simultaneously".</p>
-                    <div class="disclaimer-box">
-                        <div class="disclaimer">
-                            <p>This has already been tested in operable 2.1.1 where a link drops the focus when being focused. 
-                                A similar example is given below for context.</p>
-                        </div>
-                    </div>
-                    
-                    <h3>Example:</h3>
-                    <h4>1. Predictable keyboard focus.</h4>
-                    <div class="example-box">
-                        <div class="correct">
-                            <h3>Correct</h3>
-                            <p>A link that can be focused by using tab. The focus wont move until the user presses tab again.</p>
-                            <a href="#">Link</a>
-                        </div>
-                        <div class="wrong">
-                            <h3>Wrong</h3>
-                            <p>Once the first link is focused it will blur itself and then when you tab again the focus will end up on 
-                                the link next to the first one.</p>
-                            <a href="#" onFocus="this.blur()">Link</a>
-                            <a href="#">Link</a>
-                        </div>
-                    </div>
-
-                    <h3>3.2.2: On Input (Level A)</h3>
-                    <p>
-                        Changing the setting of any user interface component does not automatically cause a change of context
-                        unless the user has been advised of the behavior before using the component.
-                    </p>
-                    
-                    <h3>Example:</h3>
-                    <h4>1. Warranted context changes.</h4>
-                    <div class="example-box">
-                        <div class="correct">
-                            <h3>Correct</h3>
-                            <p>This form changes page after you submit it with the button.</p>
-                            <form method="get" id="formCorrectGl322">
-                                <label for="selectCorrect" >Choose web page:</label>
-                                <select id="selectCorrect" title="Choose web page">
-                                    <option value="">Select option</option>
-                                    <option value="home">Home</option>
-                                    <option value="perceivable">Perceivable</option>
-                                    <option value="operable">Operable</option>
-                                    <option value="understandable">Understandable</option>
-                                </select>
-                                <button type="submit">Go to page</button>
-                            </form>
-                        </div>
-                        <div class="wrong">
-                            <h3>Wrong</h3>
-                            <p>This is not accessible, try it for yourself.</p>
-                            <form method="get" id="formWrongGl322">
-                                <label for="selectWrong">Choose web page:</label>
-                                <select id="selectWrong" title="Choose web page">
-                                    <option value="">Select option</option>
-                                    <option value="home">Home</option>
-                                    <option value="perceivable">Perceivable</option>
-                                    <option value="operable">Operable</option>
-                                    <option value="understandable">Understandable</option>
-                                </select>
-                            </form>
-                        </div>
-                    </div>
-    
-                    <h3>3.2.3: Consistent Navigation (Level AA)</h3>
-                    <p>
-                        Navigational mechanisms that are repeated on multiple Web pages within a set of Web pages occur in the same relative order each time they are repeated, unless a change is initiated by the user.
-                    </p>
-                    <div class="disclaimer-box">
-                        <div class="disclaimer">
-                            <p>
-                                Just like rearranging furniture can be confusing, changing navigation 
-                                on a website can leave users disoriented.
-                                This guideline emphasizes the importance of keeping navigation consistent 
-                                across pages. Just like you probably got surprised by the footer and header being rearranged!
-                            </p>
-                        </div>
-                    </div>
-
-                    <h3>3.2.4: Consistent Identification (Level AA)</h3>
-                    <p>
-                        Components that have the same functionality within a set of Web pages are identified consistently.
-                    </p>
-                    <!-- https://www.w3.org/WAI/WCAG21/Techniques/failures/F31 -->
-                    <div class="disclaimer-box">
-                        <div class="disclaimer">
-                            <p>
-                                The search bar in the header allows users to locate and highlight specific text.
-                                It's important to note that on all other web pages, the search bar features a button labeled 'search,' 
-                                on this particular page, it displays 'find.' Despite this discrepancy, both buttons serve the same function, 
-                                this inconsistency may impact users, potentially leading to a failure to meet criterion 3.2.4.
-                            </p>
-                        </div>
-                    </div>
-                    <h3>3.2.6: Consistent Help (Level A)</h3>
-                    <p>
-                        If a Web page contains any of the following help mechanisms, and those mechanisms are repeated on multiple Web pages within a set of Web pages, they occur in the same order relative to other page content, unless a change is initiated by the user:
-                    </p>
-                    <ul>
-                        <li>
-                            Human contact details;
-                        </li>
-                        <li>
-                            Human contact mechanism;
-                        </li>
-                        <li>
-                            Self-help option;
-                        </li>
-                        <li>
-                            A fully automated contact mechanism.
-                        </li>
-                    </ul>
-                    <div class="disclaimer-box">
-                        <p class="disclaimer">
-                            This guideline emphasizes the importance of keeping the Contact Us section consistent across pages. The Contact Us section on this page is at the top of the page instead of the bottom like the rest of the pages.
+            <h3>3.1.2: Language of Parts (Level AA)</h3>
+            <p>
+                The human language of each passage or phrase in the content can be programmatically
+                determined except for proper names, technical terms, words of indeterminate language,
+                and words or phrases that have become part of the vernacular of the immediately surrounding text.
+            </p>
+            <!-- https://www.w3.org/WAI/WCAG21/Techniques/html/H58 -->
+            <h3>Example:</h3>
+            <h4>1. Language attributes.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The texts below uses the lang attribute to help determin which language the text is written in.</p>
+                    <div>
+                        <h4>Swedish Text (lang="sv"):</h4>
+                        <p lang="sv">
+                            Denna text använder lang-attributet för att ange att innehållet är på svenska. Detta gör att
+                            texten uppfyller riktlinjerna för regel 3.1.2.
                         </p>
                     </div>
-                </section>
-
-                <section id="guideline-3-3">
-                    <h2>Guideline 3.3: Input Assistance</h2>
-                    <p>
-                        Help users avoid and correct mistakes.
-                    </p>
-
-                    <h3>3.3.1: Error Identification (Level A)</h3>
-                    <p>
-                        If an input error is automatically detected, the item that is in error is identified 
-                        and the error is described to the user in text.
-                    </p>
-                    <div class="disclaimer-box">
-                        <p class="disclaimer">
-                            Since most modern browsers have some form of built-in form validation, I've had to 
-                            use the attribute 'novalidate' to get more control over the validation process.
+                    <div>
+                        <h4>English Text (lang="en"):</h4>
+                        <p lang="en">
+                            The web page has the lang tag "fr" which would suggest that all text written in English
+                            besides this text should fail on tests.
                         </p>
-                    </div>
-                    <h3>Example:</h3>
-                    <h4>1. Descriptive error warnings.</h4>
-                    <div class="example-box">
-                        <div class="correct">
-                            <h3>Correct</h3>
-                            <p>
-                                This form contains robust error handling that shows the mistakes 
-                                user has done as soon as they 'unfocus' the input field.
-                                The form also performs the validation upon being sent to make sure everything is in order.
-                            </p>
-                            <div class="color-example">
-                                <h4>Rules for name and password to be valid:</h4>
-                                <p>All letters should be in the range A-Za-z.</p>
-                                <p>Name:</p>
-                                <ul>
-                                    <li>Atleast 2 letters</li>
-                                    <li>No digits</li>
-                                    <li>No symbols</li>
-                                </ul>
-
-                                <p>Password:</p>
-                                <ul>
-                                    <li>Contain 8 characters</li>
-                                    <li>Contain atleast 1 uppercase letter</li>
-                                    <li>Contain atleast 1 digit</li>
-                                    <li>Contain atleast 1 symbol</li>
-                                </ul>
-                                <p><span class="required">*</span> Required field.</p>
-
-                                <form id="correctForm" class="block-form" action="#" novalidate>
-                                    <label for="unameCorrect">Username: <span class="required">*</span></label>
-                                    <input type="text" id="unameCorrect" name="username" required>
-                                    <div id="unameCorrectError" class="required"></div>
-
-                                    <label for="passwordCorrect">Password: <span class="required">*</span></label>
-                                    <input type="password" id="passwordCorrect" name="password" required>
-                                    <div id="passwordCorrectError" class="required"></div>
-
-                                    <button type="submit">Submit</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="wrong">
-                            <h3>Wrong</h3>
-                            <p>
-                                This form contains error handling but the errors aren't displayed to the user.
-                                Instead if the user has done something wrong the text
-                                'Something went wrong' is appended to a span element below the form.
-                            </p>
-                            <div class="color-example">
-                                <h4>Rules for name and password to be valid:</h4>
-                                <p>All letters should be in the range A-Za-z.</p>
-                                <p>Name:</p>
-                                <ul>
-                                    <li>Atleast 2 letters</li>
-                                    <li>No digits</li>
-                                    <li>No symbols</li>
-                                </ul>
-
-                                <p>Password:</p>
-                                <ul>
-                                    <li>Contain 8 characters</li>
-                                    <li>Contain atleast 1 uppercase letter</li>
-                                    <li>Contain atleast 1 digit</li>
-                                    <li>Contain atleast 1 symbol</li>
-                                </ul>
-                                <p><span class="required">*</span> Required field.</p>
-
-                                <!-- This form will be on submit and will contain a vague message at the bottom
-                                  saying something with user info is wrong but not whats wrong. -->
-                                <form id="wrongForm" class="block-form" action="#" novalidate>
-                                    <input type="text" id="unameWrong" name="unameWrong" required>
-                                    <input type="password" id="passwordWrong" name="passwordWrong" required>
-                                    <button type="submit">Submit</button>
-                                </form>
-                                <div id="wrongFormError" class="required"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <h3>3.3.2: Labels or Instructions (Level A)</h3>
-                    <p>
-                        Labels or instructions are provided when content requires user input.
-                    </p>
-                    <div class="disclaimer-box">
-                        <p class="disclaimer">
-                            The correct example above feature inputs of "type=text" and "type=password" with 
-                            proper labeling whereas the "wrong" form uses no labels to display the inputs.
-                            This means a violation raised for labeling and instruction under the criteria 3.3.1 example 
-                            can be considered correct.
-                        </p>
-                    </div>
-                    <h3>Example:</h3>
-                    <h4>1. Placeholders to guide form input.</h4>
-                    <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> Each input has both labeling and titles to provide value of the fields as well as placeholders for understandability.
-                        </p>
-                         <div class="color-example">
-                            <p>All birthdates should be entered in the following format: YYYY/MM/DD. </p>
-                                <ul>
-                                    <li>No letters</li>
-                                    <li>No symbols</li>
-                                </ul>
-                            <fieldset><legend>Date of Birth</legend>
-                                <label for="birthYear-c"> Year </label>
-                                <input id="birthYear-c" name="birthYear-c" title="Birth Year" aria-label=”birthYear”
-                                type="text" size="4" value="" placeholder="2001"> /
-                                <label for="birthMonth-c"> Month </label> <input id="birthMonth-c" name="birthMonth-c" title="Birth Month" aria-label=”birthMonth”
-                                type="text" size="2" value="" placeholder="07"> /
-                                <label for="birthDay-c"> Day </label> <input id="birthDay-c" name="birthDay-c" title="Birth Day" aria-label=”birthDay”
-                                type="text" size="2" value="" placeholder="23">
-                            </fieldset> 
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> This example reduces understandability without examples of expected formatting
-                            with the use of placeholders in the input fields. </p>
-                            <div class="color-example">
-                            <p>All birthdates should be entered. </p>
-                                <ul>
-                                    <li>No letters</li>
-                                    <li>No symbols</li>
-                                </ul>
-                            <fieldset><legend>Date of Birth</legend>
-                                <label for="birthYear-w"> Year </label>
-                                <input id="birthYear-w" name="birthYear-w" title="Birth Year"
-                                type="text" size="4" value=""> /
-                                <label for="birthMonth-w"> Month </label>
-                                <input id="birthMonth-w" name="birthMonth-w" title="Birth Month"
-                                type="text" size="2" value=""> /
-                                <label for="birthDay-w"> Day </label> 
-                                <input id="birthDay-w" name="birthDay-w" title="Birth Day"
-                                type="text" size="2" value="">
-                            </fieldset> 
-                        </div>
                     </div>
                 </div>
-                </section>
-            </article>
-        </main>
-        <header>
-            <h1>Evaluation Webpage for Web Accessibility Testing Tools!</h1>
-            <nav>
-                <ul class="nav-links">
-                    <li><a id="home" class="nav-link" href="/">Home</a></li>
-                    <li><a class="nav-link" href="perceivable">Perceivable</a></li>
-                    <li><a class="nav-link" href="operable">Operable</a></li>
-                    <li><span class="current" aria-current="page">Understandable</span></li>
-                </ul>
-            </nav>
-            <div class="search-container">
-                <form id="searchForm">
-                    <label for="find">Find: </label>
-                    <input type="text" name="find" id="find" placeholder="Find on page...">
-                    <button>Find</button>
-                </form>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The texts below does not use the lang attribute to help determin which language the text is written in.</p>
+                    <div>
+                        <h4>Swedish Text (lang="sv"):</h4>
+                        <p>Denna text använder inte lang-attributet för att ange att innehållet är på svenska. Detta
+                            gör att texten inte uppfyller riktlinjerna.</p>
+                    </div>
+                    <div>
+                        <h4>English Text (lang="en"):</h4>
+                        <p>The web page has the lang tag "fr" which would suggest that all text written in english should fail on tests.</p>
+                    </div>
+                </div>
             </div>
-        </header>
-    </body>
+
+            <h3>3.1.3: Unusual Words (Level AAA)</h3>
+            <p>
+                A mechanism is available for identifying specific definitions of words or phrases used in an unusual or
+                restricted way, including idioms and jargon.
+            </p>
+            <h3>Example:</h3>
+            <h4>1. Provided dictionary definitions.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>
+                        Below are a few examples that uses idioms and jargon that may need to be explained further.
+                        They contain a link to a dictionary on the site that explains the term.
+                    </p>
+                    <div class="color-example">
+                        <p>Victor did <a href="dictionary#spillthebeans">spill the beans</a> about an incident at work last week.</p>
+                        <p>It may be necessary to update the <a href="dictionary#driverinsoftware">driver</a> for your printer.</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>Below are the same examples but without a mechanism to identifying the definitions.</p>
+                    <div class="color-example">
+                        <p>Victor did spill the beans about an incident at work last week.</p>
+                        <p>It may be necessary to update the driver for your printer.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>3.1.4: Abbreviations (Level AAA)</h3>
+            <p>
+                A mechanism for identifying the expanded form or meaning of abbreviations is available.
+            </p>
+            <h3>Example:</h3>
+            <h4>1. Provided definitions for abbreviations.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>
+                        Below are a few examples that uses abbreviations. The abbreviations are linked to the website
+                        dictionary where they are explained.
+                    </p>
+                    <div class="color-example">
+                        <p><a href="dictionary#WCAG">WCAG</a> compliance increases the quality of your website.</p>
+                        <p>The <a href="dictionary#W3C">W3C</a> is an international organization that creates standards
+                            for the World Wide Web.</p>
+                        <p>Sometimes I ponder if there is an <a href="dictionary#API">API</a> for this...</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>
+                        Below are a few examples that uses abbreviations but without a mechanism to identifying them.
+                    </p>
+                    <div class="color-example">
+                        <p>WCAG compliance increases the quality of your website.</p>
+                        <p>The W3C is an international organization that creates standards for the World Wide Web.</p>
+                        <p>Sometimes I ponder if there is an API for this...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="guideline-3-2">
+            <h2>Guideline 3.2: Predictable</h2>
+            <p>
+                Make Web pages appear and operate in predictable ways.
+            </p>
+            <h3>3.2.1: On Focus (Level A)</h3>
+            <p>
+                When any user interface component receives focus, it does not initiate a change of context.
+            </p>
+            <p>W3C explains changes of context as "major changes that, if made without user awareness, can disorient
+                users who are not able to view the entire page simultaneously".</p>
+            <div class="disclaimer-box">
+                <div class="disclaimer">
+                    <p>This has already been tested in operable 2.1.1 where a link drops the focus when being focused.
+                        A similar example is given below for context.</p>
+                </div>
+            </div>
+
+            <h3>Example:</h3>
+            <h4>1. Predictable keyboard focus.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>A link that can be focused by using tab. The focus wont move until the user presses tab again.</p>
+                    <a href="#">Link</a>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>Once the first link is focused it will blur itself and then when you tab again the focus will end up on
+                        the link next to the first one.</p>
+                    <a href="#" onFocus="this.blur()">Link</a>
+                    <a href="#">Link</a>
+                </div>
+            </div>
+
+            <h3>3.2.2: On Input (Level A)</h3>
+            <p>
+                Changing the setting of any user interface component does not automatically cause a change of context
+                unless the user has been advised of the behavior before using the component.
+            </p>
+
+            <h3>Example:</h3>
+            <h4>1. Warranted context changes.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>This form changes page after you submit it with the button.</p>
+                    <form method="get" id="formCorrectGl322">
+                        <label for="selectCorrect" >Choose web page:</label>
+                        <select id="selectCorrect" title="Choose web page">
+                            <option value="">Select option</option>
+                            <option value="home">Home</option>
+                            <option value="perceivable">Perceivable</option>
+                            <option value="operable">Operable</option>
+                            <option value="understandable">Understandable</option>
+                        </select>
+                        <button type="submit">Go to page</button>
+                    </form>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>This is not accessible, try it for yourself.</p>
+                    <form method="get" id="formWrongGl322">
+                        <label for="selectWrong">Choose web page:</label>
+                        <select id="selectWrong" title="Choose web page">
+                            <option value="">Select option</option>
+                            <option value="home">Home</option>
+                            <option value="perceivable">Perceivable</option>
+                            <option value="operable">Operable</option>
+                            <option value="understandable">Understandable</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            <h3>3.2.3: Consistent Navigation (Level AA)</h3>
+            <p>
+                Navigational mechanisms that are repeated on multiple Web pages within a set of Web pages occur in the same relative order each time they are repeated, unless a change is initiated by the user.
+            </p>
+            <div class="disclaimer-box">
+                <div class="disclaimer">
+                    <p>
+                        Just like rearranging furniture can be confusing, changing navigation
+                        on a website can leave users disoriented.
+                        This guideline emphasizes the importance of keeping navigation consistent
+                        across pages. Just like you probably got surprised by the footer and header being rearranged!
+                    </p>
+                </div>
+            </div>
+
+            <h3>3.2.4: Consistent Identification (Level AA)</h3>
+            <p>
+                Components that have the same functionality within a set of Web pages are identified consistently.
+            </p>
+            <!-- https://www.w3.org/WAI/WCAG21/Techniques/failures/F31 -->
+            <div class="disclaimer-box">
+                <div class="disclaimer">
+                    <p>
+                        The search bar in the header allows users to locate and highlight specific text.
+                        It's important to note that on all other web pages, the search bar features a button labeled 'search,'
+                        on this particular page, it displays 'find.' Despite this discrepancy, both buttons serve the same function,
+                        this inconsistency may impact users, potentially leading to a failure to meet criterion 3.2.4.
+                    </p>
+                </div>
+            </div>
+            <h3>3.2.6: Consistent Help (Level A)</h3>
+            <p>
+                If a Web page contains any of the following help mechanisms, and those mechanisms are repeated on multiple Web pages within a set of Web pages, they occur in the same order relative to other page content, unless a change is initiated by the user:
+            </p>
+            <ul>
+                <li>
+                    Human contact details;
+                </li>
+                <li>
+                    Human contact mechanism;
+                </li>
+                <li>
+                    Self-help option;
+                </li>
+                <li>
+                    A fully automated contact mechanism.
+                </li>
+            </ul>
+            <div class="disclaimer-box">
+                <p class="disclaimer">
+                    This guideline emphasizes the importance of keeping the Contact Us section consistent across pages. The Contact Us section on this page is at the top of the page instead of the bottom like the rest of the pages.
+                </p>
+            </div>
+        </section>
+
+        <section id="guideline-3-3">
+            <h2>Guideline 3.3: Input Assistance</h2>
+            <p>
+                Help users avoid and correct mistakes.
+            </p>
+
+            <h3>3.3.1: Error Identification (Level A)</h3>
+            <p>
+                If an input error is automatically detected, the item that is in error is identified
+                and the error is described to the user in text.
+            </p>
+            <div class="disclaimer-box">
+                <p class="disclaimer">
+                    Since most modern browsers have some form of built-in form validation, I've had to
+                    use the attribute 'novalidate' to get more control over the validation process.
+                </p>
+            </div>
+            <h3>Example:</h3>
+            <h4>1. Descriptive error warnings.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>
+                        This form contains robust error handling that shows the mistakes
+                        user has done as soon as they 'unfocus' the input field.
+                        The form also performs the validation upon being sent to make sure everything is in order.
+                    </p>
+                    <div class="color-example">
+                        <h4>Rules for name and password to be valid:</h4>
+                        <p>All letters should be in the range A-Za-z.</p>
+                        <p>Name:</p>
+                        <ul>
+                            <li>Atleast 2 letters</li>
+                            <li>No digits</li>
+                            <li>No symbols</li>
+                        </ul>
+
+                        <p>Password:</p>
+                        <ul>
+                            <li>Contain 8 characters</li>
+                            <li>Contain atleast 1 uppercase letter</li>
+                            <li>Contain atleast 1 digit</li>
+                            <li>Contain atleast 1 symbol</li>
+                        </ul>
+                        <p><span class="required">*</span> Required field.</p>
+
+                        <form id="correctForm" class="block-form" action="#" novalidate>
+                            <label for="unameCorrect">Username: <span class="required">*</span></label>
+                            <input type="text" id="unameCorrect" name="username" required>
+                            <div id="unameCorrectError" class="required"></div>
+
+                            <label for="passwordCorrect">Password: <span class="required">*</span></label>
+                            <input type="password" id="passwordCorrect" name="password" required>
+                            <div id="passwordCorrectError" class="required"></div>
+
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>
+                        This form contains error handling but the errors aren't displayed to the user.
+                        Instead if the user has done something wrong the text
+                        'Something went wrong' is appended to a span element below the form.
+                    </p>
+                    <div class="color-example">
+                        <h4>Rules for name and password to be valid:</h4>
+                        <p>All letters should be in the range A-Za-z.</p>
+                        <p>Name:</p>
+                        <ul>
+                            <li>Atleast 2 letters</li>
+                            <li>No digits</li>
+                            <li>No symbols</li>
+                        </ul>
+
+                        <p>Password:</p>
+                        <ul>
+                            <li>Contain 8 characters</li>
+                            <li>Contain atleast 1 uppercase letter</li>
+                            <li>Contain atleast 1 digit</li>
+                            <li>Contain atleast 1 symbol</li>
+                        </ul>
+                        <p><span class="required">*</span> Required field.</p>
+
+                        <!-- This form will be on submit and will contain a vague message at the bottom
+                          saying something with user info is wrong but not whats wrong. -->
+                        <form id="wrongForm" class="block-form" action="#" novalidate>
+                            <input type="text" id="unameWrong" name="unameWrong" required>
+                            <input type="password" id="passwordWrong" name="passwordWrong" required>
+                            <button type="submit">Submit</button>
+                        </form>
+                        <div id="wrongFormError" class="required"></div>
+                    </div>
+                </div>
+            </div>
+            <h3>3.3.2: Labels or Instructions (Level A)</h3>
+            <p>
+                Labels or instructions are provided when content requires user input.
+            </p>
+            <div class="disclaimer-box">
+                <p class="disclaimer">
+                    The correct example above feature inputs of "type=text" and "type=password" with
+                    proper labeling whereas the "wrong" form uses no labels to display the inputs.
+                    This means a violation raised for labeling and instruction under the criteria 3.3.1 example
+                    can be considered correct.
+                </p>
+            </div>
+            <h3>Example:</h3>
+            <h4>1. Placeholders to guide form input.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> Each input has both labeling and titles to provide value of the fields as well as placeholders for understandability.
+                    </p>
+                    <div class="color-example">
+                        <p>All birthdates should be entered in the following format: YYYY/MM/DD. </p>
+                        <ul>
+                            <li>No letters</li>
+                            <li>No symbols</li>
+                        </ul>
+                        <fieldset><legend>Date of Birth</legend>
+                            <label for="birthYear-c"> Year </label>
+                            <input id="birthYear-c" name="birthYear-c" title="Birth Year" aria-label=”birthYear”
+                                   type="text" size="4" value="" placeholder="2001"> /
+                            <label for="birthMonth-c"> Month </label> <input id="birthMonth-c" name="birthMonth-c" title="Birth Month" aria-label=”birthMonth”
+                                                                             type="text" size="2" value="" placeholder="07"> /
+                            <label for="birthDay-c"> Day </label> <input id="birthDay-c" name="birthDay-c" title="Birth Day" aria-label=”birthDay”
+                                                                         type="text" size="2" value="" placeholder="23">
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> This example reduces understandability without examples of expected formatting
+                        with the use of placeholders in the input fields. </p>
+                    <div class="color-example">
+                        <p>All birthdates should be entered. </p>
+                        <ul>
+                            <li>No letters</li>
+                            <li>No symbols</li>
+                        </ul>
+                        <fieldset><legend>Date of Birth</legend>
+                            <label for="birthYear-w"> Year </label>
+                            <input id="birthYear-w" name="birthYear-w" title="Birth Year"
+                                   type="text" size="4" value=""> /
+                            <label for="birthMonth-w"> Month </label>
+                            <input id="birthMonth-w" name="birthMonth-w" title="Birth Month"
+                                   type="text" size="2" value=""> /
+                            <label for="birthDay-w"> Day </label>
+                            <input id="birthDay-w" name="birthDay-w" title="Birth Day"
+                                   type="text" size="2" value="">
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <h3>3.3.7: Redundant Entry (Level A)</h3>
+            <p>
+                Information previously entered by or provided to the user that is required to be entered again in the same process is either auto-populated or available for the user to select.
+            </p>
+            <h3>Example:</h3>
+            <h4>1. Billing and Shipping Address.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>This form offers a checkbox to use the billing address as the shipping address, preventing redundant entry.</p>
+                    <form action="#" onsubmit="return false;">
+                        <fieldset>
+                            <legend>Billing Address</legend>
+                            <label for="billing-street-correct">Street:</label>
+                            <input type="text" id="billing-street-correct" name="bill-street">
+                        </fieldset>
+                        <fieldset>
+                            <legend>Shipping Address</legend>
+                            <div style="margin: 10px 0;">
+                                <input type="checkbox" id="same-address" name="same-address">
+                                <label for="same-address">Same as Billing Address</label>
+                            </div>
+                            <label for="shipping-street-correct">Street:</label>
+                            <input type="text" id="shipping-street-correct" name="ship-street">
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>This form forces the user to re-type the shipping address even if it is the same as the billing address. No option to copy/select is provided.</p>
+                    <form action="#" onsubmit="return false;">
+                        <fieldset>
+                            <legend>Billing Address</legend>
+                            <label for="billing-street-wrong">Street:</label>
+                            <input type="text" id="billing-street-wrong" name="bill-street">
+                        </fieldset>
+                        <fieldset>
+                            <legend>Shipping Address</legend>
+                            <label for="shipping-street-wrong">Street:</label>
+                            <input type="text" id="shipping-street-wrong" name="ship-street">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </article>
+</main>
+<header>
+    <h1>Evaluation Webpage for Web Accessibility Testing Tools!</h1>
+    <nav>
+        <ul class="nav-links">
+            <li><a id="home" class="nav-link" href="/">Home</a></li>
+            <li><a class="nav-link" href="perceivable">Perceivable</a></li>
+            <li><a class="nav-link" href="operable">Operable</a></li>
+            <li><span class="current" aria-current="page">Understandable</span></li>
+        </ul>
+    </nav>
+    <div class="search-container">
+        <form id="searchForm">
+            <label for="find">Find: </label>
+            <input type="text" name="find" id="find" placeholder="Find on page...">
+            <button>Find</button>
+        </form>
+    </div>
+</header>
+</body>
 </html>

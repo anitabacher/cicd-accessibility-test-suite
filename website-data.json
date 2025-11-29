@@ -1,6 +1,6 @@
 {
-    "criterionsImplemented": 28,
-    "totalExampleErrors": 42,
+    "criterionsImplemented": 29,
+    "totalExampleErrors": 43,
     "perceivable": {
         "perceivableCriterions": 13,
         "perceivableExampleErrors": 37,
@@ -168,7 +168,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "autoplayNoControls": {
-                        "row": 780,
+                        "row": 779,
                         "element": "<audio autoplay loop>",
                         "description": "Audio playing automatically for more than 3 seconds must have controls."
                     }
@@ -397,7 +397,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "ambiguousLinkText": {
-                        "row": 350,
+                        "row": 277,
                         "element": "<a href='#'>click here</a>",
                         "description": "Link text 'click here' is not clearly understandable without context."
                     }
@@ -484,7 +484,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "executionOnDownEvent": {
-                        "row": 460,
+                        "row": 444,
                         "element": "<button onmousedown='...'>",
                         "description": "Event handler triggers on mousedown instead of release/mouseup, preventing cancellation."
                     }
@@ -526,9 +526,9 @@
             }
     },
     "understandable": {
-        "understandableCriterions": 11,
-        "understandableExampleErrors": 13,
-        "understandablePageErrors": 12,
+        "understandableCriterions": 12,
+        "understandableExampleErrors": 14,
+        "understandablePageErrors": 13,
         "implementedCriterions": {
             "3.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#language-of-page",
@@ -670,6 +670,18 @@
                         "row": 429,
                         "element": "<fieldset><legend>Date of Birth</legend>",
                         "description": "The inputs within this fieldset are missing placeholders."
+                    }
+                }
+            },
+            "3.3.7": {
+                "urlToCriterion": "https://www.w3.org/WAI/WCAG22/Understanding/redundant-entry.html",
+                "level": "A",
+                "examplesGiven": 1,
+                "examples": {
+                    "redundantAddressEntry": {
+                        "row": 479,
+                        "element": "<fieldset><legend>Shipping Address</legend>... (No checkbox)",
+                        "description": "Form requires re-entry of address information without auto-population or selection option."
                     }
                 }
             }
