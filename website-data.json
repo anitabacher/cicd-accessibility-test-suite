@@ -1,6 +1,6 @@
 {
-    "criterionsImplemented": 26,
-    "totalExampleErrors": 40,
+    "criterionsImplemented": 27,
+    "totalExampleErrors": 41,
     "perceivable": {
         "perceivableCriterions": 13,
         "perceivableExampleErrors": 37,
@@ -281,9 +281,9 @@
             }
     },
     "operable": {
-        "operableCriterions": 14,
-        "operableExampleErrors": 23,
-        "operablePageErrors": 21,
+        "operableCriterions": 15,
+        "operableExampleErrors": 24,
+        "operablePageErrors": 22,
         "implementedCriterions": {
             "2.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#keyboard",
@@ -388,6 +388,18 @@
                         "row": 18,
                         "element": "<nav>",
                         "description": "The links inside the navigation menu does not have meaningful sequencing. This can result in users relying on keyboard navigation to be confused."
+                    }
+                }
+            },
+            "2.4.4": {
+                "urlToCriterion": "https://www.w3.org/TR/WCAG21/#link-purpose-in-context",
+                "level": "A",
+                "examplesGiven": 1,
+                "examples": {
+                    "ambiguousLinkText": {
+                        "row": 350,
+                        "element": "<a href='#'>click here</a>",
+                        "description": "Link text 'click here' is not clearly understandable without context."
                     }
                 }
             },
