@@ -3,139 +3,140 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base id="base" href="">
-    <link rel="icon" type="image/x-icon" href="images/p-favicon.png">
-    <link rel="stylesheet" type="text/css" href="style/perceivable.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <base href="" id="base">
+    <link href="images/p-favicon.png" rel="icon" type="image/x-icon">
+    <link href="style/perceivable.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-        rel="stylesheet">
-    <script src="script/script.js" type="text/javascript" defer></script>
+          rel="stylesheet">
+    <script defer src="script/script.js" type="text/javascript"></script>
     <title>What is a title?</title>
 </head>
 
 <body>
-    <header>
-        <h1>Evaluation Webpage for Web Accessibility Testing Tools!</h1>
-        <nav>
-            <ul class="nav-links">
-                <li><a id="home" class="nav-link" href="/">Home</a></li>
-                <li><span class="current" aria-current="page">Perceivable</span></li>
-                <li><a class="nav-link" href="operable">Operable</a></li>
-                <li><a class="nav-link" href="understandable">Understandable</a></li>
-                <li><a class="nav-link" href="robust">Robust</a></li>
-            </ul>
-        </nav>
-        <div class="search-container">
-            <form id="searchForm">
-                <label for="search">Search: </label>
-                <input type="text" name="search" id="search" placeholder="Search on page...">
-                <button>Search</button>
-            </form>
-        </div>
-    </header>
-    <main>
-        <article>
-            <h1>Perceivable</h1>
-            <p>Information and user interface components must be presentable to users in ways they can perceive.</p>
+<header>
+    <h1>Evaluation Webpage for Web Accessibility Testing Tools!</h1>
+    <nav>
+        <ul class="nav-links">
+            <li><a class="nav-link" href="/" id="home">Home</a></li>
+            <li><span aria-current="page" class="current">Perceivable</span></li>
+            <li><a class="nav-link" href="operable">Operable</a></li>
+            <li><a class="nav-link" href="understandable">Understandable</a></li>
+            <li><a class="nav-link" href="robust">Robust</a></li>
+        </ul>
+    </nav>
+    <div class="search-container">
+        <form id="searchForm">
+            <label for="search">Search: </label>
+            <input id="search" name="search" placeholder="Search on page..." type="text">
+            <button>Search</button>
+        </form>
+    </div>
+</header>
+<main>
+    <article>
+        <h1>Perceivable</h1>
+        <p>Information and user interface components must be presentable to users in ways they can perceive.</p>
 
-            <section id="guideline-1-1">
-                <h2>Guideline 1.1: Text Alternatives</h2>
-                <p>
-                    Provide text alternatives for any non-text content so that it can be changed into other forms people
-                    need,
-                    such as large print, braille, speech, symbols or simpler language.
-                </p>
+        <section id="guideline-1-1">
+            <h2>Guideline 1.1: Text Alternatives</h2>
+            <p>
+                Provide text alternatives for any non-text content so that it can be changed into other forms people
+                need,
+                such as large print, braille, speech, symbols or simpler language.
+            </p>
 
-                <h3>1.1.1: Non-text Content (Level A)</h3>
-                <p>
-                    Non-text contents is explained by W3C as: any content that is not a sequence of characters that can
-                    be programmatically determined or where the sequence is not expressing something in human language.
-                    This includes ASCII Art (which is a pattern of characters), emoticons, leetspeak (which uses
-                    character substitution), and images representing text.
-                </p>
-                <h3>Examples:</h3>
-                <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H37.html -->
-                <h4>1. Missing alt attribute.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The image below has an alt attribute that explains the content of the image.</p>
-                        <img src="images/Sticky.png" alt="A stick figure pondering about accessibility guidelines">
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The image below does not have an alt attribute.</p>
-                        <img src="images/Sticky.png">
-                    </div>
+            <h3>1.1.1: Non-text Content (Level A)</h3>
+            <p>
+                Non-text contents is explained by W3C as: any content that is not a sequence of characters that can
+                be programmatically determined or where the sequence is not expressing something in human language.
+                This includes ASCII Art (which is a pattern of characters), emoticons, leetspeak (which uses
+                character substitution), and images representing text.
+            </p>
+            <h3>Examples:</h3>
+            <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H37.html -->
+            <h4>1. Missing alt attribute.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The image below has an alt attribute that explains the content of the image.</p>
+                    <img alt="A stick figure pondering about accessibility guidelines" src="images/Sticky.png">
                 </div>
-                <!-- This example might give a false negative. -->
-                <h4>2. Decorative image containing alt with non-related text.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The image below is decorative and should therefore contain an empty alt attribute.</p>
-                        <img src="images/decoration.png" alt="">
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>
-                            The image below is decorative but contains an alt attribute that says "This tag is not
-                            necessary".
-                        </p>
-                        <img src="images/decoration.png" alt="This tag is not necessary.">
-                    </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The image below does not have an alt attribute.</p>
+                    <img src="images/Sticky.png">
                 </div>
-                <!-- This example might give a false negative. -->
-                <h4>3. Image containing text that is important for the reader.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The image below contains important text that should be conveyed in the alt attribute.</p>
-                        <img src="images/important_text.png" alt="This text is important!">
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>
-                            The image below contains important text but the text is not conveyed in the alt attribute as
-                            it should be when it is only text in the image.
-                            For reference see example given by w3: <a
-                                href="https://www.w3.org/WAI/WCAG22/Techniques/html/H37.html">example</a>.
-                        </p>
-                        <img src="images/important_text.png" alt="It wasn't that important after all">
-                    </div>
+            </div>
+            <!-- This example might give a false negative. -->
+            <h4>2. Decorative image containing alt with non-related text.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The image below is decorative and should therefore contain an empty alt attribute.</p>
+                    <img alt="" src="images/decoration.png">
                 </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>
+                        The image below is decorative but contains an alt attribute that says "This tag is not
+                        necessary".
+                    </p>
+                    <img alt="This tag is not necessary." src="images/decoration.png">
+                </div>
+            </div>
+            <!-- This example might give a false negative. -->
+            <h4>3. Image containing text that is important for the reader.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The image below contains important text that should be conveyed in the alt attribute.</p>
+                    <img alt="This text is important!" src="images/important_text.png">
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>
+                        The image below contains important text but the text is not conveyed in the alt attribute as
+                        it should be when it is only text in the image.
+                        For reference see example given by w3: <a
+                            href="https://www.w3.org/WAI/WCAG22/Techniques/html/H37.html">example</a>.
+                    </p>
+                    <img alt="It wasn't that important after all" src="images/important_text.png">
+                </div>
+            </div>
 
-                <!--- new addition: 1.1.1 using HTML emoji's as images to properly consider them for assistive tech.
-                    https://www.upyoura11y.com/images-icons-and-emojis/  -->
-                <h4>4. Properly considering HTML emojis as images.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The HTML emoji will be considered as an image for assistive technologies with proper aria
-                            labeling. </p>
-                        <!-- span should not usually have an aria-label, but since we override the role with "img" it can be used! 
-                         https://benmyers.dev/blog/dont-use-aria-label-on-static-text-elements/#but-voiceover -->    
-                        <span role="img" style='font-size:50px;' aria-label="SMILING FACE WITH HALO">&#128519;</span>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> The HTML emoji is not treated as an image, and does not have proper aria labeling/alternative text to
-                            provide context for assistive technologies. </p>
-                        <span style='font-size:50px;'>&#128519;</span>
-                    </div>
+            <!--- new addition: 1.1.1 using HTML emoji's as images to properly consider them for assistive tech.
+                https://www.upyoura11y.com/images-icons-and-emojis/  -->
+            <h4>4. Properly considering HTML emojis as images.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The HTML emoji will be considered as an image for assistive technologies with proper aria
+                        labeling. </p>
+                    <!-- span should not usually have an aria-label, but since we override the role with "img" it can be used!
+                     https://benmyers.dev/blog/dont-use-aria-label-on-static-text-elements/#but-voiceover -->
+                    <span aria-label="SMILING FACE WITH HALO" role="img" style='font-size:50px;'>&#128519;</span>
                 </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> The HTML emoji is not treated as an image, and does not have proper aria labeling/alternative
+                        text to
+                        provide context for assistive technologies. </p>
+                    <span style='font-size:50px;'>&#128519;</span>
+                </div>
+            </div>
 
-                <!--- new addition: 1.1.1 hiding ASCII art in HTML for assistive technologies, purely left decorative. -->
-                <h4>5. Hiding ASCII art that is purely decorative.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> This ASCII art is given the role of presentation, and will be hidden from assistive technologies
-                            as it is purely decorative.
-                        </p>
-                        <div role="presentation" aria-hidden="true">
+            <!--- new addition: 1.1.1 hiding ASCII art in HTML for assistive technologies, purely left decorative. -->
+            <h4>5. Hiding ASCII art that is purely decorative.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> This ASCII art is given the role of presentation, and will be hidden from assistive technologies
+                        as it is purely decorative.
+                    </p>
+                    <div aria-hidden="true" role="presentation">
                         <figure>
                         <pre>
                            |
@@ -146,17 +147,17 @@
                           \|/
                            `
                         </pre>
-                          <figcaption id="leaf-caption">
-                            Leaf ASCII art.
-                          </figcaption>
+                            <figcaption id="leaf-caption">
+                                Leaf ASCII art.
+                            </figcaption>
                         </figure>
-                        </div>
                     </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> This ASCII drawing will still be picked up by assistive technologies and
-                            create confusing contexts as screen-readers would read the symbols. </p>
-                        <figure role="presentation">
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> This ASCII drawing will still be picked up by assistive technologies and
+                        create confusing contexts as screen-readers would read the symbols. </p>
+                    <figure role="presentation">
                         <pre>
                            |
                          .'|'.
@@ -166,20 +167,21 @@
                           \|/
                            `
                         </pre>
-                        </figure>
-                    </div>
+                    </figure>
                 </div>
+            </div>
 
-                <!--- new addition: 1.1.1 using aria-labeling for ASCII art in HTML.
-                https://stackoverflow.com/questions/33929647/alt-attribute-for-ascii-art-in-html  -->
-                <h4>6. Providing alternative text for ASCII content.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> This ASCII art has a label in order to describe the art for users using assistive technologies. </p>
-                        <!-- using pre is to preserve white spaces so that it doesnt just print the symbols in a line .. -->
-                        <figure>
-                        <pre role="img" aria-label="ASCII frog">
+            <!--- new addition: 1.1.1 using aria-labeling for ASCII art in HTML.
+            https://stackoverflow.com/questions/33929647/alt-attribute-for-ascii-art-in-html  -->
+            <h4>6. Providing alternative text for ASCII content.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> This ASCII art has a label in order to describe the art for users using assistive
+                        technologies. </p>
+                    <!-- using pre is to preserve white spaces so that it doesnt just print the symbols in a line .. -->
+                    <figure>
+                        <pre aria-label="ASCII frog" role="img">
                             _
                           .'_`--.___   __
                          ( 'o`   - .`.'_ )
@@ -188,16 +190,18 @@
                             ,__//`---'`-'_/
                              /-'        '/  VK
                         </pre>
-                          <figcaption id="frog-caption-c">
+                        <figcaption id="frog-caption-c">
                             Art by Veronica Karlsson.
-                            Found on the <cite><a href="https://www.asciiart.eu/animals/frogs" target="_blank">ASCII Art Archive</a></cite>.
-                          </figcaption>
-                        </figure>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> This ASCII drawing does not have any labeling/alt text to help decipher it for assistive technologies. </p>
-                        <figure>
+                            Found on the <cite><a href="https://www.asciiart.eu/animals/frogs" target="_blank">ASCII Art
+                            Archive</a></cite>.
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> This ASCII drawing does not have any labeling/alt text to help decipher it for assistive
+                        technologies. </p>
+                    <figure>
                         <pre role="img">
                             _
                           .'_`--.___   __
@@ -207,1054 +211,1161 @@
                             ,__//`---'`-'_/
                              /-'        '/  VK
                         </pre>
-                          <figcaption id="frog-caption-w">
+                        <figcaption id="frog-caption-w">
                             Art by Veronica Karlsson.
-                            Found on the <cite><a href="https://www.asciiart.eu/animals/frogs" target="_blank">ASCII Art Archive</a></cite>.
-                          </figcaption>
-                        </figure>
-                    </div>
+                            Found on the <cite><a href="https://www.asciiart.eu/animals/frogs" target="_blank">ASCII Art
+                            Archive</a></cite>.
+                        </figcaption>
+                    </figure>
                 </div>
-            </section>
-
-            <section id="guideline-1-2">
-                <h2>Guideline 1.2: Time-based Media </h2>
-                <p>
-                   Provide alternatives for time-based media.
-                </p>
-
-                <!-- further CSS is possible for the video controls, but not implemented 
-                 https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Audio_and_video_delivery/Video_player_styling_basics -->
-                <h3>1.2.2: Captions (Prerecorded) (Level A)</h3>
-                <p>
-                   Synchronized captions are provided for non-live video.
-                </p>
-                <h3>Example:</h3>
-                <h4>1. Caption tracks for videos</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The video has a caption track!</p>
-                        <div class="gl-1-2-2">
-                            <video controls>
-                                <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
-                                <track
-                                    label="English"
-                                    kind="captions"
-                                    srclang="en"
-                                    src="videos/perspective-video/perspective-caption.vtt"
-                                    default>
-	                        </video>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>This is an example of a video with no caption track!</p>
-                        <div class="gl-1-2-2">
-                            <video controls>
-                                <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
-	                        </video>
-                        </div>
-                    </div>
-                </div>
+            </div>
         </section>
 
-            <section id="guideline-1-3">
-                <h2>Guideline 1.3: Adaptable</h2>
-                <p>
-                    Create content that can be presented in different ways (for example simpler layout) without losing
-                    information or structure.
-                </p>
+        <section id="guideline-1-2">
+            <h2>Guideline 1.2: Time-based Media </h2>
+            <p>
+                Provide alternatives for time-based media.
+            </p>
 
-                <h3>1.3.1: Info and Relationships (Level A)</h3>
-                <p>
-                    Information, structure, and relationships conveyed through presentation can be programmatically
-                    determined or are available in text.
-                </p>
-                <h3>Examples:</h3>
-                <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H42 -->
-                <h4>1. h1-h6 in correct order.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>Throughout the page h1-h3 has already been used in order. Below are the rest of the headings
-                            in correct order.</p>
-                        <h4>This is h4</h4>
-                        <h5>This is h5</h5>
-                        <h6>This is h6</h6>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>Throughout the page h1-h3 has already been used in order. Below are the rest of the headings
-                            in incorrect order.</p>
-                        <h6>This is h6</h6>
-                        <h4>This is h4</h4>
-                        <h5>This is h5</h5>
+            <!-- further CSS is possible for the video controls, but not implemented
+             https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Audio_and_video_delivery/Video_player_styling_basics -->
+            <h3>1.2.2: Captions (Prerecorded) (Level A)</h3>
+            <p>
+                Synchronized captions are provided for non-live video.
+            </p>
+            <h3>Example:</h3>
+            <h4>1. Caption tracks for videos</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The video has a caption track!</p>
+                    <div class="gl-1-2-2">
+                        <video controls>
+                            <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
+                            <track
+                                    default
+                                    kind="captions"
+                                    label="English"
+                                    src="videos/perspective-video/perspective-caption.vtt"
+                                    srclang="en">
+                        </video>
                     </div>
                 </div>
-
-                <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H48 -->
-                <h4>2. Using lists.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>Below is a list using the ol and li elements.</p>
-                        <ol>
-                            <li>Write code</li>
-                            <li>Review code</li>
-                            <li>Rewrite code</li>
-                        </ol>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>Below are three paragraph elements that are direct children of the ol element without any li
-                            elements.</p>
-                        <ol>
-                            <p>1. Write code</p>
-                            <p>2. Review code</p>
-                            <p>3. Rewrite code</p>
-                        </ol>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>This is an example of a video with no caption track!</p>
+                    <div class="gl-1-2-2">
+                        <video controls>
+                            <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
+                        </video>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H51 & https://www.w3.org/WAI/WCAG22/Techniques/failures/F91 -->
-                <h4>3. Proper table markup.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>A table using the th attribute for the headers.</p>
-                        <table>
-                            <tr>
-                                <th>Time</th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                            </tr>
-                            <tr>
-                                <th scope="row">8:30-9:00</th>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">9:00-9:30</th>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>A table using the td attribute for the headers.</p>
-                        <table>
-                            <tr>
-                                <td>Time</td>
-                                <td>Monday</td>
-                                <td>Tuesday</td>
-                                <td>Wednesday</td>
-                                <td>Thursday</td>
-                                <td>Friday</td>
-                            </tr>
-                            <tr>
-                                <td>8:30-9:00</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>9:00-9:30</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                        </table>
-                    </div>
+        <section id="guideline-1-3">
+            <h2>Guideline 1.3: Adaptable</h2>
+            <p>
+                Create content that can be presented in different ways (for example simpler layout) without losing
+                information or structure.
+            </p>
+
+            <h3>1.3.1: Info and Relationships (Level A)</h3>
+            <p>
+                Information, structure, and relationships conveyed through presentation can be programmatically
+                determined or are available in text.
+            </p>
+            <h3>Examples:</h3>
+            <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H42 -->
+            <h4>1. h1-h6 in correct order.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>Throughout the page h1-h3 has already been used in order. Below are the rest of the headings
+                        in correct order.</p>
+                    <h4>This is h4</h4>
+                    <h5>This is h5</h5>
+                    <h6>This is h6</h6>
                 </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>Throughout the page h1-h3 has already been used in order. Below are the rest of the headings
+                        in incorrect order.</p>
+                    <h6>This is h6</h6>
+                    <h4>This is h4</h4>
+                    <h5>This is h5</h5>
+                </div>
+            </div>
 
-                <!-- https://www.nngroup.com/articles/required-fields/ 
-                 https://www.digitala11y.com/academy/required-input-with-asterisk-and-aria/ -->
-                <h4>4. Asterisk to label obligatory forms.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> Below is a form with required fields marked with asterisk and color. The required field includes an aria-describedby 
-                            attribute that will provide information for assistive technologies like screen readers, considering how an asteriks may
-                            be ignored, or not be clear enough as to what it is for. </p>
-                        <div class="color-example">
+            <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H48 -->
+            <h4>2. Using lists.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>Below is a list using the ol and li elements.</p>
+                    <ol>
+                        <li>Write code</li>
+                        <li>Review code</li>
+                        <li>Rewrite code</li>
+                    </ol>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>Below are three paragraph elements that are direct children of the ol element without any li
+                        elements.</p>
+                    <ol>
+                        <p>1. Write code</p>
+                        <p>2. Review code</p>
+                        <p>3. Rewrite code</p>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- https://www.w3.org/WAI/WCAG22/Techniques/html/H51 & https://www.w3.org/WAI/WCAG22/Techniques/failures/F91 -->
+            <h4>3. Proper table markup.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>A table using the th attribute for the headers.</p>
+                    <table>
+                        <tr>
+                            <th>Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                        <tr>
+                            <th scope="row">8:30-9:00</th>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9:00-9:30</th>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>A table using the td attribute for the headers.</p>
+                    <table>
+                        <tr>
+                            <td>Time</td>
+                            <td>Monday</td>
+                            <td>Tuesday</td>
+                            <td>Wednesday</td>
+                            <td>Thursday</td>
+                            <td>Friday</td>
+                        </tr>
+                        <tr>
+                            <td>8:30-9:00</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>9:00-9:30</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- https://www.nngroup.com/articles/required-fields/
+             https://www.digitala11y.com/academy/required-input-with-asterisk-and-aria/ -->
+            <h4>4. Asterisk to label obligatory forms.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> Below is a form with required fields marked with asterisk and color. The required field includes
+                        an aria-describedby
+                        attribute that will provide information for assistive technologies like screen readers,
+                        considering how an asteriks may
+                        be ignored, or not be clear enough as to what it is for. </p>
+                    <div class="color-example">
                         <form>
-                          <div class="control">
-                        <label for="name-c">Full name<span class="required">*</span></label><input aria-describedby="required-description" id="name-c" type="text" required>
-                          </div>
-                          <div class="control">
-                            <label for="biography-c">Biography</label><textarea id="biography-c"></textarea>
-                          </div>
-                          <div class="control">
-                            <input type="submit" value="Register">
-                          </div>
-                        <p aria-hidden="true" id="required-description">
-                            <span class="required">*</span>Required field </p>
-                        </form></div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> Below is a form with required fields marked with an asterisks but no clarification as to what it means,
-                            leaving the user unaware. There is also a missing aria-describedby attribute to clarify for screen readers.
-                            Providing no solutions for assistive technologies. </p>
-                        <div class="color-example">
-                        <form>
-                          <div class="control">
-                        <label for="name-w">Full name<span class="required">*</span></label><input id="name-w" type="text" required>
-                          </div>
-                          <div class="control">
-                            <label for="biography-w">Biography</label><textarea id="biography-w"></textarea>
-                          </div>
-                          <div class="control">
-                            <input type="submit" value="Register">
-                          </div>
+                            <div class="control">
+                                <label for="name-c">Full name<span class="required">*</span></label><input
+                                    aria-describedby="required-description" id="name-c" required type="text">
+                            </div>
+                            <div class="control">
+                                <label for="biography-c">Biography</label><textarea id="biography-c"></textarea>
+                            </div>
+                            <div class="control">
+                                <input type="submit" value="Register">
+                            </div>
+                            <p aria-hidden="true" id="required-description">
+                                <span class="required">*</span>Required field </p>
                         </form>
-                        </div>
                     </div>
                 </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> Below is a form with required fields marked with an asterisks but no clarification as to what it
+                        means,
+                        leaving the user unaware. There is also a missing aria-describedby attribute to clarify for
+                        screen readers.
+                        Providing no solutions for assistive technologies. </p>
+                    <div class="color-example">
+                        <form>
+                            <div class="control">
+                                <label for="name-w">Full name<span class="required">*</span></label><input id="name-w"
+                                                                                                           required
+                                                                                                           type="text">
+                            </div>
+                            <div class="control">
+                                <label for="biography-w">Biography</label><textarea id="biography-w"></textarea>
+                            </div>
+                            <div class="control">
+                                <input type="submit" value="Register">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-                <!-- https://webaim.org/techniques/forms/controls#checkbox  -->
-                <h4>5. Labeling for checkboxes.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> Forms with checkboxes need to be programmatically determinable with proper labels. </p>
+            <!-- https://webaim.org/techniques/forms/controls#checkbox  -->
+            <h4>5. Labeling for checkboxes.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> Forms with checkboxes need to be programmatically determinable with proper labels. </p>
+                    <fieldset>
+                        <legend>Select your favorite animal:</legend>
+                        <div class="touch-target">
+                            <input id="fox-c" name="animal" type="checkbox" value="fox">
+                            <label for="fox-c">Fox</label>
+                        </div>
+                        <div class="touch-target">
+                            <input id="bird-c" name="animal" type="checkbox" value="bird">
+                            <label for="bird-c">Bird</label>
+                        </div>
+                        <div class="touch-target">
+                            <input id="frog-c" name="animal" type="checkbox" value="frog">
+                            <label for="frog-c">Frog</label>
+                        </div>
+                        <div class="touch-target">
+                            <input id="snake-c" name="animal" type="checkbox" value="snake">
+                            <label for="snake-c">Snake</label>
+                        </div>
+                        <div class="touch-target">
+                            <input id="snail-c" name="animal" type="checkbox" value="snail">
+                            <label for="snail-c">Snail</label>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> These form checkboxes lack labels to be able to be programmatically determined.<br>
+                        This example may also flag violates for touch targets considering a label is used for formatting
+                        the checkbox and its touch target.
+                    </p>
+                    <fieldset>
+                        <legend>Select your favorite animal:</legend>
+                        <div class="touch-target">
+                            <input id="fox-w" name="animal" type="checkbox" value="fox">
+                            <span>Fox</span>
+                        </div>
+                        <div class="touch-target">
+                            <input id="bird-w" name="animal" type="checkbox" value="bird">
+                            <span>Bird</span>
+                        </div>
+                        <div class="touch-target">
+                            <input id="frog-w" name="animal" type="checkbox" value="frog">
+                            <span>Frog</span>
+                        </div>
+                        <div class="touch-target">
+                            <input id="snake-w" name="animal" type="checkbox" value="snake">
+                            <span>Snake</span>
+                        </div>
+                        <div class="touch-target">
+                            <input id="snail-w" name="animal" type="checkbox" value="snail">
+                            <span>Snail</span>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <!-- https://www.w3.org/TR/WCAG20-TECHS/H65.html  -->
+            <h4>6. Applying title attribute instead of labels.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> The below input fields have title attributes to describe their
+                        purpose that will aid assistive technologies where labels may not be applicable.
+                    </p>
+                    <div class="color-example">
                         <fieldset>
-                            <legend>Select your favorite animal:</legend>
-                            <div class="touch-target">
-                                <input id="fox-c" type="checkbox" name="animal" value="fox">
-                                <label for="fox-c">Fox</label>
-                            </div>
-                            <div class="touch-target">
-                                <input id="bird-c" type="checkbox" name="animal" value="bird">
-                                <label for="bird-c">Bird</label>
-                            </div>
-                            <div class="touch-target">
-                                <input id="frog-c" type="checkbox" name="animal" value="frog">
-                                <label for="frog-c">Frog</label>
-                            </div>
-                            <div class="touch-target">
-                                <input id="snake-c" type="checkbox" name="animal" value="snake">
-                                <label for="snake-c">Snake</label>
-                            </div>
-                            <div class="touch-target">
-                                <input id="snail-c" type="checkbox" name="animal" value="snail">
-                                <label for="snail-c">Snail</label>
-                            </div>                            
+                            <legend>Phone number</legend>
+                            <input id="areaCode-c" name="areaCode" placeholder="(123)"
+                                   size="3" title="Area Code" type="text" value="">
+                            <input id="exchange-c" name="exchange" placeholder="456"
+                                   size="3" title="First three digits of phone number" type="text" value="">
+                            <input id="lastDigits-c" name="lastDigits" placeholder="7890"
+                                   size="4" title="Last four digits of phone number" type="text" value="">
                         </fieldset>
                     </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> These form checkboxes lack labels to be able to be programmatically determined.<br>
-                            This example may also flag violates for touch targets considering a label is used for formatting 
-                            the checkbox and its touch target.
-                        </p>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> The below input fields have neither titles or labels to help be programmatically
+                        determined. </p>
+                    <div class="color-example">
                         <fieldset>
-                            <legend>Select your favorite animal:</legend>
-                            <div class="touch-target">
-                                <input id="fox-w" type="checkbox" name="animal" value="fox">
-                                <span>Fox</span>
-                            </div>
-                            <div class="touch-target">
-                                <input id="bird-w" type="checkbox" name="animal" value="bird">
-                                <span>Bird</span>
-                            </div>
-                            <div class="touch-target">
-                                <input id="frog-w" type="checkbox" name="animal" value="frog">
-                                <span>Frog</span>
-                            </div>
-                            <div class="touch-target">
-                                <input id="snake-w" type="checkbox" name="animal" value="snake">
-                                <span>Snake</span>
-                            </div>
-                            <div class="touch-target">
-                                <input id="snail-w" type="checkbox" name="animal" value="snail">
-                                <span>Snail</span>
-                            </div>
+                            <legend>Phone number</legend>
+                            <input id="areaCode-w" name="areaCode" placeholder="(123)" size="3" type="text" value="">
+                            <input id="exchange-w" name="exchange" placeholder="456" size="3" type="text" value="">
+                            <input id="lastDigits-w" name="lastDigits" placeholder="7890" size="4" type="text" value="">
                         </fieldset>
                     </div>
                 </div>
+            </div>
 
-                <!-- https://www.w3.org/TR/WCAG20-TECHS/H65.html  -->
-                <h4>6. Applying title attribute instead of labels.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> The below input fields have title attributes to describe their 
-                            purpose that will aid assistive technologies where labels may not be applicable.
-                        </p>
-                        <div class="color-example">
-                        <fieldset><legend>Phone number</legend>
-                            <input id="areaCode-c" name="areaCode" title="Area Code" 
-                            type="text" size="3" value="" placeholder="(123)" >
-                            <input id="exchange-c" name="exchange" title="First three digits of phone number" 
-                            type="text" size="3" value="" placeholder="456">
-                            <input id="lastDigits-c" name="lastDigits" title="Last four digits of phone number" 
-                            type="text" size="4" value="" placeholder="7890">
-                        </fieldset></div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> The below input fields have neither titles or labels to help be programmatically determined. </p>
-                        <div class="color-example">
-                        <fieldset><legend>Phone number</legend>
-                            <input id="areaCode-w" name="areaCode" type="text" size="3" value="" placeholder="(123)">
-                            <input id="exchange-w" name="exchange" type="text" size="3" value="" placeholder="456">
-                            <input id="lastDigits-w" name="lastDigits" type="text" size="4" value="" placeholder="7890">
-                        </fieldset></div>
-                    </div>
-                </div>
-
-                <h3>1.3.2: Meaningful Sequence (Level A)</h3>
-                <p>
-                    When the sequence in which content is presented affects its meaning, a correct reading sequence can
-                    be programmatically determined.
-                </p>
-                <h3>Examples:</h3>
-                <h4>1. Correct order.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The columns below are in the correct order programmatically.</p>
-                        <div class="column-example-corr">
-                            <div>
-                                <h4>First</h4>
-                                <p>If the second paragraph is positioned before the first programmatically it could
-                                    potentially result in negative effects on screen readers.</p>
-                            </div>
-                            <div>
-                                <h4>Second</h4>
-                                <p>That would cause this part to be read first even though it is the end of the two
-                                    columns.</p>
-                            </div>
+            <h3>1.3.2: Meaningful Sequence (Level A)</h3>
+            <p>
+                When the sequence in which content is presented affects its meaning, a correct reading sequence can
+                be programmatically determined.
+            </p>
+            <h3>Examples:</h3>
+            <h4>1. Correct order.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The columns below are in the correct order programmatically.</p>
+                    <div class="column-example-corr">
+                        <div>
+                            <h4>First</h4>
+                            <p>If the second paragraph is positioned before the first programmatically it could
+                                potentially result in negative effects on screen readers.</p>
                         </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The columns below are in the wrong order programmatically but utilizes flex-direction:
-                            row-reverse to maintain the same structure as the correct way.</p>
-                        <div class="column-example">
-                            <div>
-                                <h4>First</h4>
-                                <p>That would cause this part to be read first even though it is the end of the two
-                                    columns.</p>
-                            </div>
-                            <div>
-                                <h4>Second</h4>
-                                <p>Despite its outward appearance, the second paragraph is actually positioned before
-                                    the first programmatically, potentially resulting in negative effects on screen
-                                    readers.</p>
-                            </div>
+                        <div>
+                            <h4>Second</h4>
+                            <p>That would cause this part to be read first even though it is the end of the two
+                                columns.</p>
                         </div>
                     </div>
                 </div>
-
-                <h4>2. White space in the middle of a word.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>
-                            This example uses CSS to increase the spacing between the letters in the heading.
-                            Using letter spacing through CSS maintain meaningful text sequencing.
-                        </p>
-                        <h4 class="white-spacing">WELCOME</h4>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>
-                            This example has white spaces within a word to space out the letters in a heading.
-                            Screen readers may read each letter individually instead of the word "Welcome."
-                        </p>
-                        <h4>W E L C O M E</h4>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The columns below are in the wrong order programmatically but utilizes flex-direction:
+                        row-reverse to maintain the same structure as the correct way.</p>
+                    <div class="column-example">
+                        <div>
+                            <h4>First</h4>
+                            <p>That would cause this part to be read first even though it is the end of the two
+                                columns.</p>
+                        </div>
+                        <div>
+                            <h4>Second</h4>
+                            <p>Despite its outward appearance, the second paragraph is actually positioned before
+                                the first programmatically, potentially resulting in negative effects on screen
+                                readers.</p>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <h3 id="guideline-1-3-3">1.3.3: Sensory Characteristics (Level A)</h3>
-                <p>
-                    Instructions provided for understanding and operating content do not rely solely on sensory
-                    characteristics of components such as shape, color, size, visual location, orientation, or sound.
-                </p>
-                <h3>Example:</h3>
-                <h4>1. Navigation using icons.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>
-                            Navigation menu that contains icons and text.
-                        </p>
-                        <ul class="nav-menu">
-                            <li><a href="#guideline-1-3-3" class="gl-1-3-3-nav-link" title="Home">&#x1F3E0; Home</a></li>
-                            <li><a href="#guideline-1-3-3" class="gl-1-3-3-nav-link" title="Mail">&#x1F4E7; Mail</a></li>
-                            <li><a href="#guideline-1-3-3" class="gl-1-3-3-nav-link" title="Call">&#x260E; Call</a></li>
-                        </ul>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>
-                            Navigation menu that contains only icons.
-                            The icons are not presented with an alternative text and is therefore solely relying on that
-                            the user can visually see and recognize the icons.
-                            A house representing "Home", a letter representing "Mail" and a phone representing "Call".
-                        </p>
-                        <ul class="nav-menu">
-                            <li><a href="#guideline-1-3-3" class="gl-1-3-3-nav-link">&#x1F3E0;</a></li>
-                            <li><a href="#guideline-1-3-3" class="gl-1-3-3-nav-link">&#x1F4E7;</a></li>
-                            <li><a href="#guideline-1-3-3" class="gl-1-3-3-nav-link">&#x260E;</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <h3 id="guideline-1-3-4">1.3.4: Orientation (Level AA)</h3>
-                <p>
-                    Content does not restrict its view and operation to a single display orientation, such as portrait
-                    or landscape, unless a specific display orientation is essential.
-                </p>
-                <h3>Example:</h3>
-                <h4>Content not showing in certain orientation.</h4>
-                <div class="disclaimer-box">
-                    <p class="disclaimer">
-                        If you are using a computer you can try this with devtools.
+            <h4>2. White space in the middle of a word.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>
+                        This example uses CSS to increase the spacing between the letters in the heading.
+                        Using letter spacing through CSS maintain meaningful text sequencing.
                     </p>
+                    <h4 class="white-spacing">WELCOME</h4>
                 </div>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The content inside this box is not affected by orientation.</p>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p class="orientation">You have the wrong orientation. Try rotating your device!</p>
-                        <p class="corr-orientation">You are now using the correct orientation.</p>
-                    </div>
-                </div>
-
-                <h3 id="guideline-1-3-">1.3.5: Identify Input Purpose (AA)</h3>
-                <p>
-                    Form autocompletion is a way of easing form completion for users that may struggle with reading, typing,
-                    or those that use assistive technologies in general.
-                    Providing the appropriate labels and titles helps not only users to understand the purpose of the field,
-                    but allows for the autocompletion as a result
-                    of forms being able to be programmatically determined.
-
-                    <br><br>
-                    Depending on the context of the form, some input types are not available as autocompletions.
-                    There is a list of 
-                    <a href="https://www.w3schools.com/tags/att_input_autocomplete.asp" target="_blank">Input Attribute Values</a>
-                    that catalogues all of the available autocompletion for input types.
-                </p>
-
-                <h3>Example:</h3>
-                <h4>1. Autocompletion identification.</h4>
-                <div class="disclaimer-box">
-                    <p class="disclaimer">
-                        In order to manually see the affect of correct and wrong, autocompletion needs to be allowed and completed 
-                        in browser settings first for this context of autocompleting email forms.
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>
+                        This example has white spaces within a word to space out the letters in a heading.
+                        Screen readers may read each letter individually instead of the word "Welcome."
                     </p>
+                    <h4>W E L C O M E</h4>
                 </div>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <div class="color-example">
+            </div>
+
+            <h3 id="guideline-1-3-3">1.3.3: Sensory Characteristics (Level A)</h3>
+            <p>
+                Instructions provided for understanding and operating content do not rely solely on sensory
+                characteristics of components such as shape, color, size, visual location, orientation, or sound.
+            </p>
+            <h3>Example:</h3>
+            <h4>1. Navigation using icons.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>
+                        Navigation menu that contains icons and text.
+                    </p>
+                    <ul class="nav-menu">
+                        <li><a class="gl-1-3-3-nav-link" href="#guideline-1-3-3" title="Home">&#x1F3E0; Home</a></li>
+                        <li><a class="gl-1-3-3-nav-link" href="#guideline-1-3-3" title="Mail">&#x1F4E7; Mail</a></li>
+                        <li><a class="gl-1-3-3-nav-link" href="#guideline-1-3-3" title="Call">&#x260E; Call</a></li>
+                    </ul>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>
+                        Navigation menu that contains only icons.
+                        The icons are not presented with an alternative text and is therefore solely relying on that
+                        the user can visually see and recognize the icons.
+                        A house representing "Home", a letter representing "Mail" and a phone representing "Call".
+                    </p>
+                    <ul class="nav-menu">
+                        <li><a class="gl-1-3-3-nav-link" href="#guideline-1-3-3">&#x1F3E0;</a></li>
+                        <li><a class="gl-1-3-3-nav-link" href="#guideline-1-3-3">&#x1F4E7;</a></li>
+                        <li><a class="gl-1-3-3-nav-link" href="#guideline-1-3-3">&#x260E;</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 id="guideline-1-3-4">1.3.4: Orientation (Level AA)</h3>
+            <p>
+                Content does not restrict its view and operation to a single display orientation, such as portrait
+                or landscape, unless a specific display orientation is essential.
+            </p>
+            <h3>Example:</h3>
+            <h4>Content not showing in certain orientation.</h4>
+            <div class="disclaimer-box">
+                <p class="disclaimer">
+                    If you are using a computer you can try this with devtools.
+                </p>
+            </div>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The content inside this box is not affected by orientation.</p>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p class="orientation">You have the wrong orientation. Try rotating your device!</p>
+                    <p class="corr-orientation">You are now using the correct orientation.</p>
+                </div>
+            </div>
+
+            <h3 id="guideline-1-3-">1.3.5: Identify Input Purpose (AA)</h3>
+            <p>
+                Form autocompletion is a way of easing form completion for users that may struggle with reading, typing,
+                or those that use assistive technologies in general.
+                Providing the appropriate labels and titles helps not only users to understand the purpose of the field,
+                but allows for the autocompletion as a result
+                of forms being able to be programmatically determined.
+
+                <br><br>
+                Depending on the context of the form, some input types are not available as autocompletions.
+                There is a list of
+                <a href="https://www.w3schools.com/tags/att_input_autocomplete.asp" target="_blank">Input Attribute
+                    Values</a>
+                that catalogues all of the available autocompletion for input types.
+            </p>
+
+            <h3>Example:</h3>
+            <h4>1. Autocompletion identification.</h4>
+            <div class="disclaimer-box">
+                <p class="disclaimer">
+                    In order to manually see the affect of correct and wrong, autocompletion needs to be allowed and
+                    completed
+                    in browser settings first for this context of autocompleting email forms.
+                </p>
+            </div>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <div class="color-example">
                         <p>This form input can be programmatically determined and autocompletion can be utilized.</p>
-                            <form id="correctForm" class="block-form" action="#" novalidate>
-                                <label for="email-c">Email: </label>
-                                <input type="email" id="email-c" name="email" autocomplete="email">
-                            </form>
-                        </div>
+                        <form action="#" class="block-form" id="correctForm" novalidate>
+                            <label for="email-c">Email: </label>
+                            <input autocomplete="email" id="email-c" name="email" type="email">
+                        </form>
                     </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <div class="color-example">
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <div class="color-example">
                         <p>This form input does not provide any autocompletion.</p>
-                            <form id="wrongForm" class="block-form" action="#" novalidate>
-                                <label for="email-w">Email: </label>
-                                <input type="email" id="email-w" name="email" autocomplete="off">
-                            </form>
-                        </div>
+                        <form action="#" class="block-form" id="wrongForm" novalidate>
+                            <label for="email-w">Email: </label>
+                            <input autocomplete="off" id="email-w" name="email" type="email">
+                        </form>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section id="guideline-1.4">
-                <h2>Guideline 1.4: Distinguishable</h2>
-                <p>
-                    Make it easier for users to see and hear content including separating foreground from background.
-                </p>
+        <section id="guideline-1.4">
+            <h2>Guideline 1.4: Distinguishable</h2>
+            <p>
+                Make it easier for users to see and hear content including separating foreground from background.
+            </p>
 
-                <h3 id="guideline-1-4-1">1.4.1: Use of Color (Level A)</h3>
-                <p>
-                    Color is not used as the only visual means of conveying information, indicating an action, prompting
-                    a response, or distinguishing a visual element.
-                </p>
-                <h3>Examples:</h3>
-                <!-- https://www.w3.org/WAI/WCAG22/Techniques/failures/F73 -->
-                <!-- https://dequeuniversity.com/rules/axe/3.5/link-in-text-block
-                 https://www.w3.org/WAI/WCAG22/Techniques/general/G183  -->
-                <h4>1. Link in text.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <!-- The formatting of this link goes against 2.4.4 -->
-                        <p>The underline helps convey that the link below is in fact a link.</p>
-                        <div class="color-example">
-                            <p>This <a href="#guideline-1-4-1">link</a> is more likely to be visible for people with
-                                color-blindness.</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>This link is only a different color from the text to convey that it is a link.</p>
-                        <div class="color-example">
-                            <p>This <a class="gl-1-4-1" href="#guideline-1-4-1">link</a> might not be visible for people
-                                with color-blindness.</p>
-                        </div>
+            <h3 id="guideline-1-4-1">1.4.1: Use of Color (Level A)</h3>
+            <p>
+                Color is not used as the only visual means of conveying information, indicating an action, prompting
+                a response, or distinguishing a visual element.
+            </p>
+            <h3>Examples:</h3>
+            <!-- https://www.w3.org/WAI/WCAG22/Techniques/failures/F73 -->
+            <!-- https://dequeuniversity.com/rules/axe/3.5/link-in-text-block
+             https://www.w3.org/WAI/WCAG22/Techniques/general/G183  -->
+            <h4>1. Link in text.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <!-- The formatting of this link goes against 2.4.4 -->
+                    <p>The underline helps convey that the link below is in fact a link.</p>
+                    <div class="color-example">
+                        <p>This <a href="#guideline-1-4-1">link</a> is more likely to be visible for people with
+                            color-blindness.</p>
                     </div>
                 </div>
-                <!-- https://www.w3.org/WAI/WCAG22/Techniques/failures/F81 -->
-                <h4>2. Color cues in a form.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The form below has been "posted" without any information in the required fields. The response
-                            to this is a red error message stating the issue.</p>
-                        <div class="color-example">
-                            <form action="#">
-                                <label class="gl-1-4-1-labels" for="nameCorrect">Name:</label>
-                                <input class="gl-1-4-1-input-error" type="text" id="nameCorrect" name="name" required>
-                                <p class="gl-1-4-1-error-msg">Please enter your name.</p>
-                                <label class="gl-1-4-1-labels" for="emailCorrect">Email:</label>
-                                <input class="gl-1-4-1-input-error" type="email" id="emailCorrect" name="email"
-                                    required>
-                                <p class="gl-1-4-1-error-msg">Please enter a valid email address.</p>
-                                <button type="submit">Send</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The form below has been "posted" without any information in the required fields. The response
-                            to this is a to highlight the missing fields.</p>
-                        <div class="color-example">
-                            <form action="#">
-                                <label class="gl-1-4-1-labels" for="nameWrong">Name:</label>
-                                <input class="gl-1-4-1-input-error" type="text" id="nameWrong" name="name" required>
-                                <label class="gl-1-4-1-labels" for="emailWrong">Email:</label>
-                                <input class="gl-1-4-1-input-error" type="email" id="emailWrong" name="email" required>
-                                <button type="submit">Send</button>
-                            </form>
-                        </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>This link is only a different color from the text to convey that it is a link.</p>
+                    <div class="color-example">
+                        <p>This <a class="gl-1-4-1" href="#guideline-1-4-1">link</a> might not be visible for people
+                            with color-blindness.</p>
                     </div>
                 </div>
+            </div>
+            <!-- https://www.w3.org/WAI/WCAG22/Techniques/failures/F81 -->
+            <h4>2. Color cues in a form.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The form below has been "posted" without any information in the required fields. The response
+                        to this is a red error message stating the issue.</p>
+                    <div class="color-example">
+                        <form action="#">
+                            <label class="gl-1-4-1-labels" for="nameCorrect">Name:</label>
+                            <input class="gl-1-4-1-input-error" id="nameCorrect" name="name" required type="text">
+                            <p class="gl-1-4-1-error-msg">Please enter your name.</p>
+                            <label class="gl-1-4-1-labels" for="emailCorrect">Email:</label>
+                            <input class="gl-1-4-1-input-error" id="emailCorrect" name="email" required
+                                   type="email">
+                            <p class="gl-1-4-1-error-msg">Please enter a valid email address.</p>
+                            <button type="submit">Send</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The form below has been "posted" without any information in the required fields. The response
+                        to this is a to highlight the missing fields.</p>
+                    <div class="color-example">
+                        <form action="#">
+                            <label class="gl-1-4-1-labels" for="nameWrong">Name:</label>
+                            <input class="gl-1-4-1-input-error" id="nameWrong" name="name" required type="text">
+                            <label class="gl-1-4-1-labels" for="emailWrong">Email:</label>
+                            <input class="gl-1-4-1-input-error" id="emailWrong" name="email" required type="email">
+                            <button type="submit">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-                <h3 id="guideline-1-4-2">1.4.2: Audio Control (Level A)</h3>
-                <p>
-                    If any audio on a Web page plays automatically for more than 3 seconds, either a mechanism is available to pause or stop the audio, or a mechanism is available to control audio volume independently from the overall system volume level.
-                </p>
-                <h3>Example:</h3>
-                <h4>1. Autoplay audio without controls.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The audio below does NOT play automatically and has controls.</p>
-                        <audio controls>
-                            <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The audio below plays automatically (autoplay) and has NO controls to stop it.</p>
-                        <audio autoplay loop>
-                            <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
+            <h3 id="guideline-1-4-2">1.4.2: Audio Control (Level A)</h3>
+            <p>
+                If any audio on a Web page plays automatically for more than 3 seconds, either a mechanism is available
+                to pause or stop the audio, or a mechanism is available to control audio volume independently from the
+                overall system volume level.
+            </p>
+            <h3>Example:</h3>
+            <h4>1. Autoplay audio without controls.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The audio below does NOT play automatically and has controls.</p>
+                    <audio controls>
+                        <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
+                        Your browser does not support the audio element.
+                    </audio>
                 </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The audio below plays automatically (autoplay) and has NO controls to stop it.</p>
+                    <audio autoplay loop>
+                        <source src="videos/perspective-video/perspective-video.mp4" type="video/mp4">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
 
-                <!-- https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum -->
-                <h3 id="guideline-1-4-3">1.4.3: Contrast Minimum (Level AA)</h3>
-                <p>
-                    The visual presentation of text and images of text has a contrast ratio of at least 4.5:1, except
-                    for the following:
-                </p>
-                <ul>
-                    <li>Large Text - Large-scale text and images of large-scale text have a contrast ratio of at least
-                        3:1;</li>
-                    <li>Incidental - Text or images of text that are part of an inactive user interface component, that
-                        are pure decoration, that are not visible to anyone, or that are part of a picture that contains
-                        significant other visual content, have no contrast requirement.</li>
-                    <li>Logotypes - Text that is part of a logo or brand name has no contrast requirement.</li>
-                </ul>
-                <p>Large scale text is text with at least 18 point or 14 point bold or font size that would yield
-                    equivalent size.</p>
-                <h3>Examples:</h3>
-                <h4>1. Normal text.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The text below has sufficient contrast ratio.</p>
-                        <div class="color-example">
-                            <p>This text has sufficient contrast!</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The text below does not have sufficient contrast ratio. According to <a
-                                href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
-                            has a contrast of 4.05:1</p>
-                        <div class="color-example">
-                            <p class="gl-1-4-3-normal-text-insufficient">This text does not have sufficient contrast!
-                            </p>
-                        </div>
+            <!-- https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum -->
+            <h3 id="guideline-1-4-3">1.4.3: Contrast Minimum (Level AA)</h3>
+            <p>
+                The visual presentation of text and images of text has a contrast ratio of at least 4.5:1, except
+                for the following:
+            </p>
+            <ul>
+                <li>Large Text - Large-scale text and images of large-scale text have a contrast ratio of at least
+                    3:1;
+                </li>
+                <li>Incidental - Text or images of text that are part of an inactive user interface component, that
+                    are pure decoration, that are not visible to anyone, or that are part of a picture that contains
+                    significant other visual content, have no contrast requirement.
+                </li>
+                <li>Logotypes - Text that is part of a logo or brand name has no contrast requirement.</li>
+            </ul>
+            <p>Large scale text is text with at least 18 point or 14 point bold or font size that would yield
+                equivalent size.</p>
+            <h3>Examples:</h3>
+            <h4>1. Normal text.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The text below has sufficient contrast ratio.</p>
+                    <div class="color-example">
+                        <p>This text has sufficient contrast!</p>
                     </div>
                 </div>
-                <h4>2. Large text.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The text below has sufficient contrast ratio even though it uses the same color as the
-                            insufficient example above.</p>
-                        <div class="color-example">
-                            <p class="gl-1-4-3-normal-text-insufficient large-text">This text has sufficient contrast!
-                            </p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The text below does not have sufficient contrast ratio. According to <a
-                                href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
-                            has a contrast of 1.92:1</p>
-                        <div class="color-example">
-                            <p class="large-text gl-1-4-3-large-text-insufficient">This text does not have sufficient
-                                contrast!</p>
-                        </div>
-                    </div>
-                </div>
-                <h4>3. Bold text.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The text below has sufficient contrast ratio even though it uses the same color as the
-                            insufficient example above.</p>
-                        <div class="color-example">
-                            <p class="gl-1-4-3-normal-text-insufficient large-text-bold">This text also has sufficient
-                                contrast because it is bold!</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The text below does not have sufficient contrast ratio. According to <a
-                                href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
-                            has a contrast of 1.92:1</p>
-                        <div class="color-example">
-                            <p class="large-text-bold gl-1-4-3-large-text-insufficient">This text does not have
-                                sufficient contrast!</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- https://webaim.org/resources/linkcontrastchecker/ 
-                 https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html 
-                 https://multiple-contrast-checker.netlify.app/ -->
-                <h4>4. Contrasting normal text over a background image.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> Below is an example of a background image having a range of contrast ratios of 6.8:1 on darker colors to 20:1 on lighter colors
-                            within the background image for the text overlaying it to be visible. 
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The text below does not have sufficient contrast ratio. According to <a
+                            href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
+                        has a contrast of 4.05:1</p>
+                    <div class="color-example">
+                        <p class="gl-1-4-3-normal-text-insufficient">This text does not have sufficient contrast!
                         </p>
-                        <div class="BGcolor-example">
-                            <p class="normal-overlay">Here is overlaying text with sufficient contrast!</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> Below is an insufficient contrast ratio of the overlaying text, making it difficult for visual disabilities. 
-                            <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for checking various
-                            font color and sizes on a background image.
-                        </p>
-                        <div class="BGcolor-example">
-                            <p class="poor-normal-overlay">This overlaying text does not have sufficient contrast!</p>
-                        </div>
                     </div>
                 </div>
-
-                <h4>5. Contrasting large text over a background image.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> Below is an example of a background image having a range of contrast ratios of 6.8:1 on darker colors to 20:1 on lighter colors
-                            within the background image for the text overlaying it to be visible. 
+            </div>
+            <h4>2. Large text.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The text below has sufficient contrast ratio even though it uses the same color as the
+                        insufficient example above.</p>
+                    <div class="color-example">
+                        <p class="gl-1-4-3-normal-text-insufficient large-text">This text has sufficient contrast!
                         </p>
-                        <div class="BGcolor-example">
-                            <p class="large-text normal-overlay">Here is overlaying text with sufficient contrast!</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> Below is an insufficient contrast ratio of the overlaying text, making it difficult for visual disabilities. 
-                            <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for checking various
-                            font color and sizes on a background image.
-                        </p>
-                        <div class="BGcolor-example">
-                            <p class="large-text poor-normal-overlay">This overlaying text does not have sufficient contrast!</p>
-                        </div>
                     </div>
                 </div>
-
-                <h4>6. Contrasting large bold text over a background image.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> Below is an example of a background image having a range of contrast ratios of 6.8:1 on darker colors to 20:1 on lighter colors
-                            within the background image for the text overlaying it to be visible. 
-                        </p>
-                        <div class="BGcolor-example">
-                            <p class="large-text-bold normal-overlay">Here is overlaying text with sufficient contrast!</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> Below is an insufficient contrast ratio of the overlaying text, making it difficult for visual disabilities. 
-                            <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for checking various
-                            font color and sizes on a background image.
-                        </p>
-                        <div class="BGcolor-example">
-                            <p class="large-text-bold poor-normal-overlay">This overlaying text does not have sufficient contrast!</p>
-                        </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The text below does not have sufficient contrast ratio. According to <a
+                            href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
+                        has a contrast of 1.92:1</p>
+                    <div class="color-example">
+                        <p class="large-text gl-1-4-3-large-text-insufficient">This text does not have sufficient
+                            contrast!</p>
                     </div>
                 </div>
+            </div>
+            <h4>3. Bold text.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The text below has sufficient contrast ratio even though it uses the same color as the
+                        insufficient example above.</p>
+                    <div class="color-example">
+                        <p class="gl-1-4-3-normal-text-insufficient large-text-bold">This text also has sufficient
+                            contrast because it is bold!</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The text below does not have sufficient contrast ratio. According to <a
+                            href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
+                        has a contrast of 1.92:1</p>
+                    <div class="color-example">
+                        <p class="large-text-bold gl-1-4-3-large-text-insufficient">This text does not have
+                            sufficient contrast!</p>
+                    </div>
+                </div>
+            </div>
 
-                <h3 id="guideline-1-4-4">1.4.4: Resize Text (AA) </h3>
-                <p>
-                    This criteria ensures dynamic resizing for font sizes and having css measurements of the font size that align and are relative to
-                    the other measurements such as viewport or container. Below represents appropriate techniques of fontsizing
-                    with percentages, em units, and named font sizes.
-                </p>
-                <!-- https://stackoverflow.com/questions/16056591/font-scaling-based-on-size-of-container -->
-                <h3>Examples:</h3>
-                <h4>1. Various font sizing measures.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> Using proper measurements for font sizes allows the text to be resized dynamically with the container. </p>
+            <!-- https://webaim.org/resources/linkcontrastchecker/
+             https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html
+             https://multiple-contrast-checker.netlify.app/ -->
+            <h4>4. Contrasting normal text over a background image.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> Below is an example of a background image having a range of contrast ratios of 6.8:1 on darker
+                        colors to 20:1 on lighter colors
+                        within the background image for the text overlaying it to be visible.
+                    </p>
+                    <div class="BGcolor-example">
+                        <p class="normal-overlay">Here is overlaying text with sufficient contrast!</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> Below is an insufficient contrast ratio of the overlaying text, making it difficult for visual
+                        disabilities.
+                        <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for
+                        checking various
+                        font color and sizes on a background image.
+                    </p>
+                    <div class="BGcolor-example">
+                        <p class="poor-normal-overlay">This overlaying text does not have sufficient contrast!</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4>5. Contrasting large text over a background image.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> Below is an example of a background image having a range of contrast ratios of 6.8:1 on darker
+                        colors to 20:1 on lighter colors
+                        within the background image for the text overlaying it to be visible.
+                    </p>
+                    <div class="BGcolor-example">
+                        <p class="large-text normal-overlay">Here is overlaying text with sufficient contrast!</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> Below is an insufficient contrast ratio of the overlaying text, making it difficult for visual
+                        disabilities.
+                        <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for
+                        checking various
+                        font color and sizes on a background image.
+                    </p>
+                    <div class="BGcolor-example">
+                        <p class="large-text poor-normal-overlay">This overlaying text does not have sufficient
+                            contrast!</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4>6. Contrasting large bold text over a background image.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> Below is an example of a background image having a range of contrast ratios of 6.8:1 on darker
+                        colors to 20:1 on lighter colors
+                        within the background image for the text overlaying it to be visible.
+                    </p>
+                    <div class="BGcolor-example">
+                        <p class="large-text-bold normal-overlay">Here is overlaying text with sufficient contrast!</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> Below is an insufficient contrast ratio of the overlaying text, making it difficult for visual
+                        disabilities.
+                        <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for
+                        checking various
+                        font color and sizes on a background image.
+                    </p>
+                    <div class="BGcolor-example">
+                        <p class="large-text-bold poor-normal-overlay">This overlaying text does not have sufficient
+                            contrast!</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="guideline-1-4-4">1.4.4: Resize Text (AA) </h3>
+            <p>
+                This criteria ensures dynamic resizing for font sizes and having css measurements of the font size that
+                align and are relative to
+                the other measurements such as viewport or container. Below represents appropriate techniques of
+                fontsizing
+                with percentages, em units, and named font sizes.
+            </p>
+            <!-- https://stackoverflow.com/questions/16056591/font-scaling-based-on-size-of-container -->
+            <h3>Examples:</h3>
+            <h4>1. Various font sizing measures.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> Using proper measurements for font sizes allows the text to be resized dynamically with the
+                        container. </p>
                     <div class="container">
                         <div class="percentText">
-                           <p>Here is some font sized at 100%.</p>
+                            <p>Here is some font sized at 100%.</p>
                         </div>
                     </div>
                     <div class="container">
                         <div class="emText">
-                           <p>Here is some font sized at 1em.</p>
+                            <p>Here is some font sized at 1em.</p>
                         </div>
                     </div>
                     <div class="container">
                         <div class="namedText">
-                           <p>Here is some font size named as "medium".</p>
+                            <p>Here is some font size named as "medium".</p>
                         </div>
                     </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> The font has a fixed size, limiting its resizability with the container. </p>
-                        <div class="container">
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> The font has a fixed size, limiting its resizability with the container. </p>
+                    <div class="container">
                         <div class="fixedSizeText">
                             <p>Here is some font sized at 12px.</p>
                         </div>
                     </div>
-                    </div>
                 </div>
+            </div>
 
-                <h4>2. Wrappable resizing text boxes.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> As the page resizes, the boxes are able to wrap and adjust alongside the resize. </p>
+            <h4>2. Wrappable resizing text boxes.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> As the page resizes, the boxes are able to wrap and adjust alongside the resize. </p>
                     <div class="correctFlow">
-                    <div class="flowContainer">
-                        <div class="percentText">
-                           <p>100%.</p>
-                        </div>
-                    </div>
-                    <div class="flowContainer">
-                        <div class="emText">
-                           <p>1em.</p>
-                        </div>
-                    </div>
-                    <div class="flowContainer">
-                        <div class="namedText">
-                           <p>"medium".</p>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> These text boxes will dynamically resize the font, but not wrap to fit page resizing. </p>
-
-                        <div class="noFlow">
                         <div class="flowContainer">
-                        <div class="percentText">
-                            <p>100%.</p>
+                            <div class="percentText">
+                                <p>100%.</p>
+                            </div>
                         </div>
-                    </div>
                         <div class="flowContainer">
-                        <div class="percentText">
-                            <p>100%.</p>
+                            <div class="emText">
+                                <p>1em.</p>
+                            </div>
                         </div>
-                    </div>
                         <div class="flowContainer">
-                        <div class="percentText">
-                            <p>100%.</p>
+                            <div class="namedText">
+                                <p>"medium".</p>
+                            </div>
                         </div>
                     </div>
-                    </div>
-                    
-                    </div>
                 </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> These text boxes will dynamically resize the font, but not wrap to fit page resizing. </p>
 
-                <h3 id="guideline-1-4-6">1.4.6: Contrast Enhanced (Level AAA)</h3>
-                <p>
-                    The visual presentation of text and images of text has a contrast ratio of at least 7:1, except for
-                    the following:
-                </p>
-                <ul>
-                    <li>Large Text - Large-scale text and images of large-scale text have a contrast ratio of at least
-                        4.5:1;</li>
-                    <li>Incidental - Text or images of text that are part of an inactive user interface component, that
-                        are pure decoration, that are not visible to anyone, or that are part of a picture that contains
-                        significant other visual content, have no contrast requirement.</li>
-                    <li>Logotypes - Text that is part of a logo or brand name has no contrast requirement.</li>
-                </ul>
-                <p>Large scale text is text with at least 18 point or 14 point bold or font size that would yield
-                    equivalent size.</p>
-                <h3>Examples:</h3>
-                <h4>1. Normal text.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The text below has sufficient contrast ratio.</p>
-                        <div class="color-example">
-                            <p>This text has sufficient contrast!</p>
+                    <div class="noFlow">
+                        <div class="flowContainer">
+                            <div class="percentText">
+                                <p>100%.</p>
+                            </div>
+                        </div>
+                        <div class="flowContainer">
+                            <div class="percentText">
+                                <p>100%.</p>
+                            </div>
+                        </div>
+                        <div class="flowContainer">
+                            <div class="percentText">
+                                <p>100%.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The text below does not have sufficient contrast ratio. According to <a
-                                href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
-                            has a contrast of 6.33:1</p>
-                        <div class="color-example">
-                            <p class="gl-1-4-6-normal-text-insufficient">This text does not have sufficient contrast!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <h4>2. Large text.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The text below has sufficient contrast ratio even though it uses the same color as the
-                            insufficient example above.</p>
-                        <div class="color-example">
-                            <p class="gl-1-4-6-normal-text-insufficient large-text">This text has sufficient contrast!
-                            </p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The text below does not have sufficient contrast ratio. According to <a
-                                href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
-                            has a contrast of 4.04:1</p>
-                        <div class="color-example">
-                            <p class="large-text gl-1-4-6-large-text-insufficient">This text does not have sufficient
-                                contrast!</p>
-                        </div>
-                    </div>
-                </div>
-                <h4>3. Bold text.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p>The text below has sufficient contrast ratio even though it uses the same color as the
-                            insufficient color from example 1.</p>
-                        <div class="color-example">
-                            <p class="gl-1-4-6-normal-text-insufficient large-text-bold">This text also has sufficient
-                                contrast because it is bold!</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p>The text below does not have sufficient contrast ratio. According to <a
-                                href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
-                            has a contrast of 4.04:1</p>
-                        <div class="color-example">
-                            <p class="large-text-bold gl-1-4-6-large-text-insufficient">This text does not have
-                                sufficient contrast!</p>
-                        </div>
-                    </div>
-                </div>
 
-                <h4>4. Contrasting normal text over a background image.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> This overlaying normal text passes with ratios above 9.21:1 with the lightest colors of the background image. </p>
-                        <div class="enhanced-BGcolor-example">
-                            <p class="enhanced-normal-overlay">Here is overlaying text with sufficient contrast!</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> The text below does not have sufficient contrast ratio for enhanced contrast guidelines. </p>
-                        <div class="enhanced-BGcolor-example">
-                            <p class="poor-enhanced-normal-overlay">This overlaying text does not have sufficient contrast!</p>
-                        </div>
+                </div>
+            </div>
+
+            <h3 id="guideline-1-4-6">1.4.6: Contrast Enhanced (Level AAA)</h3>
+            <p>
+                The visual presentation of text and images of text has a contrast ratio of at least 7:1, except for
+                the following:
+            </p>
+            <ul>
+                <li>Large Text - Large-scale text and images of large-scale text have a contrast ratio of at least
+                    4.5:1;
+                </li>
+                <li>Incidental - Text or images of text that are part of an inactive user interface component, that
+                    are pure decoration, that are not visible to anyone, or that are part of a picture that contains
+                    significant other visual content, have no contrast requirement.
+                </li>
+                <li>Logotypes - Text that is part of a logo or brand name has no contrast requirement.</li>
+            </ul>
+            <p>Large scale text is text with at least 18 point or 14 point bold or font size that would yield
+                equivalent size.</p>
+            <h3>Examples:</h3>
+            <h4>1. Normal text.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The text below has sufficient contrast ratio.</p>
+                    <div class="color-example">
+                        <p>This text has sufficient contrast!</p>
                     </div>
                 </div>
-
-                <h4>5. Contrasting large text over a background image.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> This overlaying normal text passes with ratios above 9.21:1 with the lightest colors of the background image. </p>
-                        <div class="enhanced-BGcolor-example">
-                            <p class="large-text enhanced-normal-overlay">Here is overlaying text with sufficient contrast!</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> The text below does not have sufficient contrast ratio for enhanced contrast guidelines.
-                            <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for checking various
-                            font color and sizes on a background image.
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The text below does not have sufficient contrast ratio. According to <a
+                            href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
+                        has a contrast of 6.33:1</p>
+                    <div class="color-example">
+                        <p class="gl-1-4-6-normal-text-insufficient">This text does not have sufficient contrast!
                         </p>
-                        <div class="enhanced-BGcolor-example">
-                            <p class="large-text poor-enhanced-normal-overlay">This overlaying text does not have sufficient contrast!</p>
-                        </div>
                     </div>
                 </div>
-
-                <h4>6. Contrasting large bold text over a background image.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <p> This overlaying normal text passes with ratios above 9.21:1 with the lightest colors of the background image. </p>
-                        <div class="enhanced-BGcolor-example">
-                            <p class="large-text-bold enhanced-normal-overlay">Here is overlaying text with sufficient contrast!</p>
-                        </div>
-                    </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <p> The text below does not have sufficient contrast ratio for enhanced contrast guidelines.
-                            <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for checking various
-                            font color and sizes on a background image.
+            </div>
+            <h4>2. Large text.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The text below has sufficient contrast ratio even though it uses the same color as the
+                        insufficient example above.</p>
+                    <div class="color-example">
+                        <p class="gl-1-4-6-normal-text-insufficient large-text">This text has sufficient contrast!
                         </p>
-                        <div class="enhanced-BGcolor-example">
-                            <p class="large-text-bold poor-enhanced-normal-overlay">This overlaying text does not have sufficient contrast!</p>
-                        </div>
                     </div>
                 </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The text below does not have sufficient contrast ratio. According to <a
+                            href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
+                        has a contrast of 4.04:1</p>
+                    <div class="color-example">
+                        <p class="large-text gl-1-4-6-large-text-insufficient">This text does not have sufficient
+                            contrast!</p>
+                    </div>
+                </div>
+            </div>
+            <h4>3. Bold text.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The text below has sufficient contrast ratio even though it uses the same color as the
+                        insufficient color from example 1.</p>
+                    <div class="color-example">
+                        <p class="gl-1-4-6-normal-text-insufficient large-text-bold">This text also has sufficient
+                            contrast because it is bold!</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The text below does not have sufficient contrast ratio. According to <a
+                            href="https://webaim.org/resources/contrastchecker/">WebAIM's contrast checker</a> it
+                        has a contrast of 4.04:1</p>
+                    <div class="color-example">
+                        <p class="large-text-bold gl-1-4-6-large-text-insufficient">This text does not have
+                            sufficient contrast!</p>
+                    </div>
+                </div>
+            </div>
 
-                <!-- https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html -->
-                <h3 id="guideline-1-4-8">1.4.8: Visual Presentation (AAA) </h3>
-                <p> The intent of this success criterion is to ensure that visually rendered text is presented in such a manner 
-                    that it can be perceived without its layout interfering with its readability. People with some cognitive, 
-                    language and learning disabilities and some low vision users cannot perceive the text and/or lose their 
-                    reading place if the text is presented in a manner that is difficult for them to read.
-                </p>
-                <div class="disclaimer-box">
-                    <p class="disclaimer">
-                        This criteria also mentions that line lengths of text should not exceed 80 characters.
-                        As mentioned by <a href="https://www.w3.org/WAI/WCAG22/Techniques/css/C20.html" target="_blank">WCAG 2.2 Technique C20</a>
-                        this can be solved by approaching criteria 1.4.4 properly with using relative measures for text. This will allow the 
-                        character limit to be maintained as well as dynamic.
+            <h4>4. Contrasting normal text over a background image.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> This overlaying normal text passes with ratios above 9.21:1 with the lightest colors of the
+                        background image. </p>
+                    <div class="enhanced-BGcolor-example">
+                        <p class="enhanced-normal-overlay">Here is overlaying text with sufficient contrast!</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> The text below does not have sufficient contrast ratio for enhanced contrast guidelines. </p>
+                    <div class="enhanced-BGcolor-example">
+                        <p class="poor-enhanced-normal-overlay">This overlaying text does not have sufficient
+                            contrast!</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4>5. Contrasting large text over a background image.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> This overlaying normal text passes with ratios above 9.21:1 with the lightest colors of the
+                        background image. </p>
+                    <div class="enhanced-BGcolor-example">
+                        <p class="large-text enhanced-normal-overlay">Here is overlaying text with sufficient
+                            contrast!</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> The text below does not have sufficient contrast ratio for enhanced contrast guidelines.
+                        <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for
+                        checking various
+                        font color and sizes on a background image.
                     </p>
-                </div>
-
-                <h3>Examples:</h3>
-                <h4>1. Justified Text.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <div class="color-example">
-                            <p> This is some text that does not have any justification type assigned to it. It is better to pursue
-                                this design of not justifying text as it will aid in readability. Justification is often only ever used
-                                for the sake of aesthetics, and matching the text content to align with the sides of the container.
-                             </p>
-                        </div>
+                    <div class="enhanced-BGcolor-example">
+                        <p class="large-text poor-enhanced-normal-overlay">This overlaying text does not have sufficient
+                            contrast!</p>
                     </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <div class="color-example">
+                </div>
+            </div>
+
+            <h4>6. Contrasting large bold text over a background image.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p> This overlaying normal text passes with ratios above 9.21:1 with the lightest colors of the
+                        background image. </p>
+                    <div class="enhanced-BGcolor-example">
+                        <p class="large-text-bold enhanced-normal-overlay">Here is overlaying text with sufficient
+                            contrast!</p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p> The text below does not have sufficient contrast ratio for enhanced contrast guidelines.
+                        <a href="https://www.brandwood.com/a11y/" target="_blank">A11y checker</a> can be used for
+                        checking various
+                        font color and sizes on a background image.
+                    </p>
+                    <div class="enhanced-BGcolor-example">
+                        <p class="large-text-bold poor-enhanced-normal-overlay">This overlaying text does not have
+                            sufficient contrast!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html -->
+            <h3 id="guideline-1-4-8">1.4.8: Visual Presentation (AAA) </h3>
+            <p> The intent of this success criterion is to ensure that visually rendered text is presented in such a
+                manner
+                that it can be perceived without its layout interfering with its readability. People with some
+                cognitive,
+                language and learning disabilities and some low vision users cannot perceive the text and/or lose their
+                reading place if the text is presented in a manner that is difficult for them to read.
+            </p>
+            <div class="disclaimer-box">
+                <p class="disclaimer">
+                    This criteria also mentions that line lengths of text should not exceed 80 characters.
+                    As mentioned by <a href="https://www.w3.org/WAI/WCAG22/Techniques/css/C20.html" target="_blank">WCAG
+                    2.2 Technique C20</a>
+                    this can be solved by approaching criteria 1.4.4 properly with using relative measures for text.
+                    This will allow the
+                    character limit to be maintained as well as dynamic.
+                </p>
+            </div>
+
+            <h3>Examples:</h3>
+            <h4>1. Justified Text.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <div class="color-example">
+                        <p> This is some text that does not have any justification type assigned to it. It is better to
+                            pursue
+                            this design of not justifying text as it will aid in readability. Justification is often
+                            only ever used
+                            for the sake of aesthetics, and matching the text content to align with the sides of the
+                            container.
+                        </p>
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <div class="color-example">
                         <div class="gl-1-4-8-justified-text">
-                            <p> This is an example paragraph of justified text. By including the justification type, it will produce an uneven
-                                block of text, with holes and interrupts throughout the paragraph that can make it more difficult for users to read. 
-                                The justification type can add spaces between words or characters, in order to fill out space to the edges of the container.
+                            <p> This is an example paragraph of justified text. By including the justification type, it
+                                will produce an uneven
+                                block of text, with holes and interrupts throughout the paragraph that can make it more
+                                difficult for users to read.
+                                The justification type can add spaces between words or characters, in order to fill out
+                                space to the edges of the container.
                             </p>
-                        </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- -line spacing is at least space-and-a-half within paragraphs, and paragraph spacing is at least 1.5
-                     times larger than the line spacing [P:H] -->
-                <h4>2. Line Spacing.</h4>
-                <div class="example-box">
-                    <div class="correct">
-                        <h3>Correct</h3>
-                        <div class="color-example">
+            <!-- -line spacing is at least space-and-a-half within paragraphs, and paragraph spacing is at least 1.5
+                 times larger than the line spacing [P:H] -->
+            <h4>2. Line Spacing.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <div class="color-example">
                         <div class="gl-1-4-8-normal-line-height"></div>
-                            <p> This is an example of a paragraph that has default spacing, meaning single space between its lines. In order to
-                                ensure understandable text that is easy to follow, the paragraph that is to follow this one requires a
-                                spacing of atleast 1.5 times that of the line-height within the paragraph. That means 
-                                <i>"the spacing from the top of the last line of 1 paragraph is 250% farther from the Top of the first line of 
+                        <p> This is an example of a paragraph that has default spacing, meaning single space between its
+                            lines. In order to
+                            ensure understandable text that is easy to follow, the paragraph that is to follow this one
+                            requires a
+                            spacing of atleast 1.5 times that of the line-height within the paragraph. That means
+                            <i>"the spacing from the top of the last line of 1 paragraph is 250% farther from the Top of
+                                the first line of
                                 the next paragraph"</i>
-                                <a href="https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html" target="_blank">(WCAG SC 1.4.8)</a>
-                            </p>
-                            <p>
-                                Now this is a start of a new paragraph that will have the proper margining as a result of the text being placed
-                                into a new paragraph element.
-                            </p>
-                        </div>
+                            <a href="https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html"
+                               target="_blank">(WCAG SC 1.4.8)</a>
+                        </p>
+                        <p>
+                            Now this is a start of a new paragraph that will have the proper margining as a result of
+                            the text being placed
+                            into a new paragraph element.
+                        </p>
                     </div>
-                    <div class="wrong">
-                        <h3>Wrong</h3>
-                        <div class="color-example">
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <div class="color-example">
                         <div class="gl-1-4-8-short-line-height">
-                            <p> There actually is no css attribute for paragraph height like there is a line-height that affects the lines
-                                within a paragraph element, so this should be an easy mistake to avoid. The problem would arise when adjusting
-                                the margins of the paragraph element, or simply by not manually separating a block of text into different
+                            <p> There actually is no css attribute for paragraph height like there is a line-height that
+                                affects the lines
+                                within a paragraph element, so this should be an easy mistake to avoid. The problem
+                                would arise when adjusting
+                                the margins of the paragraph element, or simply by not manually separating a block of
+                                text into different
                                 elements.
                                 <br>
-                                This is an example of relying on a breakline element as opposed to creating two seperate paragraph elements to
-                                create space between the paragraphs. This is not good! A paragraph requires 150% of the space that is found 
+                                This is an example of relying on a breakline element as opposed to creating two seperate
+                                paragraph elements to
+                                create space between the paragraphs. This is not good! A paragraph requires 150% of the
+                                space that is found
                                 between the general line-height within the paragraphs.
                             </p>
                         </div>
-                        </div>
                     </div>
                 </div>
+            </div>
+            <h3 id="guideline-1-4-11">1.4.11: Non-text Contrast (Level AA)</h3>
+            <p>
+                The visual presentation of the following have a contrast ratio of at least 3:1 against adjacent color(s):
+            </p>
+            <ul>
+                <li> User Interface Components: Visual information required to identify user interface components and states, except for inactive components or where the appearance of the component is determined by the user agent and not modified by the author. </li>
+                <li> Graphical Objects: Parts of graphics required to understand the content, except when a particular presentation of graphics is essential to the information being conveyed.</li>
+            </ul>
 
-            </section>
-        </article>
-    </main>
-    <footer>
-        <h3>Contact Us:</h3>
-        <p>Made by <a href="https://github.com/Ylih">Ylih</a> and <a href="https://github.com/elemoser">elemoser</a></p>
-        <p>Further developed by <a href="https://github.com/np222je">Nils</a> and <a href="https://github.com/robinkxl">Robin</a></p>
-    </footer>
+            <h3>Examples:</h3>
+
+            <h4>1. Input Field Border Contrast (UI Component)</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>This input field has a dark border with a contrast ratio > 3:1.</p>
+                    <label for="input-correct">Name:</label>
+                    <input type="text" id="input-correct" style="border: 2px solid #555555; padding: 5px;">
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>This input field has a very light gray border with a contrast ratio of 1.2:1.</p>
+                    <label for="input-wrong">Name:</label>
+                    <input type="text" id="input-wrong" style="border: 2px solid #E0E0E0; padding: 5px;">
+                </div>
+            </div>
+
+            <h4>2. Icon Contrast (Graphical Object)</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>The dark color of the star icon meets the 3:1 ratio, which is required to understand the graphic.</p>
+                    <span style="font-size: 40px; color: #555555;" role="img" aria-label="Favorite">★</span>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The star icon is light gray and the ratio ist too low. Since identifying the star is essential to understanding its meaning ("Favorite"), it must meet 3:1 contrast.</p>
+                    <span style="font-size: 40px; color: #E0E0E0;" role="img" aria-label="Favorite">★</span>
+                </div>
+            </div>
+
+        </section>
+    </article>
+</main>
+<footer>
+    <h3>Contact Us:</h3>
+    <p>Made by <a href="https://github.com/Ylih">Ylih</a> and <a href="https://github.com/elemoser">elemoser</a></p>
+    <p>Further developed by <a href="https://github.com/np222je">Nils</a> and <a href="https://github.com/robinkxl">Robin</a>
+    </p>
+</footer>
 </body>
 
 </html>
