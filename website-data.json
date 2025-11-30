@@ -1,6 +1,6 @@
 {
-    "criterionsImplemented": 29,
-    "totalExampleErrors": 43,
+    "criterionsImplemented": 30,
+    "totalExampleErrors": 45,
     "perceivable": {
         "perceivableCriterions": 13,
         "perceivableExampleErrors": 37,
@@ -225,7 +225,9 @@
                         "row": 978,
                         "element": "<div class='wrong'>",
                         "description": "The text boxes will not wrap dynamically despite resizing."
-                    },
+                    }
+                }
+            },
             "1.4.6": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#contrast-enhanced",
                 "level": "AAA",
@@ -524,6 +526,7 @@
                     }
                 }
             }
+        }
     },
     "understandable": {
         "understandableCriterions": 12,
@@ -686,5 +689,28 @@
                 }
             }
         }
+    },
+    "robust": {
+        "robustCriterions": 1,
+        "robustExampleErrors": 2,
+        "robustPageErrors": 2,
+        "implementedCriterions": {
+            "4.1.2": {
+                "urlToCriterion": "https://www.w3.org/TR/WCAG21/#name-role-value",
+                "level": "A",
+                "examplesGiven": 2,
+                "examples": {
+                    "emptyButton": {
+                        "row": 65,
+                        "element": "<button>🔍</button>",
+                        "description": "Buttons must have discernable text or an accessible name via aria-label."
+                    },
+                    "emptyButton": {
+                        "row": 80,
+                        "element": "<button style='background: url(...)'>",
+                        "description": "Button is technically empty (background image only) and has no accessible name."
+                    }
+                }
+            }
+        }
     }
-}

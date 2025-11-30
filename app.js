@@ -24,6 +24,10 @@ app.get('/understandable', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/understandable.html'));
 })
 
+app.get('/robust', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/robust.html'));
+})
+
 app.get('/dictionary', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/dictionary.html'));
 })
