@@ -1,10 +1,10 @@
 {
-    "criterionsImplemented": 30,
-    "totalExampleErrors": 45,
+    "criterionsImplemented": 41,
+    "totalExampleErrors": 80,
     "perceivable": {
-        "perceivableCriterions": 13,
-        "perceivableExampleErrors": 37,
-        "perceivablePageErrors": 39,
+        "perceivableCriterions": 14,
+        "perceivableExampleErrors": 39,
+        "perceivablePageErrors": 41,
         "implementedCriterions": {
             "1.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#non-text-content",
@@ -280,8 +280,25 @@
                         "element": "<div class='gl-1-4-8-short-line-height'>",
                         "description": "This div element contains text with improper line height and spacing, reducing readibility."
                     }
-            }
-    },
+                }
+            },
+            "1.4.11": {
+                "urlToCriterion": "https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html",
+                "level": "AA",
+                "examplesGiven": 2,
+                "examples": {
+                    "lowContrastBorder": {
+                        "row": 1342,
+                        "element": "<input style='border: 2px solid #E0E0E0'>",
+                        "description": "Input border contrast (UI Component) is below 3:1."
+                    },
+                    "lowContrastIcon": {
+                        "row": 1356,
+                        "element": "<span style='color: #E0E0E0'>★</span>",
+                        "description": "Icon contrast (Graphical Object) is below 3:1."
+                    }
+                }
+            },
     "operable": {
         "operableCriterions": 16,
         "operableExampleErrors": 25,
