@@ -1,6 +1,6 @@
 {
-    "criterionsImplemented": 42,
-    "totalExampleErrors": 82,
+    "criterionsImplemented": 43,
+    "totalExampleErrors": 84,
     "perceivable": {
         "perceivableCriterions": 15,
         "perceivableExampleErrors": 41,
@@ -302,12 +302,12 @@
             "1.4.12": {
                 "urlToCriterion": "https://www.w3.org/WAI/WCAG21/Understanding/text-spacing.html",
                 "level": "AA",
-                "examplesGiven": 1,
+                "examplesGiven": 2,
                 "examples": {
                     "fixedHeightContainer": {
                         "row": 1382,
                         "element": "<div style='height: 50px; overflow: hidden;'>",
-                        "description": "Fixed height container cuts off text content.",
+                        "description": "Fixed height container cuts off text content."
                     },
                     "fixedHeightPreApplied": {
                         "row": 1403,
@@ -563,9 +563,9 @@
         }
     },
     "understandable": {
-        "understandableCriterions": 12,
-        "understandableExampleErrors": 14,
-        "understandablePageErrors": 13,
+        "understandableCriterions": 13,
+        "understandableExampleErrors": 16,
+        "understandablePageErrors": 15,
         "implementedCriterions": {
             "3.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#language-of-page",
@@ -719,6 +719,23 @@
                         "row": 479,
                         "element": "<fieldset><legend>Shipping Address</legend>... (No checkbox)",
                         "description": "Form requires re-entry of address information without auto-population or selection option."
+                    }
+                }
+            },
+            "3.3.8": {
+                "urlToCriterion": "https://www.w3.org/WAI/WCAG22/Understanding/accessible-authentication-minimum.html",
+                "level": "AA",
+                "examplesGiven": 2,
+                "examples": {
+                    "pasteBlockedAttribute": {
+                        "row": 511,
+                        "element": "<input onpaste='return false;'>",
+                        "description": "Password field explicitly blocks pasting via attribute."
+                    },
+                    "pasteBlockedStructure": {
+                        "row": 535,
+                        "element": "<input maxlength='1'> ... <input maxlength='1'>",
+                        "description": "Split input fields (F109) prevent pasting the full code, forcing transcription."
                     }
                 }
             }

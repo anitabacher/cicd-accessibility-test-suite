@@ -465,6 +465,7 @@
                             <label for="shipping-street-correct">Street:</label>
                             <input type="text" id="shipping-street-correct" name="ship-street">
                         </fieldset>
+                        <button type="submit" style="margin-top: 10px;">Continue to Payment</button>
                     </form>
                 </div>
                 <div class="wrong">
@@ -480,6 +481,64 @@
                             <legend>Shipping Address</legend>
                             <label for="shipping-street-wrong">Street:</label>
                             <input type="text" id="shipping-street-wrong" name="ship-street">
+                        </fieldset>
+                        <button type="submit" style="margin-top: 10px;">Continue to Payment</button>
+                    </form>
+                </div>
+            </div>
+            <h3>3.3.8: Accessible Authentication (Minimum) (Level AA)</h3>
+            <p>
+                A cognitive function test (such as remembering a password or transcribing a code) is not required for authentication unless an alternative method or a mechanism to assist the user (like copy-paste) is available.
+            </p>
+
+            <h3>Examples:</h3>
+
+            <h4>1. Paste Functionality (Attribute Block).</h4>
+            <p><em>Testing if tools detect the explicit `onpaste="return false"` attribute.</em></p>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>This password field allows pasting (e.g., from a password manager).</p>
+                    <form action="#" onsubmit="return false;">
+                        <label for="pwd-correct">Password:</label>
+                        <input type="password" id="pwd-correct" autocomplete="current-password" style="margin-bottom: 10px;">
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>This field explicitly blocks pasting via attribute, forcing manual typing.</p>
+                    <form action="#" onsubmit="return false;">
+                        <label for="pwd-wrong">Password:</label>
+                        <input type="password" id="pwd-wrong" onpaste="return false;" autocomplete="current-password" style="margin-bottom: 10px;">
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+            </div>
+
+            <h4>2. Split Fields (Structural Block).</h4>
+            <p><em>Testing if tools detect that splitting a code into 4 fields breaks copy-paste.</em></p>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>A single field allows pasting the full 4-digit code at once.</p>
+                    <form action="#" onsubmit="return false;">
+                        <label for="otp-correct">Enter 4-Digit Code:</label>
+                        <input type="text" id="otp-correct" maxlength="4" style="width: 100px; letter-spacing: 5px;">
+                    </form>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>The code is split into 4 fields. Pasting "1234" only fills the first box. The user is forced to transcribe (read and type) each digit.</p>
+                    <form action="#" onsubmit="return false;">
+                        <fieldset style="border: none; padding: 0; margin: 0;">
+                            <legend>Enter 4-Digit Code:</legend>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" title="Digit 1" maxlength="1" style="width: 30px; text-align: center;">
+                                <input type="text" title="Digit 2" maxlength="1" style="width: 30px; text-align: center;">
+                                <input type="text" title="Digit 3" maxlength="1" style="width: 30px; text-align: center;">
+                                <input type="text" title="Digit 4" maxlength="1" style="width: 30px; text-align: center;">
+                            </div>
                         </fieldset>
                     </form>
                 </div>
@@ -505,6 +564,7 @@
             <button>Find</button>
         </form>
     </div>
+
 </header>
 </body>
 </html>
