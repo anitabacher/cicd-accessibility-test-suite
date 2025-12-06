@@ -1,10 +1,10 @@
 {
     "criterionsImplemented": 42,
-    "totalExampleErrors": 81,
+    "totalExampleErrors": 82,
     "perceivable": {
         "perceivableCriterions": 15,
-        "perceivableExampleErrors": 40,
-        "perceivablePageErrors": 42,
+        "perceivableExampleErrors": 41,
+        "perceivablePageErrors": 43,
         "implementedCriterions": {
             "1.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#non-text-content",
@@ -305,9 +305,14 @@
                 "examplesGiven": 1,
                 "examples": {
                     "fixedHeightContainer": {
-                        "row": 1381,
+                        "row": 1382,
                         "element": "<div style='height: 50px; overflow: hidden;'>",
-                        "description": "Fixed height container cuts off text content."
+                        "description": "Fixed height container cuts off text content.",
+                    },
+                    "fixedHeightPreApplied": {
+                        "row": 1403,
+                        "element": "<div style='height: 60px; ... line-height: 1.5'>",
+                        "description": "Container breaks immediately due to forced spacing (Detection Test)."
                     }
                 }
             },

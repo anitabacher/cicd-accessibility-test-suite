@@ -1363,25 +1363,47 @@
             <p>
                 Note: Content is not required to use specific text spacing values. The requirement is to ensure that when a user overrides the authored text spacing, content or functionality is not lost.
             </p>
-            <h3>Example:</h3>
-            <h4>1. Fixed Height Container.</h4>
+            <h3>Examples:</h3>
+
+            <h4>1. Fixed Height Container (Standard Spacing).</h4>
+            <p><em>This tests if tools simulate user adjustments. The text fits now, but breaks if spacing is increased.</em></p>
             <div class="example-box">
                 <div class="correct">
                     <h3>Correct</h3>
-                    <p>This container uses <code>min-height</code>. If you increase text spacing, the box grows to fit the content.</p>
-                    <div style="border: 1px solid #333; padding: 10px; min-height: 60px; background: #f9f9f9;">
-                        This text can breathe. <br>
-                        Even with increased line height, <br>
-                        it will stay visible inside the box.
+                    <p>Uses <code>min-height</code>. Grows if user increases spacing.</p>
+                    <div style="border: 1px solid #333; padding: 10px; min-height: 50px; background: #f9f9f9;">
+                        This text adapts. <br>
+                        Change spacing freely.
                     </div>
                 </div>
                 <div class="wrong">
                     <h3>Wrong</h3>
-                    <p>This container has a fixed <code>height: 50px</code> and <code>overflow: hidden</code>. The text is cut off immediately or upon resizing spacing.</p>
+                    <p>Fixed <code>height: 50px</code>. Text cuts off ONLY if user increases spacing.</p>
                     <div style="border: 1px solid #333; padding: 10px; height: 50px; overflow: hidden; background: #f9f9f9;">
                         This text is trapped. <br>
-                        If you increase the line height, <br>
-                        the bottom part will disappear.
+                        Increase spacing to see fail.
+                    </div>
+                </div>
+            </div>
+
+            <h4>2. Fixed Height with Applied Spacing.</h4>
+            <p><em>This tests if tools detect currently cut-off content by forcing WCAG spacing metrics via CSS.</em></p>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>High spacing applied, but container grows (`min-height`).</p>
+                    <div style="border: 1px solid #333; padding: 10px; min-height: 50px; background: #f9f9f9; line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important;">
+                        High Spacing Applied.<br>
+                        Still fully visible.
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>High spacing applied in fixed container. Text is ALREADY cut off.</p>
+                    <div style="border: 1px solid #333; padding: 10px; height: 50px; overflow: hidden; background: #f9f9f9; line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important;">
+                        High Spacing Applied.<br>
+                        The next line will be cut off.<br>
+                        Invisible Text.
                     </div>
                 </div>
             </div>
