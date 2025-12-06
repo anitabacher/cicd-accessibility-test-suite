@@ -1,10 +1,10 @@
 {
-    "criterionsImplemented": 41,
-    "totalExampleErrors": 80,
+    "criterionsImplemented": 42,
+    "totalExampleErrors": 81,
     "perceivable": {
-        "perceivableCriterions": 14,
-        "perceivableExampleErrors": 39,
-        "perceivablePageErrors": 41,
+        "perceivableCriterions": 15,
+        "perceivableExampleErrors": 40,
+        "perceivablePageErrors": 42,
         "implementedCriterions": {
             "1.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#non-text-content",
@@ -296,6 +296,18 @@
                         "row": 1356,
                         "element": "<span style='color: #E0E0E0'>★</span>",
                         "description": "Icon contrast (Graphical Object) is below 3:1."
+                    }
+                }
+            },
+            "1.4.12": {
+                "urlToCriterion": "https://www.w3.org/WAI/WCAG21/Understanding/text-spacing.html",
+                "level": "AA",
+                "examplesGiven": 1,
+                "examples": {
+                    "fixedHeightContainer": {
+                        "row": 1381,
+                        "element": "<div style='height: 50px; overflow: hidden;'>",
+                        "description": "Fixed height container cuts off text content."
                     }
                 }
             },

@@ -1356,6 +1356,35 @@
                     <span style="font-size: 40px; color: #E0E0E0;" role="img" aria-label="Favorite">★</span>
                 </div>
             </div>
+            <h3 id="guideline-1-4-12">1.4.12: Text Spacing (Level AA)</h3>
+            <p>
+                In content implemented using markup languages that support text style properties, no loss of content or functionality occurs by setting line height, spacing following paragraphs, letter spacing, and word spacing to specific metrics.
+            </p>
+            <p>
+                Note: Content is not required to use specific text spacing values. The requirement is to ensure that when a user overrides the authored text spacing, content or functionality is not lost.
+            </p>
+            <h3>Example:</h3>
+            <h4>1. Fixed Height Container.</h4>
+            <div class="example-box">
+                <div class="correct">
+                    <h3>Correct</h3>
+                    <p>This container uses <code>min-height</code>. If you increase text spacing, the box grows to fit the content.</p>
+                    <div style="border: 1px solid #333; padding: 10px; min-height: 60px; background: #f9f9f9;">
+                        This text can breathe. <br>
+                        Even with increased line height, <br>
+                        it will stay visible inside the box.
+                    </div>
+                </div>
+                <div class="wrong">
+                    <h3>Wrong</h3>
+                    <p>This container has a fixed <code>height: 50px</code> and <code>overflow: hidden</code>. The text is cut off immediately or upon resizing spacing.</p>
+                    <div style="border: 1px solid #333; padding: 10px; height: 50px; overflow: hidden; background: #f9f9f9;">
+                        This text is trapped. <br>
+                        If you increase the line height, <br>
+                        the bottom part will disappear.
+                    </div>
+                </div>
+            </div>
 
         </section>
     </article>
