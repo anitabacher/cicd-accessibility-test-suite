@@ -1,0 +1,78 @@
+name: Microsoft Accessibility Insights - Custom Implementation
+# base on AXE CLI due to the technical limitations of the official MAI integration into the GitHub Actions Pipeline https://accessibilityinsights.io/docs/web/reference/faq/
+
+on:
+  # to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+
+env:
+  # url and port for the test website
+  TEST_URL: http://localhost:1338
+  PORT: 1338
+
+jobs:
+  mai-custom-scan:
+    runs-on: ubuntu-latest
+    # Strategy to test every page
+    strategy:
+      fail-fast: false
+      matrix:
+        view:
+          - "" # index.html
+          - "perceivable.html"
+          - "operable.html"
+          - "understandable.html"
+          - "robust.html"
+          - "dictionary.html"
+
+    steps:
+      # 1. Get Code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+          install-chromedriver: true
+          install-dependencies: true
+
+      # 3. Install Dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # 4. Build Project
+      - name: Build Project
+        run: npm run build --if-present
+
+      # 5. Starting Server and Wait
+      - name: Start Server
+        run: |
+            npm start &
+            npx wait-on $TEST_URL
+
+      # 6. Testing
+      - name: Run Microsoft Accessibility Insights Assessment on ${{ matrix.view }}
+        run: |
+            mkdir -p mai-results
+            # Wir nutzen die Axe-CLI (die Engine von MAI), speichern es aber als mai-result
+            npx @axe-core/cli "$TEST_URL/${{ matrix.view }}" \
+              --save "mai-results/mai-report-${{ matrix.view || 'home' }}.json" \
+              --tags wcag2a,wcag2aa,wcag21a,wcag21aa
+        continue-on-error: true
+
+      # 7. Results
+      - name: Upload MAI Assessment Results
+        uses: actions/upload-artifact@v4
+        with:
+            name: mai-json-results-${{ strategy.job-index }}
+            path: mai-results/*.json
+
