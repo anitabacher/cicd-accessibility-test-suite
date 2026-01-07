@@ -61,11 +61,16 @@ jobs:
       # 6. Testing
       - name: Run Microsoft Accessibility Insights Assessment on ${{ matrix.view }}
         run: |
-            mkdir -p mai-results
-            # Wir nutzen die Axe-CLI (die Engine von MAI), speichern es aber als mai-result
-            npx @axe-core/cli "$TEST_URL/${{ matrix.view }}" \
-              --save "mai-results/mai-report-${{ matrix.view || 'home' }}.json" \
-              --tags wcag2a,wcag2aa,wcag21a,wcag21aa
+          mkdir -p mai-results
+          
+          # Server Status  
+          echo "Testing URL: $TEST_URL/${{ matrix.view }}"
+          curl -I "$TEST_URL/${{ matrix.view }}" || echo "Server not reachable!"
+          
+          npx @axe-core/cli "$TEST_URL/${{ matrix.view }}" \
+            --save "mai-results/mai-report-${{ matrix.view || 'home' }}.json" \
+            --tags wcag2a,wcag2aa,wcag21a,wcag21aa,wcag22a,wcag22aa \
+            --chrome-flags="--no-sandbox --disable-setuid-sandbox --headless --disable-gpu"
         continue-on-error: true
 
       # 7. Results
