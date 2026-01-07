@@ -38,6 +38,7 @@ jobs:
         with:
           node-version: 18.x
       - name: Setup Chrome
+        id: setup-chrome #important for the chromedriver path
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: stable
@@ -67,11 +68,11 @@ jobs:
             # Server Status Check
             echo "Testing URL: $TEST_URL/${{ matrix.view }}"
             curl -I "$TEST_URL/${{ matrix.view }}" || echo "Server not reachable!"
-            
+          
             npx @axe-core/cli "$TEST_URL/${{ matrix.view }}" \
-              --save "mai-results/mai-report-${{ matrix.view || 'home' }}.json" \
-              --tags wcag2a,wcag2aa,wcag21a,wcag21aa,wcag22a,wcag22aa || true
-
+            --save "mai-results/mai-report-${{ matrix.view || 'home' }}.json" \
+            --chromedriver-path "${{ steps.setup-chrome.outputs.chromedriver-path }}" \
+            --tags wcag2a,wcag2aa,wcag21a,wcag21aa,wcag22a,wcag22aa || true
       # 7. Results
       - name: Upload MAI Assessment Results
         uses: actions/upload-artifact@v4
