@@ -54,10 +54,10 @@ jobs:
                 echo "Listing all files recursively:"
                 find . -maxdepth 4 -not -path '*/.*'
         # 6. Results: Manuel Upload due to problems with automated upload through Actions
-      - name: Upload SARIF to Security Tab
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload HTML Report as Artifact
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-            sarif_file: .
-            category: mai-official-scan
+            name: microsoft-accessibility-report
+            path: _accessibility-reports/
           
