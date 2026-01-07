@@ -7,36 +7,51 @@ on:
     branches: [feature/test-ms-official]
   workflow_dispatch:
 
+env:
+  #port of the running test website
+  APP_PORT: 1338
+
 jobs:
   mai-official-scan:
     runs-on: ubuntu-latest
     permissions:
       # important permissions for token to work
+      checks: write
       security-events: write
       actions: read
       contents: read
     steps:
-        #1. Code from Repository
+        # 1. Code from Repository
       - name: Checkout Code
         uses: actions/checkout@v4
-        #2. Setup Environment
+
+        # 2. Setup Environment
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
-        #3. Installation & Build
+
+        # 3. Installation
       - name: Install Dependencies
         run: npm ci
+
+        # 4. Build
       - name: Build Project
         run: npm run build --if-present
 
-
-        #Testing Microsoft Accessibility Insights Action
+        # 5. Testing Microsoft Accessibility Insights Action
       - name: Run Microsoft Accessibility Insights Action
         uses: microsoft/accessibility-insights-action@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          #MAI works with directories not with a running server
           site-dir: ./public
         continue-on-error: true
+
+        # 6. Results: Manuel Upload due to problems with automated upload through Actions
+      - name: Upload SARIF to Security Tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+            sarif_file: .
+            category: mai-official-scan
           
