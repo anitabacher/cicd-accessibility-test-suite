@@ -46,7 +46,13 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           site-dir: ./public
         continue-on-error: true
-
+        # Debug for Reporting
+      - name: Debug - List all files
+        run: |
+                echo "Current directory:"
+                pwd
+                echo "Listing all files recursively:"
+                find . -maxdepth 4 -not -path '*/.*'
         # 6. Results: Manuel Upload due to problems with automated upload through Actions
       - name: Upload SARIF to Security Tab
         uses: github/codeql-action/upload-sarif@v3
