@@ -65,7 +65,6 @@ jobs:
           echo "Testing URL: $FULL_URL"
           
           node ./node_modules/.bin/qw -u "$FULL_URL" \
-            -r json \
             --act \
             --wcag \
             --save-name "qualweb-report-${{ matrix.view || 'home' }}" \
