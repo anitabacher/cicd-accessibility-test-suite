@@ -1,6 +1,6 @@
 name: QualWeb Accessibility Scan
 # QualWeb (University of Lisbon) - Focus on W3C ACT Rules
-# not yet updated repository: https://github.com/qualweb/qualweb/blob/main/packages/cli/README.md
+# switched to Qualweb Core due to QualwebCLI not being updated: https://github.com/qualweb/qualweb/blob/main/packages/cli/README.md
 on:
   workflow_dispatch:
   push:
@@ -38,7 +38,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # Install Core Engine due to CLI Version not working properly
+      # Install Core Engine
       - name: Install QualWeb Core
         run: npm install @qualweb/core
 
@@ -62,19 +62,25 @@ jobs:
           TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
-          # Creating script for sandbox handling
+          # Creating script
           cat <<EOF > run_scan.js
           const { QualWeb } = require('@qualweb/core');
           const fs = require('fs');
 
           (async () => {
             const qualweb = new QualWeb();
-        
-            await qualweb.start({
-              launchOptions: {
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
-              }
-            });
+          
+            console.log("Starting QualWeb with split arguments (Cluster vs. Puppeteer)...");
+
+            
+            // start() needs two arguments:
+            // 1. {}: Cluster-Options (empty for Standard)
+            // 2. {}: Browser-Options (for sandbox)
+          
+            await qualweb.start(
+              { maxConcurrency: 1, monitor: true }, // Argument 1: Cluster Config
+              { args: ['--no-sandbox', '--disable-setuid-sandbox'] } // Argument 2: Puppeteer Config
+            );
 
             console.log('Starting evaluation for: $TARGET_URL');
           
@@ -87,7 +93,6 @@ jobs:
             });
 
             const viewName = "${{ matrix.view }}" || "home";
-            // Escaping für Template Literals in der Shell
             const fileName = \`qualweb-results/qualweb-\${viewName}.json\`;
           
             fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
