@@ -66,9 +66,12 @@ jobs:
           echo "Testing URL: $FULL_URL"
           
           # scan without flags
-          node ./node_modules/.bin/qw -u "$FULL_URL" -m act-rules wcag-techniques
+          node ./node_modules/.bin/qw -u "$FULL_URL" \
+            -m act-rules wcag-techniques \
+            --launch-options '{"args":["--no-sandbox", "--disable-setuid-sandbox"]}'
           
           echo "Scan finished. Moving files..."
+          
           # manual artefact handling due to depricated code and not yet updated repository 
           mv *.json qualweb-results/ 2>/dev/null || echo "No JSON found to move"
         
