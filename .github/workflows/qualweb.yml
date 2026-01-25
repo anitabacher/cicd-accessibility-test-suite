@@ -39,6 +39,9 @@ jobs:
       # 2. Install Dependencies
       - name: Install Dependencies
         run: npm ci
+        # Install locally to avoid the "use strict" error
+      - name: Install QualWeb CLI
+        run: npm install @qualweb/cli
 
       # 3. Build Project
       - name: Build Project
@@ -61,7 +64,7 @@ jobs:
           FULL_URL="$TEST_URL/${{ matrix.view }}"
           echo "Testing URL: $FULL_URL"
           
-          npx @qualweb/cli -u "$FULL_URL" \
+          npx qw -u "$FULL_URL" \
             -r json \
             --act \
             --wcag \
