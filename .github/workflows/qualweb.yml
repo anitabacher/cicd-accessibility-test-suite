@@ -1,7 +1,6 @@
 name: QualWeb Accessibility Scan
 # QualWeb (University of Lisbon) - Focus on W3C ACT Rules
 # not yet updated repository: https://github.com/qualweb/qualweb/blob/main/packages/cli/README.md
-
 on:
   workflow_dispatch:
   push:
@@ -39,7 +38,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # CLI version ignores CI-sandbox configuration.
+      # Install Core Engine due to CLI Version not working properly
       - name: Install QualWeb Core
         run: npm install @qualweb/core
 
@@ -63,24 +62,22 @@ jobs:
           TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
-          # creating script to use '--no-sandbox'
-          
+          # Creating script for sandbox handling
           cat <<EOF > run_scan.js
           const { QualWeb } = require('@qualweb/core');
           const fs = require('fs');
 
           (async () => {
             const qualweb = new QualWeb();
-          
-            // FIX: Argumente direkt auf Top-Level Ebene übergeben
-            // Das entspricht der nativen Puppeteer-Konfiguration
+        
             await qualweb.start({
-              headless: true,
-              args: ['--no-sandbox', '--disable-setuid-sandbox']
+              launchOptions: {
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
+              }
             });
 
-            // Scaning rules (ACT & WCAG)
             console.log('Starting evaluation for: $TARGET_URL');
+          
             const report = await qualweb.evaluate({
               url: '$TARGET_URL',
               execute: {
@@ -90,6 +87,7 @@ jobs:
             });
 
             const viewName = "${{ matrix.view }}" || "home";
+            // Escaping für Template Literals in der Shell
             const fileName = \`qualweb-results/qualweb-\${viewName}.json\`;
           
             fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
