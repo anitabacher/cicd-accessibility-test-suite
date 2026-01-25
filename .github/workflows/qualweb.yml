@@ -2,7 +2,6 @@ name: QualWeb Accessibility Scan
 # QualWeb (University of Lisbon) - Focus on W3C ACT Rules
 # not yet updated repository: https://github.com/qualweb/qualweb/blob/main/packages/cli/README.md
 
-
 on:
   workflow_dispatch:
   push:
@@ -61,12 +60,11 @@ jobs:
         run: |
           mkdir -p qualweb-results
           
-          # Ziel-URL definieren
           TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
-          # creating script to use --no-sandbox
-         
+          # creating script to use '--no-sandbox'
+          
           cat <<EOF > run_scan.js
           const { QualWeb } = require('@qualweb/core');
           const fs = require('fs');
@@ -74,10 +72,11 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
+            // FIX: Argumente direkt auf Top-Level Ebene übergeben
+            // Das entspricht der nativen Puppeteer-Konfiguration
             await qualweb.start({
-              launchOptions: {
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
-              }
+              headless: true,
+              args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
 
             // Scaning rules (ACT & WCAG)
