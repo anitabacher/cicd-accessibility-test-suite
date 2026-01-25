@@ -1,0 +1,76 @@
+name: QualWeb Accessibility Scan
+# QualWeb (University of Lisbon) - Focus on W3C ACT Rules
+on:
+  # to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+    branches: ['**']
+
+
+env:
+  # Port and Url for the running web app
+  APP: http://localhost:1338
+  Port: 1338
+
+jobs:
+  qualweb-scan:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        view:
+                - "" # index.html
+                - "perceivable.html"
+                - "operable.html"
+                - "understandable.html"
+                - "robust.html"
+                - "dictionary.html"
+
+    steps:
+      # 1. Setup
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+            node-version: 18.x
+
+      # 2. Install Dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # 3. Build Project and Start Server
+      - name: Build Project
+        run: npm run build --if-present
+
+      - name: Start Server
+        run: |
+          npm start &
+          echo "Waiting for server..."
+          npx wait-on $TEST_URL
+
+      # 4. Qualweb Testing
+      - name: Run QualWeb on ${{ matrix.view }}
+        continue-on-error: true # Wichtig: Damit wir Ergebnisse sehen, auch wenn er Fehler findet!
+        run: |
+          mkdir -p qualweb-results
+            
+          FULL_URL="$TEST_URL/${{ matrix.view }}"
+          echo "Testing URL: $FULL_URL"
+          
+          npx @qualweb/cli -u "$FULL_URL" \
+            -r json \ # -r: Report format (json)
+            --act \ # Execute ACT rules
+            --wcag \ # Execute WCAG techniques
+            --save-name "qualweb-report-${{ matrix.view || 'home' }}" \
+            --dir qualweb-results || true
+        
+
+        # 5. Upload Results
+      - name: Upload QualWeb Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qualweb-json-results-${{ strategy.job-index }}
+          path: qualweb-results/*.json
