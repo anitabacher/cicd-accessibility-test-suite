@@ -66,8 +66,7 @@ jobs:
           
           node ./node_modules/.bin/qw -u "$FULL_URL" \
             -m act-rules wcag-techniques \
-            --save-name "qualweb-report-${{ matrix.view || 'home' }}" \
-            --dir qualweb-results || true
+            --dir qualweb-results
         
 
         # 6. Upload Results
