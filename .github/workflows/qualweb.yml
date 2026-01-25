@@ -64,7 +64,7 @@ jobs:
           FULL_URL="$TEST_URL/${{ matrix.view }}"
           echo "Testing URL: $FULL_URL"
           
-          npx qw -u "$FULL_URL" \
+          node ./node_modules/.bin/qw -u "$FULL_URL" \
             -r json \
             --act \
             --wcag \
