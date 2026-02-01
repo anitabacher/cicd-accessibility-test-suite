@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 # Public url of test web app
-WEBPAGES=("" "perceivable" "operable" "understandable")
+WEBPAGES=("" "perceivable" "operable" "understandable" "robust")
+
+JS_FILE="generate_report.js"
 
 __usage="
 Usage: $(basename $0) [OPTIONS]
@@ -117,6 +119,45 @@ function run-wave {
     curl -s "https://wave.webaim.org/api/request?key=$API_KEY&reporttype=$REPORT_TYPE&url=$1" \
         -o "results/wave/wave-$(basename $1).json"
     echo "WAVE audit for $1 saved in results/wave."
+}
+
+function set-up-qualweb {
+    echo "Installing QualWeb dependencies..."
+    npm install @qualweb/core
+}
+
+function run-qualweb {
+    # $1 ist der Pfad (z.B. /perceivable)
+    # Wir bauen die volle URL zusammen
+    FULL_URL="http://localhost:1338$1"
+
+    echo "Running QualWeb on $FULL_URL..."
+
+    # Calling JS file
+    node qualweb-scan.js "$FULL_URL"
+
+    # sort results
+    mkdir -p results/qualweb
+
+    # if empty $1 is qualweb-home.json
+    if [ -z "$1" ] || [ "$1" == "/" ]; then
+        SUFFIX="home"
+    else
+        SUFFIX=$(echo $1 | sed 's/[^a-zA-Z0-9]/_/g')
+    fi
+
+    FILENAME="qualweb-${SUFFIX}.json"
+    mv report.json "results/qualweb/$FILENAME"
+
+    # Calling Report Generator
+    node "$JS_FILE" "qualweb" "./results/qualweb/$FILENAME"
+
+    echo "QualWeb audit done for $1"
+}
+
+function clean-up-qualweb {
+    npm uninstall @qualweb/core
+    echo "QualWeb removed."
 }
 
 function main {

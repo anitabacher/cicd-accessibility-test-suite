@@ -50,6 +50,55 @@ function updateSummary(webpageName, toolName, errors) {
     };
 }
 
+function generateQualWebReport(filePath) {
+    const rawData = require(filePath);
+    const toolFullName = "QualWeb";
+
+    // Check for WCAG and ACT Criteria
+    const modulesToCheck = ['act-rules', 'wcag-techniques'];
+
+    Object.keys(rawData).forEach(url => {
+        const result = rawData[url];
+        // Extract name of the webpage
+        const webpage = url.split('/').filter(Boolean).pop() || "home";
+
+        let fails = 0;
+
+        // Looping through modules (ACT und WCAG)
+        modulesToCheck.forEach(moduleName => {
+            if (result.modules && result.modules[moduleName]) {
+                const assertions = result.modules[moduleName].assertions || {};
+
+                Object.values(assertions).forEach(rule => {
+                    if (rule.metadata.outcome === 'failed') {
+
+                        rule.results.forEach(instance => {
+                            if (instance.verdict === 'failed') {
+                                fails++;
+                                const violation = createViolationObject(toolFullName, url);
+
+                                violation.error_name = rule.code;
+                                violation.error_description = rule.description;
+
+                                // Finding the position of the error
+                                if (instance.elements && instance.elements.length > 0) {
+                                    violation.error_position = instance.elements[0].pointer || "unknown";
+                                }
+
+                                violation.error_help = rule.metadata.url || "";
+                                jsonData.report.push(violation);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        updateSummary(webpage, toolFullName, fails);
+    });
+
+    updateReport(jsonData);
+}
 function generateAxeReport(filePath) {
     const results = require(filePath);
     const urlPath = results[0].url;
@@ -290,6 +339,8 @@ if (toolAbbreviation == "achecker") {
     generateWAVEReport(path);
 } else if (toolAbbreviation === "pa11y") {
     generatePa11yReport(path);
+} else if (toolAbbreviation === "qualweb") {
+    generateQualWebReport(path);
 } else {
     process.exit(1);
 }
