@@ -39,7 +39,7 @@ jobs:
 
       # 5. Qualweb Execution
       - name: Run QualWeb
-        run: npx qw -u http://localhost:1338/ --format json -o report.json
+        run: node ./node_modules/.bin/qw -u http://localhost:1338/ --format json -o report.json
 
       # 6. Testing
       - name: Check for Accessibility Violations
