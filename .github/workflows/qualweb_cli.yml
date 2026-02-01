@@ -39,7 +39,7 @@ jobs:
 
       # 5. Qualweb Execution
       - name: Run QualWeb
-        run: node ./node_modules/.bin/qw -u http://localhost:1338/ --format json -o report.json
+        run: node ./node_modules/.bin/qw -u http://localhost:1338/ --format json -o report.json --no-sandbox --disable-setuid-sandbox
 
       # 6. Testing
       - name: Check for Accessibility Violations
