@@ -6,11 +6,21 @@ const targetUrl = process.argv[2] || 'http://localhost:1338/';
 
 (async () => {
     try {
-        // 2. Start Browser without Sandbox - important for CI Integration
         const qualweb = new QualWeb({});
+
+        // 2. Start Browser
+        // using 'puppeteerOptions', due to problems with Chrome
         await qualweb.start({
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
+            maxConcurrency: 1,
+            puppeteerOptions: {
+                headless: 'new', // using headless mode in chrome
+                args: [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage', // important for CI
+                    '--disable-gpu'
+                ]
+            }
         });
 
         console.log(`🚀 Scanning: ${targetUrl}`);
@@ -20,19 +30,20 @@ const targetUrl = process.argv[2] || 'http://localhost:1338/';
             url: targetUrl,
             execute: {
                 act: true,    // ACT Rules
-                wcag: true,  // WCAG Rules
-                bp: false    // Best Practices ( often False Positives)
+                wcag: true,   // WCAG Rules
+                bp: false     // Best Practices
             }
         };
 
         const report = await qualweb.evaluate(options);
+
         // 3. Save Results
         fs.writeFileSync('report.json', JSON.stringify(report, null, 2));
 
         await qualweb.stop();
 
     } catch (error) {
-        console.error(error);
-        process.exit(1); // Error Message to Pipeline
+        console.error("QUALWEB ERROR:", error);
+        process.exit(1);
     }
 })();
