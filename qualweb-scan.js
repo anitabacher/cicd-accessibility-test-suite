@@ -7,15 +7,15 @@ const targetUrl = process.argv[2] || 'http://localhost:1338/';
 (async () => {
     try {
         // 2. Start Browser without Sandbox - important for CI Integration
-        const qualweb = new QualWeb({
-            launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox'] }
+        const qualweb = new QualWeb({});
+        await qualweb.start({
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
-
-        await qualweb.start();
 
         console.log(`🚀 Scanning: ${targetUrl}`);
 
-        // 2. Deine Konfiguration anwenden
+        // Configuration for scan
         const options = {
             url: targetUrl,
             execute: {
