@@ -1,0 +1,65 @@
+name: QualWeb Accessibility Scan_try2
+# QualWeb (University of Lisbon) - Focus on W3C ACT Rules
+on:
+  push:
+    branches:
+      - "feature/**"
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  qualweb-scan:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Setup
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 2. Install Dependencies
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm install -g @qualweb/cli wait-on
+
+      # 3. Build Project
+      - name: Build Project
+        run: npm run build --if-present
+
+      # 4. Start Server
+      - name: Start Server
+        run: |
+          npm start &
+          npx wait-on http://localhost:1338
+
+      # 5. Qualweb Execution
+      - name: Run QualWeb
+        run: qw -u http://localhost:1338/ --format json -o report.json
+
+      # 6. Testing
+      - name: Check for Accessibility Violations
+        run: |
+          # Counting all occurrences of "outcome": "failed" im JSON
+          FAILURES=$(jq '[.. | objects | select(.outcome == "failed")] | length' report.json)
+          
+          echo "Violations found: $FAILURES"
+          
+          if [ "$FAILURES" -gt 0 ]; then
+            echo "::error:: $FAILURES violations have been detected"
+            exit 1
+          else
+            echo "::notice::No Errors Found"
+          fi
+
+      # 7. Upload Results
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qualweb-report
+          path: report.json
