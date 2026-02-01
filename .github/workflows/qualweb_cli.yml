@@ -24,8 +24,8 @@ jobs:
       # 2. Install Dependencies
       - name: Install Dependencies
         run: |
-          npm ci
-          npm install -g @qualweb/cli wait-on
+            npm ci
+            npm install wait-on
 
       # 3. Build Project
       - name: Build Project
@@ -34,12 +34,12 @@ jobs:
       # 4. Start Server
       - name: Start Server
         run: |
-          npm start &
-          npx wait-on http://localhost:1338
+            npm start &
+            npx wait-on http://localhost:1338
 
       # 5. Qualweb Execution
       - name: Run QualWeb
-        run: qw -u http://localhost:1338/ --format json -o report.json
+        run: npx qw -u http://localhost:1338/ --format json -o report.json
 
       # 6. Testing
       - name: Check for Accessibility Violations
