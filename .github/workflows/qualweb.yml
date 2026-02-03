@@ -1,5 +1,5 @@
 name: QualWeb Accessibility Scan
-# QualWeb (University of Lisbon) - Focus on W3C ACT Rules
+# QualWeb (University of Lisbon) - WCAG Focus
 
 on:
   workflow_dispatch:
@@ -9,6 +9,9 @@ on:
 env:
   TEST_URL: http://127.0.0.1:1338
   PORT: 1338
+  # specification from qualweb repository
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+  PUPPETEER_EXECUTABLE_PATH: '/usr/bin/chromium-browser'
 
 jobs:
   qualweb-scan:
@@ -34,19 +37,23 @@ jobs:
         with:
           node-version: 18.x
 
-      # 2. Install Dependencies
-      - name: Install Dependencies
-        run: npm ci
+      # 2. Install System Chromium (as in qualweb action.yml)
+      - name: Install System Chromium
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
 
-      # Install specific Puppeteer version (v22 is stable)
-      - name: Install QualWeb & Puppeteer v22
-        run: npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques puppeteer@22.15.0
+      # 3. Install Dependencies
+      - name: Install Dependencies & QualWeb
+        run: |
+          npm ci
+          npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques
 
-      # 3. Build Project
+      # 4. Build Project
       - name: Build Project
         run: npm run build --if-present
 
-      # 4. Start Server
+      # 5. Start Server
       - name: Start Server
         run: |
           export NODE_OPTIONS="--dns-result-order=ipv4first"
@@ -54,28 +61,7 @@ jobs:
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # 5. Sanity Check
-      - name: Sanity Check (Raw Puppeteer)
-        run: |
-          TARGET_URL="$TEST_URL/${{ matrix.view }}"
-          cat <<EOF > test_puppeteer.js
-          const puppeteer = require('puppeteer');
-          (async () => {
-            try {
-              const browser = await puppeteer.launch({
-                headless: 'new',
-                args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--no-proxy-server']
-              });
-              const page = await browser.newPage();
-              await page.goto('$TARGET_URL');
-              console.log("✅ Sanity Check Passed: " + await page.title());
-              await browser.close();
-            } catch (e) { console.error("❌ Sanity Check Failed:", e); process.exit(1); }
-          })();
-          EOF
-          node test_puppeteer.js
-
-      # 6. QualWeb Execution (WCAG Only)
+      # 6. Run QualWeb
       - name: Run QualWeb on ${{ matrix.view }}
         continue-on-error: true
         run: |
@@ -86,31 +72,29 @@ jobs:
           
           cat << 'EOF' > run_scan.js
           const { QualWeb } = require('@qualweb/core');
-          const puppeteer = require('puppeteer'); 
           const fs = require('fs');
 
           (async () => {
             const qualweb = new QualWeb();
             const targetUrl = process.env.TARGET_URL;
 
-            console.log("Launching QualWeb (WCAG Only)...");
+            console.log("Launching QualWeb using SYSTEM CHROMIUM...");
+            console.log("Path: " + process.env.PUPPETEER_EXECUTABLE_PATH);
 
             await qualweb.start(
               { 
                 maxConcurrency: 1, 
-                monitor: true,
-                puppeteer: puppeteer 
+                monitor: true 
               },
               { 
-                // Wir nutzen die Konfig, die im Sanity Check funktioniert hat!
-                headless: 'new',
+                headless: true,
+                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
                 args: [
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
                   '--disable-dev-shm-usage', 
                   '--no-proxy-server'
-                ],
-                defaultViewport: { width: 1920, height: 1080 }
+                ]
               }
             );
 
@@ -120,11 +104,9 @@ jobs:
               const report = await qualweb.evaluate({
                 urls: [targetUrl],
                 execute: {
-                  // HIER IST DIE ÄNDERUNG:
-                  act: false, // ACT Regeln aus (spart Ressourcen & vermeidet Crashs)
-                  wcag: true  // Dein Fokus für die Bachelorarbeit
+                  act: false,
+                  wcag: true
                 },
-                // Wir bleiben bei 'load', das ist sicher für Bilder
                 waitUntil: ['load'],
                 bypassCSP: true
               });
