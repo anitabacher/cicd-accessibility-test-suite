@@ -80,90 +80,88 @@ jobs:
           })();
           EOF
           node test_puppeteer.js
-
-      # 6. QualWeb Execution
-      - name: Run QualWeb on ${{ matrix.view }}
-        continue-on-error: true
-        run: |
-          mkdir -p qualweb-results
           
-          # Export URL for Node.js
-          export TARGET_URL="$TEST_URL/${{ matrix.view }}"
-          echo "Scanning: $TARGET_URL"
+          # 6. QualWeb Execution
+          - name: Run QualWeb on ${{ matrix.view }}
+            continue-on-error: true
+            run: |
+              mkdir -p qualweb-results
           
-          # Generating the execution script 
-          cat << 'EOF' > run_scan.js
-          const { QualWeb } = require('@qualweb/core');
-          const puppeteer = require('puppeteer'); 
-          const fs = require('fs');
-
-          (async () => {
-            const qualweb = new QualWeb();
-            const targetUrl = process.env.TARGET_URL;
-
-            // Start QualWeb with specific cluster and browser settings
-            await qualweb.start(
-              { 
-                maxConcurrency: 1, 
-                monitor: true,
-                // INJECTION: manually installed Puppeteer v22 instance 
-                puppeteer: puppeteer 
-              },
-              { 
-                // Chrome Launch Options
-                headless: 'new', 
-                // Enable logging to see browser errors
-                dumpio: true,
-                args: [
-                  '--no-sandbox', 
-                  '--disable-setuid-sandbox',
-                  '--disable-dev-shm-usage',
-                  '--no-proxy-server'
-                ],
-                defaultViewport: { width: 1920, height: 1080 }
-              }
-            );
-
-            console.log('Starting evaluation for: ' + targetUrl);
+              export TARGET_URL="$TEST_URL/${{ matrix.view }}"
+              echo "Scanning: $TARGET_URL"
           
-            try {
-              const report = await qualweb.evaluate({
-                urls: [targetUrl],
-                execute: {
-                  act: true,
-                  wcag: true
-                },
-                waitUntil: ['load'],
-                // Bypass CSP to allow script injection
-                bypassCSP: true
-              });
-
-              // Determine filename
-              const urlParts = targetUrl.split('/');
-              let viewName = urlParts[urlParts.length - 1];
-              if (!viewName || viewName.includes(':')) viewName = "home";
-              const fileName = `qualweb-results/qualweb-${viewName}.json`;
+              cat << 'EOF' > run_scan.js
+              const { QualWeb } = require('@qualweb/core');
+              const puppeteer = require('puppeteer'); 
+              const fs = require('fs');
           
-              const keys = Object.keys(report);
-              console.log(`Report generated with ${keys.length} URL keys.`);
-
-              if (keys.length === 0) {
-                console.error("WARNING: Report object is empty! Check server connection.");
-              }
-
-              fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
-              console.log('Report saved to ' + fileName);
+              (async () => {
+                const qualweb = new QualWeb();
+                const targetUrl = process.env.TARGET_URL;
           
-            } catch (error) {
-              console.error("FATAL ERROR inside QualWeb script:", error);
-              process.exit(1);
-            }
-
-            await qualweb.stop();
-          })();
-          EOF
-
-          node run_scan.js
+                await qualweb.start(
+                  { 
+                    maxConcurrency: 1, 
+                    monitor: true,
+                    puppeteer: puppeteer 
+                  },
+                  { 
+                    // ZURÜCK ZUM KLASSIKER: 'true' ist oft stabiler für Injections
+                    headless: true,
+                    args: [
+                      '--no-sandbox', 
+                      '--disable-setuid-sandbox',
+                      '--disable-dev-shm-usage', 
+                      '--no-proxy-server',
+                      // WICHTIG: Verhindert Prozess-Abstürze bei Injections
+                      '--disable-features=IsolateOrigins,site-per-process',
+                      '--disable-accelerated-2d-canvas',
+                      '--disable-gpu'
+                    ],
+                    defaultViewport: { width: 1920, height: 1080 }
+                  }
+                );
+          
+                console.log('Starting evaluation for: ' + targetUrl);
+          
+                try {
+                  const report = await qualweb.evaluate({
+                    urls: [targetUrl],
+                    execute: {
+                      act: true,
+                      wcag: true
+                    },
+                    // Wir nehmen die sicherste Stufe
+                    waitUntil: ['domcontentloaded'],
+                    bypassCSP: true
+                  });
+          
+                  // Filename logic
+                  const urlParts = targetUrl.split('/');
+                  let viewName = urlParts[urlParts.length - 1];
+                  if (!viewName || viewName.includes(':')) viewName = "home";
+                  const fileName = `qualweb-results/qualweb-${viewName}.json`;
+          
+                  const keys = Object.keys(report);
+                  console.log(`Report generated with ${keys.length} URL keys.`);
+          
+                  if (keys.length === 0) {
+                    console.error("WARNING: Report object is empty! Check server connection.");
+                  }
+          
+                  fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
+                  console.log('Report saved to ' + fileName);
+          
+                } catch (error) {
+                  console.error("FATAL ERROR inside QualWeb script:", error);
+                  process.exit(1);
+                }
+          
+                await qualweb.stop();
+              })();
+              EOF
+          
+              node run_scan.js
 
       # 7. Upload Results
       - name: Upload QualWeb Results
