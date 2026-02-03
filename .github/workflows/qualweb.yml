@@ -38,9 +38,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # Rules explicitly installed
-      - name: Install QualWeb Core & Rules
-        run: npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques
+      # FIX: manually installing newer Puppeteer Version
+      - name: Install QualWeb Core, Rules & Modern Puppeteer
+        run: npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques puppeteer
 
       # 3. Build Project
       - name: Build Project
@@ -49,7 +49,6 @@ jobs:
       # 4. Start Server
       - name: Start Server
         run: |
-          # forcing usage of IPv4 
           export NODE_OPTIONS="--dns-result-order=ipv4first"
           npm start &
           echo "Waiting for server..."
@@ -77,26 +76,21 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
-            console.log("Launching QualWeb (Legacy Mode with Pipe)...");
+            console.log("Launching QualWeb with MODERN Puppeteer...");
 
             await qualweb.start(
               { maxConcurrency: 1, monitor: true },
               { 
-                headless: true,
-          
-                // using pipe instead of web sockets
-                pipe: true,
-          
-                // DEBUGGING:
-                dumpio: true,
-
+                headless: 'new',
                 args: [
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
                   '--disable-gpu',
                   '--disable-dev-shm-usage',
                   '--no-proxy-server',
-                  '--disable-web-security'
+                  '--allow-insecure-localhost',
+                  '--single-process', 
+                  '--no-zygote'
                 ],
                 defaultViewport: { width: 1920, height: 1080 }
               }
@@ -111,7 +105,7 @@ jobs:
                   act: true,
                   wcag: true
                 },
-                waitUntil: ['domcontentloaded']
+                waitUntil: ['load']
               });
 
               const viewName = "${{ matrix.view }}" || "home";
