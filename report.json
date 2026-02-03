@@ -1,0 +1,65 @@
+name: QualWeb Accessibility Scan
+
+on:
+push:
+branches:
+- "feature/**"
+- "main" # Optional: auch auf main ausführen
+workflow_dispatch: # Ermöglicht manuelles Starten
+
+jobs:
+qualweb-scan:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v4
+
+# 1. Node.js Umgebung vorbereiten
+- name: Setup Node.js
+uses: actions/setup-node@v4
+with:
+node-version: 20
+cache: 'npm'
+
+# 2. Abhängigkeiten installieren
+# 'npm ci' installiert deine App-Dependencies (für den Server)
+# Wir installieren auch global die Tools qualweb-cli und wait-on
+- name: Install Dependencies
+run: |
+npm ci
+npm install -g @qualweb/cli wait-on
+
+# 3. Server starten & warten
+# Startet den Server im Hintergrund (&) und pausiert, bis Port 1338 antwortet
+- name: Start Server
+run: |
+npm start &
+npx wait-on http://localhost:1338
+
+# 4. Scan durchführen (Mit den getesteten Flags)
+- name: Run QualWeb
+run: qw -u http://localhost:1338/ --format json -o report.json
+
+# 5. Automatische Fehlerprüfung (WICHTIG!)
+# QualWeb selbst beendet sich oft mit "Exit Code 0", auch wenn Fehler da sind.
+# Dieser Schritt liest das JSON und lässt die Pipeline fehlschlagen, wenn "failed" vorkommt.
+- name: Check for Accessibility Violations
+run: |
+# Zählt alle Vorkommnisse von "outcome": "failed" im JSON
+FAILURES=$(jq '[.. | objects | select(.outcome == "failed")] | length' report.json)
+
+echo "Gefundene Fehler: $FAILURES"
+
+if [ "$FAILURES" -gt 0 ]; then
+echo "::error::Es wurden $FAILURES Barrierefreiheits-Fehler gefunden!"
+exit 1
+else
+echo "::notice::Keine Fehler gefunden. Gute Arbeit!"
+fi
+
+# 6. Bericht hochladen (Passiert immer, auch wenn der Test fehlschlägt)
+- name: Upload Report
+uses: actions/upload-artifact@v4
+if: always()
+with:
+name: qualweb-report
+path: report.json
