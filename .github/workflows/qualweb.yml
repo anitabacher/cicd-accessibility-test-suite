@@ -145,3 +145,4 @@ jobs:
         with:
           name: qualweb-json-results-${{ strategy.job-index }}
           path: qualweb-results/*.json
+
