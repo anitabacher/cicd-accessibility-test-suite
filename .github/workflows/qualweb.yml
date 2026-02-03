@@ -7,7 +7,7 @@ on:
     branches: ['**']
 
 env:
-  TEST_URL: http://localhost:1338
+  TEST_URL: http://127.0.0.1:1338
   PORT: 1338
 
 jobs:
@@ -87,8 +87,7 @@ jobs:
                 act: true,
                 wcag: true
               },
-              
-              waitUntil: ['load', 'networkidle2']
+                waitUntil: ['domcontentloaded'] 
             });
 
             const viewName = "${{ matrix.view }}" || "home";
