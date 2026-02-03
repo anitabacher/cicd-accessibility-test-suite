@@ -38,7 +38,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # Installing Core Engine instead of CLI and Rules
+      # Rules explicitly installed
       - name: Install QualWeb Core & Rules
         run: npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques
 
@@ -70,34 +70,37 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
-            // Start with Sandbox-Fix and Viewport Settings
+            // Start Options (Sandbox fix + Viewport)
             await qualweb.start(
               { maxConcurrency: 1, monitor: true },
               { 
                 args: ['--no-sandbox', '--disable-setuid-sandbox'],
-                defaultViewport: { width: 1920, height: 1080 } // Desktop simulieren
+                defaultViewport: { width: 1920, height: 1080 }
               }
             );
 
             console.log('Starting evaluation for: $TARGET_URL');
           
-            // Start Scan
             const report = await qualweb.evaluate({
-              url: '$TARGET_URL',
+              urls: ['$TARGET_URL'], // Array ist zwingend!
               execute: {
                 act: true,
                 wcag: true
               },
-              // WICHTIG: waiting for network
-              waitUntil: ['load', 'networkidle0']
+              
+              waitUntil: ['load', 'networkidle2']
             });
 
             const viewName = "${{ matrix.view }}" || "home";
             const fileName = \`qualweb-results/qualweb-\${viewName}.json\`;
           
-            // Debugging: show if keys are present in the Report 
+            // Debugging Output
             const keys = Object.keys(report);
             console.log(\`Report generated with \${keys.length} URL keys.\`);
+
+            if (keys.length === 0) {
+              console.error("WARNING: Report object is empty!");
+            }
 
             fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
             console.log('Report saved to ' + fileName);
