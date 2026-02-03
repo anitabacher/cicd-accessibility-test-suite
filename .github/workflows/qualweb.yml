@@ -1,6 +1,7 @@
 name: QualWeb Accessibility Scan
 # QualWeb (University of Lisbon) - Focus on W3C ACT Rules
 
+
 on:
   workflow_dispatch:
   push:
@@ -49,17 +50,20 @@ jobs:
       # 4. Start Server
       - name: Start Server
         run: |
+          # WICHTIG: Zwingt Node dazu, IPv4 (127.0.0.1) statt IPv6 (::1) zu nutzen
+          export NODE_OPTIONS="--dns-result-order=ipv4first"
+          
           npm start &
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # NEU: DEBUGGING
-      # testing if server is available
+      # 5. Verify Connection (Debugging)
       - name: Verify Server Connection
         run: |
           echo "Testing connection to ${{ env.TEST_URL }}/${{ matrix.view }}"
           curl -v "${{ env.TEST_URL }}/${{ matrix.view }}" || exit 1
-      # 5. QualWeb Execution
+
+      # 6. QualWeb Execution
       - name: Run QualWeb on ${{ matrix.view }}
         continue-on-error: true
         run: |
@@ -68,7 +72,6 @@ jobs:
           TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
-          # Creating script
           cat <<EOF > run_scan.js
           const { QualWeb } = require('@qualweb/core');
           const fs = require('fs');
@@ -76,39 +79,50 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
-            // Start Options (Sandbox fix + Viewport)
+            // Start Options 
+            // Hier habe ich noch --disable-gpu und --disable-dev-shm-usage ergänzt
+            // Das macht den Browser im Container stabiler.
             await qualweb.start(
               { maxConcurrency: 1, monitor: true },
               { 
-                args: ['--no-sandbox', '--disable-setuid-sandbox'],
+                args: [
+                  '--no-sandbox', 
+                  '--disable-setuid-sandbox',
+                  '--disable-gpu',
+                  '--disable-dev-shm-usage'
+                ],
                 defaultViewport: { width: 1920, height: 1080 }
               }
             );
 
             console.log('Starting evaluation for: $TARGET_URL');
           
-            const report = await qualweb.evaluate({
-              urls: ['$TARGET_URL'], // Array ist zwingend!
-              execute: {
-                act: true,
-                wcag: true
-              },
-                waitUntil: ['domcontentloaded'] 
-            });
+            try {
+              const report = await qualweb.evaluate({
+                urls: ['$TARGET_URL'], // Array ist wichtig!
+                execute: {
+                  act: true,
+                  wcag: true
+                },
+                waitUntil: ['domcontentloaded']
+              });
 
-            const viewName = "${{ matrix.view }}" || "home";
-            const fileName = \`qualweb-results/qualweb-\${viewName}.json\`;
+              const viewName = "${{ matrix.view }}" || "home";
+              const fileName = \`qualweb-results/qualweb-\${viewName}.json\`;
           
-            // Debugging Output
-            const keys = Object.keys(report);
-            console.log(\`Report generated with \${keys.length} URL keys.\`);
+              const keys = Object.keys(report);
+              console.log(\`Report generated with \${keys.length} URL keys.\`);
 
-            if (keys.length === 0) {
-              console.error("WARNING: Report object is empty!");
+              if (keys.length === 0) {
+                console.error("WARNING: Report object is empty!");
+              }
+
+              fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
+              console.log('Report saved to ' + fileName);
+          
+            } catch (error) {
+              console.error("FATAL ERROR inside QualWeb script:", error);
             }
-
-            fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
-            console.log('Report saved to ' + fileName);
 
             await qualweb.stop();
           })();
@@ -116,7 +130,7 @@ jobs:
 
           node run_scan.js
 
-      # 6. Upload Results
+      # 7. Upload Results
       - name: Upload QualWeb Results
         uses: actions/upload-artifact@v4
         if: always()
