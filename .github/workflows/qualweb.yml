@@ -75,8 +75,7 @@ jobs:
           EOF
           node test_puppeteer.js
 
-      # 6. QualWeb Execution
-      # WICHTIG: Die Einrückung muss genau auf der gleichen Höhe sein wie bei Schritt 5!
+      # 6. QualWeb Execution (WCAG Only)
       - name: Run QualWeb on ${{ matrix.view }}
         continue-on-error: true
         run: |
@@ -85,7 +84,6 @@ jobs:
           export TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
-          # Wir nutzen 'EOF' in Quotes, um Syntaxfehler mit der Shell zu vermeiden
           cat << 'EOF' > run_scan.js
           const { QualWeb } = require('@qualweb/core');
           const puppeteer = require('puppeteer'); 
@@ -95,7 +93,7 @@ jobs:
             const qualweb = new QualWeb();
             const targetUrl = process.env.TARGET_URL;
 
-            console.log("Launching QualWeb (Config matches Sanity Check)...");
+            console.log("Launching QualWeb (WCAG Only)...");
 
             await qualweb.start(
               { 
@@ -104,7 +102,7 @@ jobs:
                 puppeteer: puppeteer 
               },
               { 
-                // WICHTIG: Wir nutzen dieselben Settings wie im Sanity Check (der funktioniert hat!)
+                // Wir nutzen die Konfig, die im Sanity Check funktioniert hat!
                 headless: 'new',
                 args: [
                   '--no-sandbox', 
@@ -122,15 +120,16 @@ jobs:
               const report = await qualweb.evaluate({
                 urls: [targetUrl],
                 execute: {
-                  act: true,
-                  wcag: true
+                  // HIER IST DIE ÄNDERUNG:
+                  act: false, // ACT Regeln aus (spart Ressourcen & vermeidet Crashs)
+                  wcag: true  // Dein Fokus für die Bachelorarbeit
                 },
-                // Load = Bilder werden geladen. 
-                // Kein 'networkidle', damit der Server die Verbindung offen halten darf.
+                // Wir bleiben bei 'load', das ist sicher für Bilder
                 waitUntil: ['load'],
                 bypassCSP: true
               });
 
+              // Filename logic
               const urlParts = targetUrl.split('/');
               let viewName = urlParts[urlParts.length - 1];
               if (!viewName || viewName.includes(':')) viewName = "home";
