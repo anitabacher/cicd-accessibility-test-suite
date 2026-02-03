@@ -1,6 +1,5 @@
 name: QualWeb Accessibility Scan
 # QualWeb (University of Lisbon) - Focus on W3C ACT Rules
-# FIX: Corrected YAML indentation to fix "command not found" error.
 
 on:
   workflow_dispatch:
@@ -77,7 +76,7 @@ jobs:
           node test_puppeteer.js
 
       # 6. QualWeb Execution
-      # ACHTUNG: Dieser Schritt muss auf derselben Ebene beginnen wie "Sanity Check"
+      # WICHTIG: Die Einrückung muss genau auf der gleichen Höhe sein wie bei Schritt 5!
       - name: Run QualWeb on ${{ matrix.view }}
         continue-on-error: true
         run: |
@@ -86,6 +85,7 @@ jobs:
           export TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
+          # Wir nutzen 'EOF' in Quotes, um Syntaxfehler mit der Shell zu vermeiden
           cat << 'EOF' > run_scan.js
           const { QualWeb } = require('@qualweb/core');
           const puppeteer = require('puppeteer'); 
@@ -95,6 +95,8 @@ jobs:
             const qualweb = new QualWeb();
             const targetUrl = process.env.TARGET_URL;
 
+            console.log("Launching QualWeb (Config matches Sanity Check)...");
+
             await qualweb.start(
               { 
                 maxConcurrency: 1, 
@@ -102,15 +104,13 @@ jobs:
                 puppeteer: puppeteer 
               },
               { 
-                // STABILITÄTS-MODUS: Classic Headless + No Isolation
-                headless: true,
+                // WICHTIG: Wir nutzen dieselben Settings wie im Sanity Check (der funktioniert hat!)
+                headless: 'new',
                 args: [
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
                   '--disable-dev-shm-usage', 
-                  '--no-proxy-server',
-                  '--disable-features=IsolateOrigins,site-per-process',
-                  '--disable-gpu'
+                  '--no-proxy-server'
                 ],
                 defaultViewport: { width: 1920, height: 1080 }
               }
@@ -125,12 +125,12 @@ jobs:
                   act: true,
                   wcag: true
                 },
-                // Sicherste Methode: Warten auf DOM, CSP ignorieren
-                waitUntil: ['domcontentloaded'],
+                // Load = Bilder werden geladen. 
+                // Kein 'networkidle', damit der Server die Verbindung offen halten darf.
+                waitUntil: ['load'],
                 bypassCSP: true
               });
 
-              // Filename logic
               const urlParts = targetUrl.split('/');
               let viewName = urlParts[urlParts.length - 1];
               if (!viewName || viewName.includes(':')) viewName = "home";
