@@ -1,6 +1,6 @@
 name: QualWeb Accessibility Scan
 # QualWeb (University of Lisbon) - Focus on W3C ACT Rules
-# FIX: Hardcoded IPv4 (127.0.0.1) and Headless 'New' mode
+# FIX: Added --no-proxy-server and disabled Chrome isolation features to fix connection errors.
 
 on:
   workflow_dispatch:
@@ -8,7 +8,6 @@ on:
     branches: ['**']
 
 env:
-  # WICHTIG: Kein 'localhost' mehr! Wir erzwingen IPv4.
   TEST_URL: http://127.0.0.1:1338
   PORT: 1338
 
@@ -51,15 +50,13 @@ jobs:
       # 4. Start Server
       - name: Start Server
         run: |
-          # Wir setzen die Node-Optionen, um IPv4 zu bevorzugen
+          # IPv4 erzwingen
           export NODE_OPTIONS="--dns-result-order=ipv4first"
           npm start &
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # 5. Verify Connection (CRUCIAL DEBUG STEP)
-      # Wir testen jetzt explizit die IP 127.0.0.1
-      # Wenn das hier fehlschlägt, wissen wir, dass der Server nur IPv6 spricht.
+      # 5. Verify Connection
       - name: Verify Server Connection
         run: |
           echo "Testing connection to ${{ env.TEST_URL }}/${{ matrix.view }}"
@@ -81,23 +78,30 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
-            console.log("Launching QualWeb with IPv4 target and Headless 'New'...");
+            console.log("Launching QualWeb with Proxy-Bypass and Security-Disabled flags...");
 
             await qualweb.start(
               { maxConcurrency: 1, monitor: true },
               { 
-                // FIX: using 'new' as a modern Headless-Mode
                 headless: 'new',
           
-                // security setting
+                // WICHTIG: HTTPS Fehler ignorieren (für localhost oft nötig)
                 ignoreHTTPSErrors: true,
 
                 args: [
+                  // Standard Sandbox Fixes
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
                   '--disable-gpu',
                   '--disable-dev-shm-usage',
-                  '--disable-web-security' // Hilft bei lokalen Netzwerk-Problemen
+          
+                  // NETZWERK FIXES (Hier liegt der Hund begraben!)
+                  '--no-proxy-server',  
+                  '--allow-insecure-localhost',
+          
+                  // STABILITÄTS FIXES (Verhindert Crash im Container)
+                  '--disable-features=IsolateOrigins,site-per-process',
+                  '--disable-web-security'
                 ],
                 defaultViewport: { width: 1920, height: 1080 }
               }
@@ -112,6 +116,7 @@ jobs:
                   act: true,
                   wcag: true
                 },
+                // Wir nehmen domcontentloaded, das hat sich als guter Mittelweg erwiesen
                 waitUntil: ['domcontentloaded']
               });
 
