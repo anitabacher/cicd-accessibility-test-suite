@@ -38,9 +38,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # FIX: manually installing newer Puppeteer Version
-      - name: Install QualWeb Core, Rules & Modern Puppeteer
-        run: npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques puppeteer
+      - name: Install QualWeb & Specific Puppeteer
+        run: npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques puppeteer@22.15.0
 
       # 3. Build Project
       - name: Build Project
@@ -76,20 +75,22 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
-            console.log("Launching QualWeb with MODERN Puppeteer...");
+            console.log("Launching QualWeb with Puppeteer v22...");
 
             await qualweb.start(
               { maxConcurrency: 1, monitor: true },
               { 
-                headless: 'new',
+                headless: 'new', // Funktioniert in v22 super
+          
                 args: [
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
                   '--disable-gpu',
                   '--disable-dev-shm-usage',
+          
+                  // Network Fixes
                   '--no-proxy-server',
                   '--allow-insecure-localhost',
-                  '--single-process', 
                   '--no-zygote'
                 ],
                 defaultViewport: { width: 1920, height: 1080 }
