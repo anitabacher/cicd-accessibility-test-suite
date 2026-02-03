@@ -87,11 +87,13 @@ jobs:
         run: |
           mkdir -p qualweb-results
           
-          TARGET_URL="$TEST_URL/${{ matrix.view }}"
+          # Exporting the URL here for Node to read it
+          export TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
           # Generating the execution script 
-          cat <<EOF > run_scan.js
+          # Using 'EOF' to prevent the shell to missunderstand JS syntax
+          cat << 'EOF' > run_scan.js
           const { QualWeb } = require('@qualweb/core');
           const puppeteer = require('puppeteer'); 
           const fs = require('fs');
@@ -99,6 +101,9 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
+            // Get URL from environment variable
+            const targetUrl = process.env.TARGET_URL;
+
             // Start QualWeb with specific cluster and browser settings
             await qualweb.start(
               { 
@@ -121,4 +126,52 @@ jobs:
               }
             );
 
-            console.log('Starting evaluation
+            console.log('Starting evaluation for: ' + targetUrl);
+          
+            try {
+              const report = await qualweb.evaluate({
+                urls: [targetUrl], // Must be an array
+                execute: {
+                  act: true,
+                  wcag: true
+                },
+                // Wait strategies to ensure the page is fully rendered before scanning
+                waitUntil: ['load', 'networkidle2'] 
+              });
+
+              // Determine filename based on URL 
+              const urlParts = targetUrl.split('/');
+              let viewName = urlParts[urlParts.length - 1];
+              if (!viewName || viewName.includes(':')) viewName = "home";
+          
+              const fileName = `qualweb-results/qualweb-${viewName}.json`;
+          
+              const keys = Object.keys(report);
+              console.log(`Report generated with ${keys.length} URL keys.`);
+
+              if (keys.length === 0) {
+                console.error("WARNING: Report object is empty! Check server connection.");
+              }
+
+              fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
+              console.log('Report saved to ' + fileName);
+          
+            } catch (error) {
+              console.error("FATAL ERROR inside QualWeb script:", error);
+              process.exit(1);
+            }
+
+            await qualweb.stop();
+          })();
+          EOF
+
+          # Run the generated script
+          node run_scan.js
+
+      # 7. Upload Results
+      - name: Upload QualWeb Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qualweb-json-results-${{ strategy.job-index }}
+          path: qualweb-results/*.json
