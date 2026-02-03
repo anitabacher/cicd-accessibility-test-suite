@@ -9,9 +9,7 @@ on:
 env:
   TEST_URL: http://127.0.0.1:1338
   PORT: 1338
-  # specification from qualweb repository
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
-  PUPPETEER_EXECUTABLE_PATH: '/usr/bin/chromium-browser'
 
 jobs:
   qualweb-scan:
@@ -28,32 +26,34 @@ jobs:
           - "dictionary.html"
 
     steps:
-      # 1. Setup
+      # 1. Setup Code
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
 
-      # 2. Install System Chromium (as in qualweb action.yml)
-      - name: Install System Chromium
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
+      # 3. Setup Chrome (DER NEUE TRICK) 🌟
+      # Installing clean Chrome without Snap problems
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
 
-      # 3. Install Dependencies
-      - name: Install Dependencies & QualWeb
+      # 4. Install Dependencies
+      - name: Install Dependencies
         run: |
           npm ci
           npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques
 
-      # 4. Build Project
+      # 5. Build Project
       - name: Build Project
         run: npm run build --if-present
 
-      # 5. Start Server
+      # 6. Start Server
       - name: Start Server
         run: |
           export NODE_OPTIONS="--dns-result-order=ipv4first"
@@ -61,7 +61,7 @@ jobs:
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # 6. Run QualWeb
+      # 7. Run QualWeb
       - name: Run QualWeb on ${{ matrix.view }}
         continue-on-error: true
         run: |
@@ -70,6 +70,9 @@ jobs:
           export TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
+          # Wir übergeben den Pfad aus der Action an das Skript
+          export CHROME_PATH="${{ steps.setup-chrome.outputs.chrome-path }}" || "$CHROME_PATH"
+          
           cat << 'EOF' > run_scan.js
           const { QualWeb } = require('@qualweb/core');
           const fs = require('fs');
@@ -77,9 +80,10 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
             const targetUrl = process.env.TARGET_URL;
+            const chromePath = process.env.CHROME_PATH; // Hier kommt der Pfad an
 
-            console.log("Launching QualWeb using SYSTEM CHROMIUM...");
-            console.log("Path: " + process.env.PUPPETEER_EXECUTABLE_PATH);
+            console.log("Launching QualWeb using SETUP-CHROME binary...");
+            console.log("Path: " + chromePath);
 
             await qualweb.start(
               { 
@@ -87,8 +91,8 @@ jobs:
                 monitor: true 
               },
               { 
-                headless: true,
-                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+                headless: 'new', // Modernes Headless funktioniert hier super
+                executablePath: chromePath, // Zwingende Pfad-Angabe
                 args: [
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
@@ -104,9 +108,10 @@ jobs:
               const report = await qualweb.evaluate({
                 urls: [targetUrl],
                 execute: {
-                  act: false,
-                  wcag: true
+                  act: false, // Ressourcen sparen
+                  wcag: true  // Fokus der Arbeit
                 },
+                // 'load' ist der Sweetspot zwischen Bildern und Timeout
                 waitUntil: ['load'],
                 bypassCSP: true
               });
@@ -138,11 +143,10 @@ jobs:
 
           node run_scan.js
 
-      # 7. Upload Results
+      # 8. Upload Results
       - name: Upload QualWeb Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: qualweb-json-results-${{ strategy.job-index }}
           path: qualweb-results/*.json
-
