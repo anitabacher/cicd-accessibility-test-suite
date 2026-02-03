@@ -1,6 +1,6 @@
 name: QualWeb Accessibility Scan
-# QualWeb (University of Lisbon) - Automated accessibility testing based on W3C ACT Rules.
-# This workflow uses the QualWeb Core API directly to bypass CLI limitations and ensure CI compatibility.
+# QualWeb (University of Lisbon) - Focus on W3C ACT Rules
+# FIX: Corrected YAML indentation to fix "command not found" error.
 
 on:
   workflow_dispatch:
@@ -8,7 +8,6 @@ on:
     branches: ['**']
 
 env:
-  # using IP 127.0.0.1 instead of 'localhost' to prevent IPv4/IPv6 resolution conflicts
   TEST_URL: http://127.0.0.1:1338
   PORT: 1338
 
@@ -27,7 +26,7 @@ jobs:
           - "dictionary.html"
 
     steps:
-      # 1. Setup Environment
+      # 1. Setup
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -40,9 +39,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # FIX: Manually installing Puppeteer v22.15.0 to ensure compatibility with GitHub Runners (Ubuntu).
-      # The default Puppeteer version in QualWeb is too old, and 'latest' breaks the cluster management.
-      - name: Install QualWeb & Compatible Puppeteer
+      # Install specific Puppeteer version (v22 is stable)
+      - name: Install QualWeb & Puppeteer v22
         run: npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques puppeteer@22.15.0
 
       # 3. Build Project
@@ -52,15 +50,12 @@ jobs:
       # 4. Start Server
       - name: Start Server
         run: |
-          # FORCE IPv4: Node.js 17+ defaults to IPv6 (::1), but here Chrome needs IPv4.
-          # The variable ensures that the server listens on 127.0.0.1.
           export NODE_OPTIONS="--dns-result-order=ipv4first"
           npm start &
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # 5. Debugging Step for Puppeteer
-      # Verifies that Puppeteer can launch and reach the local server.
+      # 5. Sanity Check
       - name: Sanity Check (Raw Puppeteer)
         run: |
           TARGET_URL="$TEST_URL/${{ matrix.view }}"
@@ -80,88 +75,87 @@ jobs:
           })();
           EOF
           node test_puppeteer.js
+
+      # 6. QualWeb Execution
+      # ACHTUNG: Dieser Schritt muss auf derselben Ebene beginnen wie "Sanity Check"
+      - name: Run QualWeb on ${{ matrix.view }}
+        continue-on-error: true
+        run: |
+          mkdir -p qualweb-results
           
-          # 6. QualWeb Execution
-          - name: Run QualWeb on ${{ matrix.view }}
-            continue-on-error: true
-            run: |
-              mkdir -p qualweb-results
+          export TARGET_URL="$TEST_URL/${{ matrix.view }}"
+          echo "Scanning: $TARGET_URL"
           
-              export TARGET_URL="$TEST_URL/${{ matrix.view }}"
-              echo "Scanning: $TARGET_URL"
+          cat << 'EOF' > run_scan.js
+          const { QualWeb } = require('@qualweb/core');
+          const puppeteer = require('puppeteer'); 
+          const fs = require('fs');
+
+          (async () => {
+            const qualweb = new QualWeb();
+            const targetUrl = process.env.TARGET_URL;
+
+            await qualweb.start(
+              { 
+                maxConcurrency: 1, 
+                monitor: true,
+                puppeteer: puppeteer 
+              },
+              { 
+                // STABILITÄTS-MODUS: Classic Headless + No Isolation
+                headless: true,
+                args: [
+                  '--no-sandbox', 
+                  '--disable-setuid-sandbox',
+                  '--disable-dev-shm-usage', 
+                  '--no-proxy-server',
+                  '--disable-features=IsolateOrigins,site-per-process',
+                  '--disable-gpu'
+                ],
+                defaultViewport: { width: 1920, height: 1080 }
+              }
+            );
+
+            console.log('Starting evaluation for: ' + targetUrl);
           
-              cat << 'EOF' > run_scan.js
-              const { QualWeb } = require('@qualweb/core');
-              const puppeteer = require('puppeteer'); 
-              const fs = require('fs');
+            try {
+              const report = await qualweb.evaluate({
+                urls: [targetUrl],
+                execute: {
+                  act: true,
+                  wcag: true
+                },
+                // Sicherste Methode: Warten auf DOM, CSP ignorieren
+                waitUntil: ['domcontentloaded'],
+                bypassCSP: true
+              });
+
+              // Filename logic
+              const urlParts = targetUrl.split('/');
+              let viewName = urlParts[urlParts.length - 1];
+              if (!viewName || viewName.includes(':')) viewName = "home";
+              const fileName = `qualweb-results/qualweb-${viewName}.json`;
           
-              (async () => {
-                const qualweb = new QualWeb();
-                const targetUrl = process.env.TARGET_URL;
+              const keys = Object.keys(report);
+              console.log(`Report generated with ${keys.length} URL keys.`);
+
+              if (keys.length === 0) {
+                console.error("WARNING: Report object is empty!");
+              }
+
+              fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
+              console.log('Report saved to ' + fileName);
           
-                await qualweb.start(
-                  { 
-                    maxConcurrency: 1, 
-                    monitor: true,
-                    puppeteer: puppeteer 
-                  },
-                  { 
-                    // ZURÜCK ZUM KLASSIKER: 'true' ist oft stabiler für Injections
-                    headless: true,
-                    args: [
-                      '--no-sandbox', 
-                      '--disable-setuid-sandbox',
-                      '--disable-dev-shm-usage', 
-                      '--no-proxy-server',
-                      // WICHTIG: Verhindert Prozess-Abstürze bei Injections
-                      '--disable-features=IsolateOrigins,site-per-process',
-                      '--disable-accelerated-2d-canvas',
-                      '--disable-gpu'
-                    ],
-                    defaultViewport: { width: 1920, height: 1080 }
-                  }
-                );
-          
-                console.log('Starting evaluation for: ' + targetUrl);
-          
-                try {
-                  const report = await qualweb.evaluate({
-                    urls: [targetUrl],
-                    execute: {
-                      act: true,
-                      wcag: true
-                    },
-                    // Wir nehmen die sicherste Stufe
-                    waitUntil: ['domcontentloaded'],
-                    bypassCSP: true
-                  });
-          
-                  // Filename logic
-                  const urlParts = targetUrl.split('/');
-                  let viewName = urlParts[urlParts.length - 1];
-                  if (!viewName || viewName.includes(':')) viewName = "home";
-                  const fileName = `qualweb-results/qualweb-${viewName}.json`;
-          
-                  const keys = Object.keys(report);
-                  console.log(`Report generated with ${keys.length} URL keys.`);
-          
-                  if (keys.length === 0) {
-                    console.error("WARNING: Report object is empty! Check server connection.");
-                  }
-          
-                  fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
-                  console.log('Report saved to ' + fileName);
-          
-                } catch (error) {
-                  console.error("FATAL ERROR inside QualWeb script:", error);
-                  process.exit(1);
-                }
-          
-                await qualweb.stop();
-              })();
-              EOF
-          
-              node run_scan.js
+            } catch (error) {
+              console.error("FATAL ERROR inside QualWeb script:", error);
+              process.exit(1);
+            }
+
+            await qualweb.stop();
+          })();
+          EOF
+
+          node run_scan.js
 
       # 7. Upload Results
       - name: Upload QualWeb Results
