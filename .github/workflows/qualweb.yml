@@ -7,7 +7,7 @@ on:
     branches: ['**']
 
 env:
-  TEST_URL: http://127.0.0.1:1338
+  TEST_URL: http://localhost:1338
   PORT: 1338
 
 jobs:
@@ -53,6 +53,12 @@ jobs:
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
+      # NEU: DEBUGGING
+      # testing if server is available
+      - name: Verify Server Connection
+        run: |
+          echo "Testing connection to ${{ env.TEST_URL }}/${{ matrix.view }}"
+          curl -v "${{ env.TEST_URL }}/${{ matrix.view }}" || exit 1
       # 5. QualWeb Execution
       - name: Run QualWeb on ${{ matrix.view }}
         continue-on-error: true
