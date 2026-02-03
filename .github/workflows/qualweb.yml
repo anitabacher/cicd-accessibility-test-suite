@@ -1,5 +1,6 @@
 name: QualWeb Accessibility Scan
-# QualWeb (University of Lisbon) - Focus on W3C ACT Rules
+# QualWeb (University of Lisbon) - Automated accessibility testing based on W3C ACT Rules.
+# This workflow uses the QualWeb Core API directly to bypass CLI limitations and ensure CI compatibility.
 
 on:
   workflow_dispatch:
@@ -7,6 +8,7 @@ on:
     branches: ['**']
 
 env:
+  # using IP 127.0.0.1 instead of 'localhost' to prevent IPv4/IPv6 resolution conflicts
   TEST_URL: http://127.0.0.1:1338
   PORT: 1338
 
@@ -25,7 +27,7 @@ jobs:
           - "dictionary.html"
 
     steps:
-      # 1. Setup
+      # 1. Setup Environment
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -38,7 +40,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Install QualWeb & Puppeteer v22
+      # FIX: Manually installing Puppeteer v22.15.0 to ensure compatibility with GitHub Runners (Ubuntu).
+      # The default Puppeteer version in QualWeb is too old, and 'latest' breaks the cluster management.
+      - name: Install QualWeb & Compatible Puppeteer
         run: npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques puppeteer@22.15.0
 
       # 3. Build Project
@@ -48,17 +52,18 @@ jobs:
       # 4. Start Server
       - name: Start Server
         run: |
+          # FORCE IPv4: Node.js 17+ defaults to IPv6 (::1), but here Chrome needs IPv4.
+          # The variable ensures that the server listens on 127.0.0.1.
           export NODE_OPTIONS="--dns-result-order=ipv4first"
           npm start &
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # 5. Debugging for Puppeteer
+      # 5. Debugging Step for Puppeteer
+      # Verifies that Puppeteer can launch and reach the local server.
       - name: Sanity Check (Raw Puppeteer)
         run: |
           TARGET_URL="$TEST_URL/${{ matrix.view }}"
-          echo "Testing Puppeteer on: $TARGET_URL"
-          
           cat <<EOF > test_puppeteer.js
           const puppeteer = require('puppeteer');
           (async () => {
@@ -69,9 +74,9 @@ jobs:
               });
               const page = await browser.newPage();
               await page.goto('$TARGET_URL');
-              console.log("✅ Sanity Check Success! Title:", await page.title());
+              console.log("✅ Sanity Check Passed: " + await page.title());
               await browser.close();
-            } catch (e) { console.error("❌ Failed:", e); process.exit(1); }
+            } catch (e) { console.error("❌ Sanity Check Failed:", e); process.exit(1); }
           })();
           EOF
           node test_puppeteer.js
@@ -85,75 +90,35 @@ jobs:
           TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
+          # Generating the execution script 
           cat <<EOF > run_scan.js
           const { QualWeb } = require('@qualweb/core');
-          const puppeteer = require('puppeteer'); // WICHTIG: Wir laden das installierte Puppeteer
+          const puppeteer = require('puppeteer'); 
           const fs = require('fs');
 
           (async () => {
             const qualweb = new QualWeb();
           
-            console.log("Launching QualWeb with injected Puppeteer v22...");
-
-            // sending the 'puppeteer' Modul directly to QualWeb - Explicit Injektion
+            // Start QualWeb with specific cluster and browser settings
             await qualweb.start(
               { 
                 maxConcurrency: 1, 
                 monitor: true,
+                // INJECTION: manually installed Puppeteer v22 instance 
+                // to prevent QualWeb from using its outdated internal dependency.
                 puppeteer: puppeteer 
               },
               { 
-                headless: 'new',
+                // Chrome Launch Options
+                headless: 'new', // Use modern Headless mode
                 args: [
-                  '--no-sandbox', 
+                  '--no-sandbox', // Required for Docker/CI environments
                   '--disable-setuid-sandbox',
-                  '--disable-dev-shm-usage',
-                  '--no-proxy-server'
+                  '--disable-dev-shm-usage', // Prevents Out-Of-Memory crashes in containers
+                  '--no-proxy-server' // Forces direct connection to localhost (bypassing proxies)
                 ],
                 defaultViewport: { width: 1920, height: 1080 }
               }
             );
 
-            console.log('Starting evaluation for: $TARGET_URL');
-          
-            try {
-              const report = await qualweb.evaluate({
-                urls: ['$TARGET_URL'],
-                execute: {
-                  act: true,
-                  wcag: true
-                },
-                validator: '$TARGET_URL', 
-                waitUntil: ['load', 'networkidle2'] 
-              });
-
-              const viewName = "${{ matrix.view }}" || "home";
-              const fileName = \`qualweb-results/qualweb-\${viewName}.json\`;
-          
-              const keys = Object.keys(report);
-              console.log(\`Report generated with \${keys.length} URL keys.\`);
-
-              if (keys.length === 0) {
-                console.error("WARNING: Report object is empty!");
-              }
-
-              fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
-              console.log('Report saved to ' + fileName);
-          
-            } catch (error) {
-              console.error("FATAL ERROR inside QualWeb script:", error);
-            }
-
-            await qualweb.stop();
-          })();
-          EOF
-
-          node run_scan.js
-
-      # 7. Upload Results
-      - name: Upload QualWeb Results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: qualweb-json-results-${{ strategy.job-index }}
-          path: qualweb-results/*.json
+            console.log('Starting evaluation
