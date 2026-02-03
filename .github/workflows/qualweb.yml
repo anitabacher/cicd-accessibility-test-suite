@@ -1,6 +1,5 @@
 name: QualWeb Accessibility Scan
 # QualWeb (University of Lisbon) - Focus on W3C ACT Rules
-# FIX: Added --no-proxy-server and disabled Chrome isolation features to fix connection errors.
 
 on:
   workflow_dispatch:
@@ -50,7 +49,7 @@ jobs:
       # 4. Start Server
       - name: Start Server
         run: |
-          # IPv4 erzwingen
+          # forcing usage of IPv4 
           export NODE_OPTIONS="--dns-result-order=ipv4first"
           npm start &
           echo "Waiting for server..."
@@ -78,29 +77,25 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
-            console.log("Launching QualWeb with Proxy-Bypass and Security-Disabled flags...");
+            console.log("Launching QualWeb (Legacy Mode with Pipe)...");
 
             await qualweb.start(
               { maxConcurrency: 1, monitor: true },
               { 
-                headless: 'new',
+                headless: true,
           
-                // WICHTIG: HTTPS Fehler ignorieren (für localhost oft nötig)
-                ignoreHTTPSErrors: true,
+                // using pipe instead of web sockets
+                pipe: true,
+          
+                // DEBUGGING:
+                dumpio: true,
 
                 args: [
-                  // Standard Sandbox Fixes
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
                   '--disable-gpu',
                   '--disable-dev-shm-usage',
-          
-                  // NETZWERK FIXES (Hier liegt der Hund begraben!)
-                  '--no-proxy-server',  
-                  '--allow-insecure-localhost',
-          
-                  // STABILITÄTS FIXES (Verhindert Crash im Container)
-                  '--disable-features=IsolateOrigins,site-per-process',
+                  '--no-proxy-server',
                   '--disable-web-security'
                 ],
                 defaultViewport: { width: 1920, height: 1080 }
@@ -116,7 +111,6 @@ jobs:
                   act: true,
                   wcag: true
                 },
-                // Wir nehmen domcontentloaded, das hat sich als guter Mittelweg erwiesen
                 waitUntil: ['domcontentloaded']
               });
 
