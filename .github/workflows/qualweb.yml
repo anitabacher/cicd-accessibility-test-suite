@@ -38,7 +38,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Install QualWeb & Specific Puppeteer
+      - name: Install QualWeb & Puppeteer v22
         run: npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques puppeteer@22.15.0
 
       # 3. Build Project
@@ -53,11 +53,37 @@ jobs:
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # 5. Verify Connection
-      - name: Verify Server Connection
+      # 5. Sanity Check
+      # Testing if Puppeteer alone can load the page
+
+      - name: Sanity Check (Raw Puppeteer)
         run: |
-          echo "Testing connection to ${{ env.TEST_URL }}/${{ matrix.view }}"
-          curl -v "${{ env.TEST_URL }}/${{ matrix.view }}" || exit 1
+          TARGET_URL="$TEST_URL/${{ matrix.view }}"
+          echo "Testing Puppeteer on: $TARGET_URL"
+          
+          cat <<EOF > test_puppeteer.js
+          const puppeteer = require('puppeteer');
+          (async () => {
+            console.log("Starting Sanity Check...");
+            try {
+              const browser = await puppeteer.launch({
+                headless: 'new',
+                // using minimal stable flag-set for GitHub Actions
+                args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--no-proxy-server']
+              });
+              const page = await browser.newPage();
+              await page.goto('$TARGET_URL');
+              const title = await page.title();
+              console.log("✅ Sanity Check Success! Page Title found:", title);
+              await browser.close();
+            } catch (error) {
+              console.error("❌ Sanity Check Failed:", error);
+              process.exit(1);
+            }
+          })();
+          EOF
+          
+          node test_puppeteer.js
 
       # 6. QualWeb Execution
       - name: Run QualWeb on ${{ matrix.view }}
@@ -75,23 +101,19 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
-            console.log("Launching QualWeb with Puppeteer v22...");
+            console.log("Launching QualWeb with clean config...");
 
             await qualweb.start(
               { maxConcurrency: 1, monitor: true },
               { 
-                headless: 'new', // Funktioniert in v22 super
+                headless: 'new', // Muss matchen mit v22
           
+                // Wir nutzen EXAKT dieselben Args wie im Sanity Check oben
                 args: [
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
-                  '--disable-gpu',
                   '--disable-dev-shm-usage',
-          
-                  // Network Fixes
-                  '--no-proxy-server',
-                  '--allow-insecure-localhost',
-                  '--no-zygote'
+                  '--no-proxy-server'
                 ],
                 defaultViewport: { width: 1920, height: 1080 }
               }
@@ -116,7 +138,7 @@ jobs:
               console.log(\`Report generated with \${keys.length} URL keys.\`);
 
               if (keys.length === 0) {
-                console.error("WARNING: Report object is empty! Check logs above.");
+                console.error("WARNING: Report object is empty!");
               }
 
               fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
