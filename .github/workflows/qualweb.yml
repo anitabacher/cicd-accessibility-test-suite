@@ -87,12 +87,11 @@ jobs:
         run: |
           mkdir -p qualweb-results
           
-          # Exporting the URL here for Node to read it
+          # Export URL for Node.js
           export TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
           # Generating the execution script 
-          # Using 'EOF' to prevent the shell to missunderstand JS syntax
           cat << 'EOF' > run_scan.js
           const { QualWeb } = require('@qualweb/core');
           const puppeteer = require('puppeteer'); 
@@ -100,8 +99,6 @@ jobs:
 
           (async () => {
             const qualweb = new QualWeb();
-          
-            // Get URL from environment variable
             const targetUrl = process.env.TARGET_URL;
 
             // Start QualWeb with specific cluster and browser settings
@@ -110,17 +107,18 @@ jobs:
                 maxConcurrency: 1, 
                 monitor: true,
                 // INJECTION: manually installed Puppeteer v22 instance 
-                // to prevent QualWeb from using its outdated internal dependency.
                 puppeteer: puppeteer 
               },
               { 
                 // Chrome Launch Options
-                headless: 'new', // Use modern Headless mode
+                headless: 'new', 
+                // Enable logging to see browser errors
+                dumpio: true,
                 args: [
-                  '--no-sandbox', // Required for Docker/CI environments
+                  '--no-sandbox', 
                   '--disable-setuid-sandbox',
-                  '--disable-dev-shm-usage', // Prevents Out-Of-Memory crashes in containers
-                  '--no-proxy-server' // Forces direct connection to localhost (bypassing proxies)
+                  '--disable-dev-shm-usage',
+                  '--no-proxy-server'
                 ],
                 defaultViewport: { width: 1920, height: 1080 }
               }
@@ -130,20 +128,20 @@ jobs:
           
             try {
               const report = await qualweb.evaluate({
-                urls: [targetUrl], // Must be an array
+                urls: [targetUrl],
                 execute: {
                   act: true,
                   wcag: true
                 },
-                // Wait strategies to ensure the page is fully rendered before scanning
-                waitUntil: ['load', 'networkidle2'] 
+                waitUntil: ['load'],
+                // Bypass CSP to allow script injection
+                bypassCSP: true
               });
 
-              // Determine filename based on URL 
+              // Determine filename
               const urlParts = targetUrl.split('/');
               let viewName = urlParts[urlParts.length - 1];
               if (!viewName || viewName.includes(':')) viewName = "home";
-          
               const fileName = `qualweb-results/qualweb-${viewName}.json`;
           
               const keys = Object.keys(report);
@@ -165,7 +163,6 @@ jobs:
           })();
           EOF
 
-          # Run the generated script
           node run_scan.js
 
       # 7. Upload Results
