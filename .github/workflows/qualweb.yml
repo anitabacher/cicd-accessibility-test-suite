@@ -1,6 +1,6 @@
 name: QualWeb Accessibility Scan
 # QualWeb (University of Lisbon) - Focus on W3C ACT Rules
-
+# FIX: Hardcoded IPv4 (127.0.0.1) and Headless 'New' mode
 
 on:
   workflow_dispatch:
@@ -8,7 +8,8 @@ on:
     branches: ['**']
 
 env:
-  TEST_URL: http://localhost:1338
+  # WICHTIG: Kein 'localhost' mehr! Wir erzwingen IPv4.
+  TEST_URL: http://127.0.0.1:1338
   PORT: 1338
 
 jobs:
@@ -50,14 +51,15 @@ jobs:
       # 4. Start Server
       - name: Start Server
         run: |
-          # WICHTIG: Zwingt Node dazu, IPv4 (127.0.0.1) statt IPv6 (::1) zu nutzen
+          # Wir setzen die Node-Optionen, um IPv4 zu bevorzugen
           export NODE_OPTIONS="--dns-result-order=ipv4first"
-          
           npm start &
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # 5. Verify Connection (Debugging)
+      # 5. Verify Connection (CRUCIAL DEBUG STEP)
+      # Wir testen jetzt explizit die IP 127.0.0.1
+      # Wenn das hier fehlschlägt, wissen wir, dass der Server nur IPv6 spricht.
       - name: Verify Server Connection
         run: |
           echo "Testing connection to ${{ env.TEST_URL }}/${{ matrix.view }}"
@@ -79,17 +81,23 @@ jobs:
           (async () => {
             const qualweb = new QualWeb();
           
-            // Start Options 
-            // Hier habe ich noch --disable-gpu und --disable-dev-shm-usage ergänzt
-            // Das macht den Browser im Container stabiler.
+            console.log("Launching QualWeb with IPv4 target and Headless 'New'...");
+
             await qualweb.start(
               { maxConcurrency: 1, monitor: true },
               { 
+                // FIX: using 'new' as a modern Headless-Mode
+                headless: 'new',
+          
+                // security setting
+                ignoreHTTPSErrors: true,
+
                 args: [
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
                   '--disable-gpu',
-                  '--disable-dev-shm-usage'
+                  '--disable-dev-shm-usage',
+                  '--disable-web-security' // Hilft bei lokalen Netzwerk-Problemen
                 ],
                 defaultViewport: { width: 1920, height: 1080 }
               }
@@ -99,7 +107,7 @@ jobs:
           
             try {
               const report = await qualweb.evaluate({
-                urls: ['$TARGET_URL'], // Array ist wichtig!
+                urls: ['$TARGET_URL'],
                 execute: {
                   act: true,
                   wcag: true
@@ -114,7 +122,7 @@ jobs:
               console.log(\`Report generated with \${keys.length} URL keys.\`);
 
               if (keys.length === 0) {
-                console.error("WARNING: Report object is empty!");
+                console.error("WARNING: Report object is empty! Check logs above.");
               }
 
               fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
