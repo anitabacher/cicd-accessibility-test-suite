@@ -7,34 +7,12 @@ const targetUrl = process.argv[2] || 'http://localhost:1338/';
     try {
         const qualweb = new QualWeb({});
 
-        // all arguments to force Chrome to start without sandbox
-        const browserArgs = [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-gpu'
-        ];
+        await qualweb.start({
+            maxConcurrency: 1,
+            headless: true
+        });
 
-        // Trying the arguments in different places
-        const startOptions = {
-            headless: true,
-            args: browserArgs, // Try 1: in Root
-            puppeteer: {
-                headless: true,
-                args: browserArgs // Try 2: In 'puppeteer' Object
-            },
-            puppeteerOptions: {
-                headless: true,
-                args: browserArgs // Try 3: In 'puppeteerOptions' Objects
-            },
-            launchOptions: {
-                args: browserArgs // Try 4: I 'launchOptions' Object
-            }
-        };
-
-        await qualweb.start(startOptions);
-
-        console.log(`🚀 Scanning: ${targetUrl}`);
+        console.log(`Scanning: ${targetUrl}`);
 
         const options = {
             url: targetUrl,
