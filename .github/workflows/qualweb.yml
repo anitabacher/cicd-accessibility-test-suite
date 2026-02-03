@@ -53,9 +53,7 @@ jobs:
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # 5. Sanity Check
-      # Testing if Puppeteer alone can load the page
-
+      # 5. Debugging for Puppeteer
       - name: Sanity Check (Raw Puppeteer)
         run: |
           TARGET_URL="$TEST_URL/${{ matrix.view }}"
@@ -64,25 +62,18 @@ jobs:
           cat <<EOF > test_puppeteer.js
           const puppeteer = require('puppeteer');
           (async () => {
-            console.log("Starting Sanity Check...");
             try {
               const browser = await puppeteer.launch({
                 headless: 'new',
-                // using minimal stable flag-set for GitHub Actions
                 args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--no-proxy-server']
               });
               const page = await browser.newPage();
               await page.goto('$TARGET_URL');
-              const title = await page.title();
-              console.log("✅ Sanity Check Success! Page Title found:", title);
+              console.log("✅ Sanity Check Success! Title:", await page.title());
               await browser.close();
-            } catch (error) {
-              console.error("❌ Sanity Check Failed:", error);
-              process.exit(1);
-            }
+            } catch (e) { console.error("❌ Failed:", e); process.exit(1); }
           })();
           EOF
-          
           node test_puppeteer.js
 
       # 6. QualWeb Execution
@@ -96,19 +87,23 @@ jobs:
           
           cat <<EOF > run_scan.js
           const { QualWeb } = require('@qualweb/core');
+          const puppeteer = require('puppeteer'); // WICHTIG: Wir laden das installierte Puppeteer
           const fs = require('fs');
 
           (async () => {
             const qualweb = new QualWeb();
           
-            console.log("Launching QualWeb with clean config...");
+            console.log("Launching QualWeb with injected Puppeteer v22...");
 
+            // sending the 'puppeteer' Modul directly to QualWeb - Explicit Injektion
             await qualweb.start(
-              { maxConcurrency: 1, monitor: true },
               { 
-                headless: 'new', // Muss matchen mit v22
-          
-                // Wir nutzen EXAKT dieselben Args wie im Sanity Check oben
+                maxConcurrency: 1, 
+                monitor: true,
+                puppeteer: puppeteer 
+              },
+              { 
+                headless: 'new',
                 args: [
                   '--no-sandbox', 
                   '--disable-setuid-sandbox',
@@ -128,7 +123,8 @@ jobs:
                   act: true,
                   wcag: true
                 },
-                waitUntil: ['load']
+                validator: '$TARGET_URL', 
+                waitUntil: ['load', 'networkidle2'] 
               });
 
               const viewName = "${{ matrix.view }}" || "home";
