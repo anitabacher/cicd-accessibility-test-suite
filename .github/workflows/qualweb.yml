@@ -9,7 +9,7 @@ on:
 env:
   TEST_URL: http://127.0.0.1:1338
   PORT: 1338
-  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+
 
 jobs:
   qualweb-scan:
@@ -26,33 +26,27 @@ jobs:
           - "dictionary.html"
 
     steps:
-      # 1. Setup Code
+      # 1. Setup
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # 2. Setup Node
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
 
-      # Installing clean Chrome to avoid Snap problems
-      - name: Setup Chrome
-        id: setup-chrome
-        uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: stable
-
-      # 2. Install Dependencies
-      - name: Install Dependencies
+      # 3. Install Dependencies
+      - name: Install QualWeb & Puppeteer
         run: |
           npm ci
-          npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques
+          npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques puppeteer@21.11.0
 
-      # 3. Build Project
+      # 4. Build Project
       - name: Build Project
         run: npm run build --if-present
 
-      # 4. Start Server
+      # 5. Start Server
       - name: Start Server
         run: |
           export NODE_OPTIONS="--dns-result-order=ipv4first"
@@ -60,7 +54,7 @@ jobs:
           echo "Waiting for server..."
           npx wait-on $TEST_URL
 
-      # 5. Run QualWeb
+      # 6. Run QualWeb
       - name: Run QualWeb on ${{ matrix.view }}
         continue-on-error: true
         run: |
@@ -69,48 +63,42 @@ jobs:
           export TARGET_URL="$TEST_URL/${{ matrix.view }}"
           echo "Scanning: $TARGET_URL"
           
-          # Wir übergeben den Pfad aus der Action an das Skript
-          export CHROME_PATH="${{ steps.setup-chrome.outputs.chrome-path }}" || "$CHROME_PATH"
-          
           cat << 'EOF' > run_scan.js
-          const { QualWeb } = require('@qualweb/core');
+          const { start, evaluate, close } = require('@qualweb/core');
           const fs = require('fs');
 
           (async () => {
-            const qualweb = new QualWeb();
             const targetUrl = process.env.TARGET_URL;
-            const chromePath = process.env.CHROME_PATH; // Hier kommt der Pfad an
+            console.log("Launching QualWeb (Functional API)...");
 
-            console.log("Launching QualWeb using SETUP-CHROME binary...");
-            console.log("Path: " + chromePath);
-
-            await qualweb.start(
-              { 
-                maxConcurrency: 1, 
-                monitor: true 
-              },
-              { 
-                headless: 'new', // Modernes Headless funktioniert hier super
-                executablePath: chromePath, // Zwingende Pfad-Angabe
-                args: [
-                  '--no-sandbox', 
-                  '--disable-setuid-sandbox',
-                  '--disable-dev-shm-usage', 
-                  '--no-proxy-server'
-                ]
-              }
-            );
-
-            console.log('Starting evaluation for: ' + targetUrl);
-          
             try {
-              const report = await qualweb.evaluate({
+              // 1. Start Browser
+              await start(
+                { 
+                  maxConcurrency: 1, 
+                  monitor: true 
+                },
+                { 
+                  headless: 'new', 
+                  args: [
+                    '--no-sandbox', 
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage', 
+                    '--no-proxy-server',
+                    '--disable-gpu'
+                  ]
+                }
+              );
+
+              console.log('Browser started. Evaluating: ' + targetUrl);
+          
+              // 2. Evaluate
+              const report = await evaluate({
                 urls: [targetUrl],
                 execute: {
-                  act: false, // Ressourcen sparen
-                  wcag: true  // Fokus der Arbeit
+                  act: false, 
+                  wcag: true  
                 },
-                // 'load' ist der Sweetspot zwischen Bildern und Timeout
                 waitUntil: ['load'],
                 bypassCSP: true
               });
@@ -125,24 +113,26 @@ jobs:
               console.log(`Report generated with ${keys.length} URL keys.`);
 
               if (keys.length === 0) {
-                console.error("WARNING: Report object is empty!");
+                console.error("WARNING: Report is empty! (Even with API Fix)");
+              } else {
+                fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
+                console.log('Report saved to ' + fileName);
               }
 
-              fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
-              console.log('Report saved to ' + fileName);
+              // 3. Using close to finish the Evaluation
+              await close();
           
             } catch (error) {
               console.error("FATAL ERROR inside QualWeb script:", error);
+              try { await close(); } catch(e) {}
               process.exit(1);
             }
-
-            await qualweb.stop();
           })();
           EOF
 
           node run_scan.js
 
-      # 6. Upload Results
+      # 7. Upload Results
       - name: Upload QualWeb Results
         uses: actions/upload-artifact@v4
         if: always()
