@@ -76,7 +76,6 @@ jobs:
           echo "Scanning: $TARGET_URL"
           
           cat << 'EOF' > run_scan.js
-          // ZURÜCK ZUR STANDARD API (da 'start' nicht exportiert wird)
           const { QualWeb } = require('@qualweb/core');
           const fs = require('fs');
 
