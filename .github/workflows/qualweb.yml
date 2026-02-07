@@ -1,5 +1,4 @@
 name: QualWeb Accessibility Scan
-# QualWeb (University of Lisbon)
 
 on:
   workflow_dispatch:
@@ -12,13 +11,12 @@ env:
 
 jobs:
   qualweb-scan:
-
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         view:
-          - "" # index.html
+          - ""
           - "perceivable.html"
           - "operable.html"
           - "understandable.html"
@@ -26,111 +24,63 @@ jobs:
           - "dictionary.html"
 
     steps:
-      # 1. Setup
+      # 1. Checkout
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Setup Node
+      # 2. Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 18
 
-      # 3. Install Dependencies (Sauberer Ansatz ohne 'npm ci')
+      # 3. Chromium Dependencies
+      - name: Install Chromium Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ca-certificates fonts-liberation libasound2 \
+            libatk-bridge2.0-0 libatk1.0-0 libc6 libcairo2 libcups2 \
+            libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 \
+            libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 \
+            libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 \
+            libxcb1 libxcomposite1 libxcursor1 libxdamage1 \
+            libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 \
+            libxss1 libxtst6 xdg-utils
+
+      # 4. Install Dependencies
       - name: Install Dependencies
         run: |
-          npm install @qualweb/core @qualweb/act-rules @qualweb/wcag-techniques puppeteer@21.11.0
+          npm install \
+            puppeteer@21.11.0 \
+            @qualweb/core \
+            @qualweb/act-rules \
+            @qualweb/wcag-techniques \
+            wait-on
 
-      # 4. Build Project
+      # 5. Build
       - name: Build Project
         run: npm run build --if-present
 
-      # 5. Start Server
+      # 6. Start Server
       - name: Start Server
         run: |
           export NODE_OPTIONS="--dns-result-order=ipv4first"
           npm start &
-          echo "Waiting for server..."
-          # Timeout auf 60s erhöht, wie in der Analyse empfohlen
           npx wait-on --timeout 60000 $TEST_URL
 
-      # 6. Run QualWeb
+      # 7. Run QualWeb
       - name: Run QualWeb on ${{ matrix.view }}
         continue-on-error: true
         run: |
           mkdir -p qualweb-results
-          
           export TARGET_URL="$TEST_URL/${{ matrix.view }}"
-          echo "Scanning: $TARGET_URL"
-          
-          cat << 'EOF' > run_scan.js
-          const { QualWeb } = require('@qualweb/core');
-          const fs = require('fs');
-
-          (async () => {
-            const qualweb = new QualWeb();
-            const targetUrl = process.env.TARGET_URL;
-
-            console.log("Launching QualWeb (Corrected API Usage)...");
-          
-            await qualweb.start({
-              maxConcurrency: 1,
-              monitor: true,
-              puppeteer: {
-                args: [
-                  '--no-sandbox', 
-                  '--disable-setuid-sandbox',
-                  '--disable-dev-shm-usage',
-                  '--no-proxy-server',
-                  '--disable-gpu'
-                ]
-              }
-            });
-
-            console.log('Browser started. Evaluating: ' + targetUrl);
-          
-            try {
-              const report = await qualweb.evaluate({
-                urls: [targetUrl],
-                execute: {
-                  act: true, 
-                  wcag: true  
-                },
-                waitUntil: 'load',
-                bypassCSP: true
-              });
-
-              // Filename logic
-              const urlParts = targetUrl.split('/');
-              let viewName = urlParts[urlParts.length - 1];
-              if (!viewName || viewName.includes(':')) viewName = "home";
-              const fileName = `qualweb-results/qualweb-${viewName}.json`;
-          
-              const keys = Object.keys(report);
-              console.log(`Report generated with ${keys.length} URL keys.`);
-
-              if (keys.length === 0) {
-                console.error("WARNING: Report is empty!");
-              } else {
-                fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
-                console.log('Report saved to ' + fileName);
-              }
-          
-            } catch (error) {
-              console.error("FATAL ERROR inside QualWeb script:", error);
-              process.exit(1);
-            }
-
-            await qualweb.stop();
-          })();
-          EOF
-
           node run_scan.js
 
-      # 7. Upload Results
+      # 8. Upload Results
       - name: Upload QualWeb Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: qualweb-json-results-${{ strategy.job-index }}
+          name: qualweb-results-${{ strategy.job-index }}
           path: qualweb-results/*.json
