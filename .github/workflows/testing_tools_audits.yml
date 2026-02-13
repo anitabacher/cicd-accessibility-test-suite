@@ -22,14 +22,14 @@ jobs:
         webpage: [perceivable, operable, understandable]
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js 18
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: '20'
       - name: Chrome browser-action
         uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: 124
+          chrome-version: 144
           install-chromedriver: true
           install-dependencies: true
       - run: npm ci
