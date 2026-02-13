@@ -1,5 +1,5 @@
 name: Web Accessibility Testing Tools Results
-# This workflow runs Accessibility-checker, Axe, and HTML_Codesniffer
+# This workflow runs QualWeb, Axe-Core, Accessibility-checker and HTML_Codesniffer
 # on all web pages of our test website and saves the results as github artifacts.
 
 on:
@@ -13,8 +13,74 @@ env:
   # Url for the running web app
   APP: http://localhost:1338
 
-# issues with chromedrivers mixmatch: https://github.com/browser-actions/setup-chrome
 jobs:
+  #================================================================================================
+  # QUALWEB
+  #================================================================================================
+  qualweb:
+    runs-on: ubuntu-22.04 # downgrade due to conflicts with CI
+    strategy:
+      fail-fast: false # ensure scan of pages even if one fails
+      matrix:
+        view:
+          - "" # index.html
+          - "perceivable.html"
+          - "operable.html"
+          - "understandable.html"
+          - "robust.html"
+          - "dictionary.html"
+
+    steps:
+      # 1. Checkout repository code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # due to dependency issues with Puppeteer
+
+      # 3. Install NPM dependencies (QualWeb core, Puppeteer, etc.)
+      - name: Install Dependencies
+        run: npm install
+
+      # 4. Build (if a script exists)
+      - name: Build Project
+        run: npm run build --if-present
+
+      # 5. Start local test server
+      # Forcing IPv4 resolution order due to problems with the connection timeouts on localhost.
+      # also using 'wait-on' for a fully responsive server before the scan begins.
+      - name: Start Server
+        run: |
+          export NODE_OPTIONS="--dns-result-order=ipv4first"
+          npm start &
+          echo "Waiting for server..."
+          npx wait-on --timeout 60000 $APP 
+
+      # 6. Run custom scan script
+      - name: Run QualWeb on ${{ matrix.view }}
+        continue-on-error: true # to get results even if there are accessibility violations.
+        env:
+          TARGET_URL: ${{ env.APP }}/${{ matrix.view }}
+        run: |
+          node run_scan.js
+
+      # 7. Upload json reports as artifacts
+      - name: Upload QualWeb Results
+        uses: actions/upload-artifact@v4
+        if: always() # Always upload reports, even if the scan found errors
+        with:
+          name: qualweb-json-results-${{ strategy.job-index }}
+          path: qualweb-results/*.json
+
+
+
+  #================================================================================================
+  # AXE-CORE
+  # Refactored to resolve version conflicts and 404 errors found in earlier runs.
+  #================================================================================================
   axe:
     runs-on: ubuntu-latest
     strategy:
@@ -45,6 +111,9 @@ jobs:
           name: Axe-core-${{ matrix.webpage }}
           path: results/axe/axe-results-${{ matrix.webpage }}.json
 
+  #================================================================================================
+  # ACHECKER (IBM)
+  #================================================================================================
   achecker:
     runs-on: ubuntu-latest
     steps:
@@ -67,6 +136,9 @@ jobs:
           name: Accessibility-checker
           path: results/achecker/*
 
+  #================================================================================================
+  # HTMLCS
+  #================================================================================================
   htmlcs:
     runs-on: ubuntu-latest
     steps:
@@ -93,6 +165,9 @@ jobs:
           name: HTML_CodeSniffer
           path: results/HTML_CodeSniffer/*
 
+  #================================================================================================
+  # WAVE
+  #================================================================================================
   wave:
     runs-on: ubuntu-latest
     steps:
@@ -117,6 +192,9 @@ jobs:
           name: WAVE-All
           path: results/wave/*.json
 
+  #================================================================================================
+  # LIGHTHOUSE
+  #================================================================================================
   lighthouse:
     runs-on: ubuntu-latest
     steps:
@@ -139,7 +217,10 @@ jobs:
           path: results/Lighthouse/*  # Be specific about file extension
           if-no-files-found: warn
 
-# pa11y will cause the workflow to fail if any violations are found, on exit code 2.
+  #================================================================================================
+  # PA11Y
+  # will cause the workflow to fail if any violations are found, on exit code 2.
+  #================================================================================================
   pa11y:
     runs-on: ubuntu-latest
     steps:
