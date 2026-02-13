@@ -58,7 +58,7 @@ jobs:
         env:
           TARGET_URL: ${{ env.TEST_URL }}/${{ matrix.view }}
         run: |
-              node run_scan.js
+              node qualweb_scan.js
 
       # 7. Upload json reports as artifacts
       - name: Upload QualWeb Results
