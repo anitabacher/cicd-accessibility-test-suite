@@ -1,9 +1,9 @@
-name: QualWeb Accessibility Scan
+name: QualWeb Accessibility Scan -with ActRules
 
 on:
   workflow_dispatch:
   push:
-    branches: ['**']
+    branches: ['**'] # on any branch
 
 env:
   TEST_URL: http://127.0.0.1:1338
@@ -11,9 +11,9 @@ env:
 
 jobs:
   qualweb-scan:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04 # downgrade due to conflicts with CI
     strategy:
-      fail-fast: false
+      fail-fast: false # ensure scan of pages even if one fails
       matrix:
         view:
           - "" # index.html
@@ -24,44 +24,46 @@ jobs:
           - "dictionary.html"
 
     steps:
-      # 1. Checkout
+      # 1. Checkout repository code
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Setup Node 20
+      # 2. Setup Node.js environment
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20 # due to dependency issues with Puppeteer
 
-      # 3. Install Dependencies
+      # 3. Install NPM dependencies (QualWeb core, Puppeteer, etc.)
       - name: Install Dependencies
         run: npm install
 
-      # 4. Build
+      # 4. Build (if a script exists)
       - name: Build Project
         run: npm run build --if-present
 
-      # 5. Start Server
+      # 5. Start local test server
+      # Forcing IPv4 resolution order due to problems with the connection timeouts on localhost.
+      # also using 'wait-on' for a fully responsive server before the scan begins.
       - name: Start Server
         run: |
           export NODE_OPTIONS="--dns-result-order=ipv4first"
           npm start &
           echo "Waiting for server..."
-          npx wait-on --timeout 60000 $TEST_URL
+          npx wait-on --timeout 60000 $TEST_URL 
 
-      # 6. Run QualWeb
+      # 6. Run custom scan script
       - name: Run QualWeb on ${{ matrix.view }}
-        continue-on-error: true
+        continue-on-error: true # to get results even if there are accessibility violations.
         env:
           TARGET_URL: ${{ env.TEST_URL }}/${{ matrix.view }}
         run: |
               node run_scan.js
 
-      # 7. Upload Results
+      # 7. Upload json reports as artifacts
       - name: Upload QualWeb Results
         uses: actions/upload-artifact@v4
-        if: always()
+        if: always() # Always upload reports, even if the scan found errors
         with:
           name: qualweb-json-results-${{ strategy.job-index }}
           path: qualweb-results/*.json
