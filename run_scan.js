@@ -41,7 +41,7 @@ const urls = process.env.TARGET_URLS
             // Executing the evaluation against the rendered DOM
             const report = await qualweb.evaluate({
                 url,
-                modules: [act, wcag],
+                modules: [wcag], //WCAG only, to check for ACTRules inklude 'act'
                 waitUntil: 'networkidle2', // Wait until network is idle (page is loaded)
                 bypassCSP: true, // Bypass Content Security Policy to allow script injection
                 timeout: 300000

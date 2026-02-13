@@ -1,4 +1,4 @@
-name: QualWeb Accessibility Scan -with ActRules
+name: QualWeb Accessibility Scan - WCAG only
 
 on:
   workflow_dispatch:
