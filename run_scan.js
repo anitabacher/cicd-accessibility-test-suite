@@ -1,9 +1,8 @@
 // @ts-nocheck
-
+// to include testing based on ACTRules uncommend const ACTRules and include act into modules
 // Importing evaluation modules
 const { QualWeb } = require('@qualweb/core');
-// ACTRules act are important for the scientific benchmark (W3C standard).
-const { ACTRules } = require('@qualweb/act-rules');
+// const { ACTRules } = require('@qualweb/act-rules');
 const { WCAGTechniques } = require('@qualweb/wcag-techniques');
 const fs = require('fs');
 
@@ -16,7 +15,7 @@ const urls = process.env.TARGET_URLS
 (async () => {
     // Instantiating Qualweb Core Engine and specific rule sets
     const qualweb = new QualWeb();
-    const act = new ACTRules();
+    // const act = new ACTRules();
     const wcag = new WCAGTechniques();
 
     // Starting the browser engine (Puppeteer)
