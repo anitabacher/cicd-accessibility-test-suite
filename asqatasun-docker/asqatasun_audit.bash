@@ -10,7 +10,7 @@ API_PREFIX_URL="http://${ASQA_USER}:${ASQA_PASSWORD}@localhost:${PORT}"
 FOLDER=$(dirname "$0")
 # Public url of test web app
 URL_PUBLIC="https://idasm-unibe-ch.github.io/unibe-web-accessibility"
-WEBPAGES=("" "perceivable" "operable" "understandable")
+WEBPAGES=("" "perceivable" "operable" "understandable" "robust")
 # Folder for audit results
 CURRENT_DIR=$(pwd)
 RESULTS="$FOLDER/results"
