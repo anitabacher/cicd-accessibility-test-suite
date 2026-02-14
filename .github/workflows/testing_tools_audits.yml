@@ -180,7 +180,7 @@ jobs:
           WAVE_API_KEY: ${{ secrets.WAVE_API_KEY }}
         run: |
           mkdir -p results/wave
-          PAGES=("perceivable" "operable" "understandable")
+          PAGES=("index" "perceivable" "operable" "understandable" "robust")
           for PAGE in "${PAGES[@]}"; do
             echo "Scanning $APP/$PAGE"
             curl -s "https://wave.webaim.org/api/request?key=$WAVE_API_KEY&reporttype=3&url=$APP/$PAGE" \

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Public url of test web app
-WEBPAGES=("" "perceivable" "operable" "understandable" "robust")
+WEBPAGES=("" "perceivable.html" "operable.html" "understandable.html" "robust.html")
 
 JS_FILE="generate_report.js"
 
