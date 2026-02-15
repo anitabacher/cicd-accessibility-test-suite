@@ -2,9 +2,11 @@ module.exports = {
   ci: {
     collect: {
       url: [
-        'http://localhost:1338/perceivable',
+        'http://localhost:1338/', // index.html
+        'http://localhost:1338/perceivable.html',
         'http://localhost:1338/operable',
         'http://localhost:1338/understandable',
+        'http://localhost:1338/robust', // added robust.html
       ],
       startServerCommand: 'npm run start',
       startServerReadyPattern: 'listening on port 1338', // cohesive with app.js now
@@ -15,7 +17,7 @@ module.exports = {
       },
     },
     upload: {
-      target: 'temporary-public-storage', // instead of making a server 
+      target: 'filesystem', // instead of making a server
     },
     report: {
       outputPath: 'results/Lighthouse', 
