@@ -4,9 +4,9 @@ module.exports = {
       url: [
         'http://localhost:1338/', // index.html
         'http://localhost:1338/perceivable.html',
-        'http://localhost:1338/operable',
-        'http://localhost:1338/understandable',
-        'http://localhost:1338/robust', // added robust.html
+        'http://localhost:1338/operable.html',
+        'http://localhost:1338/understandable.html',
+        'http://localhost:1338/robust.html', // added robust.html
       ],
       startServerCommand: 'npm run start',
       startServerReadyPattern: 'listening on port 1338', // cohesive with app.js now
@@ -20,7 +20,7 @@ module.exports = {
       target: 'filesystem', // instead of making a server
     },
     report: {
-      outputPath: 'results/Lighthouse', 
+      outputPath: '.results/Lighthouse',
       // is this why it wasnt working in yml before?
     },
   },
