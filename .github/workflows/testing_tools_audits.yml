@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        webpage: [perceivable, operable, understandable, robust]
+        webpage: [ "", perceivable, operable, understandable, robust]
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 20
