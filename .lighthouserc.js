@@ -13,12 +13,11 @@ module.exports = {
       numberOfRuns: 1,  // this will be 1 for each url.
       settings: {
         preset: "desktop", // if we take this away it will evaluate the website as mobile view, so we could also do multiple tests for some particular criteria.
-        chromeFlags: ['--no-sandbox'], // bypass the sandbox error, but this doesnt seem recommended.
+        chromeFlags: ['--no-sandbox', '--disable-dev-shm-usage', '--headless'], // bypass the sandbox error, but this doesnt seem recommended.
       },
     },
     upload: {
       target: 'filesystem',
-      outputPath: './results/Lighthouse',// instead of making a server
     },
   },
 };

@@ -209,15 +209,15 @@ jobs:
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
       - name: Run Lighthouse CI
-        run: |
-          mkdir -p results/Lighthouse
-          npx lhci autorun --config=./.lighthouserc.js   # change to just lighthouse
+        run: npx lhci autorun --config=./.lighthouserc.js   # change to just lighthouse
+      - name: List files for debugging # Das hilft dir, falls es wieder hakt!
+        run: ls -R .lighthouseci/
       - name: Archive Lighthouse CI results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Lighthouse
-          path: results/Lighthouse/  # Be specific about file extension
+          path: .lighthouseci/ # Be specific about file extension
           if-no-files-found: error
 
   #================================================================================================
