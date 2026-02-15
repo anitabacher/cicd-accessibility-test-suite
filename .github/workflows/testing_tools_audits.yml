@@ -212,12 +212,18 @@ jobs:
         run: npx lhci autorun --config=./.lighthouserc.js   # change to just lighthouse
       - name: List files for debugging # Das hilft dir, falls es wieder hakt!
         run: ls -R .lighthouseci/
+      - name: Prepare Artifacts
+        # Coping the hidden files to our driectory
+        run: |
+         mkdir -p lighthouse-results
+         cp .lighthouseci/lhr-*.html lighthouse-results/
+         cp .lighthouseci/lhr-*.json lighthouse-results/
       - name: Archive Lighthouse CI results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Lighthouse
-          path: .lighthouseci/ # Be specific about file extension
+          path: lighthouse-results/ # Be specific about file extension
           if-no-files-found: error
 
   #================================================================================================
