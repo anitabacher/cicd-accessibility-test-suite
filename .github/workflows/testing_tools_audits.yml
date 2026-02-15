@@ -210,10 +210,10 @@ jobs:
         uses: browser-actions/setup-chrome@v1
       - name: Run Lighthouse CI
         run: npx lhci autorun --config=./.lighthouserc.js   # change to just lighthouse
-      - name: List files for debugging # Das hilft dir, falls es wieder hakt!
+      - name: List files for debugging # to see where lighthouse puts the generated files
         run: ls -R .lighthouseci/
       - name: Prepare Artifacts
-        # Coping the hidden files to our driectory
+        # Coping the hidden files to our specific directory
         run: |
          mkdir -p lighthouse-results
          cp .lighthouseci/lhr-*.html lighthouse-results/
@@ -249,11 +249,19 @@ jobs:
       - run: npm start & npx wait-on $APP
       - name: Install pa11y-ci
         run: npm install -g pa11y-ci
-      - name: Run pa11y-ci
-        run: bash test.bash run pa11y $APP
+      - name: Run Pa11y
+        continue-on-error: true
+        run: |
+          mkdir -p results/pa11y
+          npx pa11y-ci --reporter json \
+            "$APP/" \
+            "$APP/perceivable.html" \
+            "$APP/operable.html" \
+            "$APP/understandable.html" \
+            "$APP/robust.html" > results/pa11y/pa11y-report.json
       - name: Archive Pa11y test results
-        if: success() || failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Pa11y
-          path: results/Pa11y/*
+          name: Pa11y-results
+          path: results/pa11y/*
