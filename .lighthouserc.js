@@ -17,11 +17,8 @@ module.exports = {
       },
     },
     upload: {
-      target: 'filesystem', // instead of making a server
-    },
-    report: {
-      outputPath: './results/Lighthouse',
-      // is this why it wasnt working in yml before?
+      target: 'filesystem',
+      outputPath: './results/Lighthouse',// instead of making a server
     },
   },
 };

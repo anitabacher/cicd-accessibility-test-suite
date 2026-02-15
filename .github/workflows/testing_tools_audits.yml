@@ -209,7 +209,9 @@ jobs:
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
       - name: Run Lighthouse CI
-        run: npx lhci autorun --config=./.lighthouserc.js   # change to just lighthouse
+        run: |
+          mkdir -p results/Lighthouse
+          npx lhci autorun --config=./.lighthouserc.js   # change to just lighthouse
       - name: Archive Lighthouse CI results
         if: always()
         uses: actions/upload-artifact@v4
