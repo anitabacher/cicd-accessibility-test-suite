@@ -20,7 +20,7 @@ module.exports = {
       target: 'filesystem', // instead of making a server
     },
     report: {
-      outputPath: '.results/Lighthouse',
+      outputPath: './results/Lighthouse',
       // is this why it wasnt working in yml before?
     },
   },

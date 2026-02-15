@@ -215,8 +215,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Lighthouse
-          path: results/Lighthouse/*  # Be specific about file extension
-          if-no-files-found: warn
+          path: results/Lighthouse/  # Be specific about file extension
+          if-no-files-found: error
 
   #================================================================================================
   # PA11Y
