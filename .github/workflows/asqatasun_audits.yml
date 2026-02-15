@@ -15,21 +15,27 @@ jobs:
           sudo apt-get install -y curl jq
       - name: Start Asqatasun docker container
         run: docker compose -f asqatasun-docker/api-5.0.0-rc.2_ubuntu-18.04/docker-compose.yml up -d
-      - name: Wait for Docker container to start
+      - name: Wait for Asqatasun API to be ready
         run: |
-          sleep 20
+          echo "Waiting for Asqatasun API at http://localhost:8081..."
+          timeout 120s sh -c 'until curl -s http://localhost:8081 | grep "Unauthorized"; do sleep 5; done'
+          echo "API is up and running!"
       - name: Run Asqatasun
         run: |
           bash asqatasun-docker/asqatasun_audit.bash run
       - name: Download audits
         run: |
-          sleep 20
+          echo "Giving Asqatasun 120s to finish crawling the pages..."
+          sleep 120
+          mkdir -p asqatasun-docker/results/audits
           bash asqatasun-docker/asqatasun_audit.bash audit 1
           bash asqatasun-docker/asqatasun_audit.bash audit 2
           bash asqatasun-docker/asqatasun_audit.bash audit 3
           bash asqatasun-docker/asqatasun_audit.bash audit 4
+          bash asqatasun-docker/asqatasun_audit.bash audit 5
       - name: Archive Asqatasun test results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Asqatasun
+          name: Asqatasun-Reports
           path: asqatasun-docker/results/audits/*
