@@ -1,5 +1,5 @@
 {
-    "criterionsImplemented": 44,
+    "criterionsImplemented": 46,
     "totalExampleErrors": 86,
     "perceivable": {
         "perceivableCriterions": 15,
@@ -12,32 +12,32 @@
                 "examplesGiven": 6,
                 "examples": {
                     "missingAlt": {
-                        "row": 69,
+                        "row": 70,
                         "element": "<img src='images/Sticky.png'>",
                         "description": "The image is missing an alternative text."
                     },
                     "decorativeImage": {
-                        "row": 86,
+                        "row": 87,
                         "element": "<img src='images/decoration.png' alt='This tag is not necessary.'>",
                         "description": "If an image is purely decorative the alt tag should be empty."
                     },
                     "imageContainingText": {
-                        "row": 105,
+                        "row": 106,
                         "element": "<img src='images/important_text.png' alt='It wasn't that important after all'>",
                         "description": "Images containing text information should convey it in the alt attribute."
                     },
                     "emojiElement": {
-                        "row": 125,
+                        "row": 127,
                         "element": "<span style='font-size:50px;'>&#128519;</span>",
                         "description": "Emojis should be assigned a role with proper aria labeling."
                     },
                     "hidingASCII": {
-                        "row": 158,
+                        "row": 160,
                         "element": "<figure role='presentation'><pre>\n   |\n .'|'.\n/.'|\\ \\\n| /|'.|\n \\ |\\/\n  \\|/\n   `\n</pre></figure>",
                         "description": "ASCII used purely for decoration should be hidden from assistive technologies."
                     },
                     "unlabeledASCII": {
-                        "row": 199,
+                        "row": 204,
                         "element": "<figure><pre role='img'>\n      _\n    .'_`--.___   __\n   ( 'o`   - .`.'_ )\n    `-._      `_`./_\n      '/\\    ( .'/ )\n     ,__//`---'`-'_/\n      /-'        '/  VK\n</pre><figcaption id='frog-caption-w'>Art by Veronica Karlsson. Found on <cite><a href='https://www.asciiart.eu/animals/frogs' target='_blank'>ASCII Art Archive</a></cite></figcaption>",
                         "description": "Figures used as an image needs to have alternative information."
                     }
@@ -49,7 +49,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "missingCaptionTrack": {
-                        "row": 252,
+                        "row": 258,
                         "element": "<video controls><source src='videos/perspective-video/perspective-video.mp4' type=video/mp4'></video>",
                         "description": "Caption tracks are missing from the video content."
                     }
@@ -61,32 +61,32 @@
                 "examplesGiven": 6,
                 "examples": {
                     "wrongOrderHeadings": {
-                        "row": 288,
+                        "row": 294,
                         "element": "<h6>This is h6</h6>",
                         "description": "The subsequent headings are supposed to come before this one programmatically."
                     },
                     "wrongfulList": {
-                        "row": 310,
+                        "row": 316,
                         "element": "<ol><p>1. Write code</p><p>2. Review code</p><p>3. Rewrite code</p></ol>",
                         "description": "The list is not using the <li> element preventing the proper conveyance of information, structure, and relationship in the content."
                     },
                     "tableMissingHeadings": {
-                        "row": 356,
+                        "row": 362,
                         "element": "<td>Time</td>",
                         "description": "Table is not using the <th> element preventing the proper conveyance of information, structure, and relationship in the content."
                     },
                     "missingFormInformation": {
-                        "row": 413,
+                        "row": 425,
                         "element": "<form><div class='control'><label for='name-w'>Full name<span class='required'>*</span></label><input id='name-w' type='text' required></div><div class='control'><label for='biography-w'>Biography</label><textarea id='biography-w'></textarea></div><div class='control'><input type='submit' value='Register'></div></form>",
                         "description": "A required field with an asterisk needs to be included with information as to what it represents."
                     },
                     "missingCheckboxLabels": {
-                        "row": 464,
+                        "row": 478,
                         "element": "<fieldset><legend>Select your favorite animal:</legend><div class='touch-target'><input id='fox-w' type='checkbox' name='animal' value='fox'><span>Fox</span></div><div class='touch-target'><input id='bird-w' type='checkbox' name='animal' value='bird'><span>Bird</span></div><div class='touch-target'><input id='frog-w' type='checkbox' name='animal' value='frog'><span>Frog</span></div><div class='touch-target'><input id='snake-w' type='checkbox' name='animal' value='snake'><span>Snake</span></div><div class='touch-target'><input id='snail-w' type='checkbox' name='animal' value='snail'><span>Snail</span></div></fieldset>",
                         "description": "Checkbox fieldsets require labels to represent the values."
                     },
                     "titlesAsLabels": {
-                        "row": 512,
+                        "row": 529,
                         "element": "<fieldset><legend>Phone number</legend><input id='areaCode-w' name='areaCode' type='text' size='3' value='' placeholder='(123)'><input id='exchange-w' name='exchange' type='text' size='3' value='' placeholder='456'><input id='lastDigits-w' name='lastDigits' type='text' size='4' value='' placeholder='7890'></fieldset>",
                         "description": "Titles can be used in replacement for labels for input fields, but it must have atleast one or both."
                     }
@@ -98,12 +98,12 @@
                 "examplesGiven": 2,
                 "examples": {
                     "incorrectOrder": {
-                        "row": 548,
+                        "row": 567,
                         "element": "<div class='column-example'>",
                         "description": "The paragraphs inside the <div> are programmatically in the wrong sequence."
                     },
                     "whiteSpacing": {
-                        "row": 580,
+                        "row": 599,
                         "element": "<h4>W   E   L   C   O   M   E</h4>",
                         "description": "The letters are not using CSS for white spacing. This can cause screen readers to read each individual letter by itself instead of 'welcome'"
                     }
@@ -115,7 +115,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "iconNavigation": {
-                        "row": 611,
+                        "row": 630,
                         "element": "<ul class='nav-menu'>",
                         "description": "The links inside the list do not provide enough clarity. Using only an emoji is not sufficient for understanding and operating content."
                     }
@@ -127,7 +127,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "orientationBlockingContent": {
-                        "row": 636,
+                        "row": 655,
                         "element": "<div class='wrong'><h3>Wrong</h3><p class='orientation'>You have the wrong orientation. Try rotating your device!</p>",
                         "description": "The content inside the div is not being displayed unless you have the proper orientation on your device."
                     }
@@ -139,7 +139,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "lackingAutocomplete": {
-                        "row": 681,
+                        "row": 702,
                         "element": "<form id='wrongForm' class='block-form' action='#' novalidate><label for='email-w'>Email: </label><input type='email' id='email-w' name='email' autocomplete='off'></form>",
                         "description": "The form labels do not provide autocompletion for ease of usage."
                     }
@@ -151,12 +151,12 @@
                 "examplesGiven": 2,
                 "examples": {
                     "linkInText": {
-                        "row": 720,
+                        "row": 739,
                         "element": "<p>This <a class='gl-1-4-1' href='#guideline-1-4-1'>link</a> might not be visible for people with color-blindness.</p>",
                         "description": "Only using a different color for a link is insufficient especially inside of text content."
                     },
                     "colorCueInForm": {
-                        "row": 750,
+                        "row": 771,
                         "element": "<form action='#'>",
                         "description": "Only using a color to display errors in a form is insufficient."
                     }
@@ -168,7 +168,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "autoplayNoControls": {
-                        "row": 779,
+                        "row": 802,
                         "element": "<audio autoplay loop>",
                         "description": "Audio playing automatically for more than 3 seconds must have controls."
                     }
@@ -180,32 +180,32 @@
                 "examplesGiven": 6,
                 "examples": {
                     "normalText": {
-                        "row": 793,
+                        "row": 843,
                         "element": "<p class='gl-1-4-3-normal-text-insufficient'>This text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient. It should be at least 4.5:1 but is 4.05:1"
                     },
                     "largeText": {
-                        "row": 815,
+                        "row": 865,
                         "element": "<p class='large-text gl-1-4-3-large-text-insufficient'>This text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient. It should be at least 3:1 but is 1.92:1"
                     },
                     "boldText": {
-                        "row": 827,
+                        "row": 887,
                         "element": "<p class='large-text gl-1-4-3-large-text-insufficient'>This text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient. It should be at least 3:1 but is 1.92:1"
                     },
                     "normalTextOverImage": {
-                        "row": 864,
+                        "row": 917,
                         "element": "<p class='poor-normal-overlay'>This overlaying text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background image is insufficient. It should be at least 3:1."
                     },
                     "largeTextOverImage": {
-                        "row": 887,
+                        "row": 943,
                         "element": "<p class='large-text poor-normal-overlay'>This overlaying text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient. It should be at least 3:1."
                     },
                     "boldTextOverImage": {
-                        "row": 910,
+                        "row": 970,
                         "element": "<p class='large-text-bold poor-normal-overlay'>This overlaying text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient. It should be at least 3:1."
                     }
@@ -217,12 +217,12 @@
                 "examplesGiven": 2,
                 "examples": {
                     "fixedFontSize": {
-                        "row": 947,
+                        "row": 1011,
                         "element": "<div class='container'><div class='fixedSizeText'><p>Here is some font sized at 12px.</p></div></div>",
                         "description": "The font has a fixed sized and limites resizeability within the container."
                     },
                     "fixedResizedContainers": {
-                        "row": 978,
+                        "row": 1042,
                         "element": "<div class='wrong'>",
                         "description": "The text boxes will not wrap dynamically despite resizing."
                     }
@@ -234,32 +234,32 @@
                 "examplesGiven": 6,
                 "examples": {
                     "normalText": {
-                        "row": 1034,
+                        "row": 1100,
                         "element": "<p class='gl-1-4-6-normal-text-insufficient'>This text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient. It should be at least 7:1 but is 6.33:1"
                     },
                     "largeText": {
-                        "row": 1056,
+                        "row": 1122,
                         "element": "<p class='gl-1-4-6-normal-text-insufficient large-text'>This text has sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient. It should be at least 4.5:1 but is 4.04:1"
                     },
                     "boldText": {
-                        "row": 1078,
+                        "row": 1144,
                         "element": "<p class='large-text-bold gl-1-4-6-large-text-insufficient'>This text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient. It should be at least 3:1 but is 4.04:1"
                     },
                    "normalTextOverImage": {
-                        "row": 1097,
+                        "row": 1164,
                         "element": "<p class='poor-enhanced-normal-overlay'>This overlaying text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient."
                     },
                     "largeTextOverImage": {
-                        "row": 1118,
+                        "row": 1189,
                         "element": "<p class='large-text poor-enhanced-normal-overlay'>This overlaying text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient."
                     },
                     "boldTextOverImage": {
-                        "row": 1139,
+                        "row": 1214,
                         "element": "<p class='large-text-bold poor-enhanced-normal-overlay'>This overlaying text does not have sufficient contrast!</p>",
                        "description": "The contrast between the text and the background is insufficient."
                     }
@@ -271,12 +271,12 @@
                 "examplesGiven": 2,
                 "examples": {
                     "justifiedText": {
-                        "row": 1175,
+                        "row": 1258,
                         "element": "<div class='gl-1-4-8-justified-text'>",
                         "description": "This div element contains justified text, which that reduces readability."
                     },
                     "improperLineSpacing": {
-                        "row": 1209,
+                        "row": 1300,
                         "element": "<div class='gl-1-4-8-short-line-height'>",
                         "description": "This div element contains text with improper line height and spacing, reducing readibility."
                     }
@@ -328,22 +328,22 @@
                 "examplesGiven": 4,
                 "examples": {
                     "focusNotVisible": {
-                        "row": 60,
+                        "row": 61,
                         "element": "<a id='gl-2-1-1-link' href='#'>Link</a>",
                         "description": "The focus is not displayed on this link."
                     },
                     "focusMovingByItself": {
-                        "row": 75,
+                        "row": 76,
                         "element": "<a id='gl-2-1-1-link-from' href='#gl-2-1-1-link-from'>Link</a>",
                         "description": "Once focused it wont let you leave for 3 seconds and then it moves for you."
                     },
                     "imageContainingText": {
-                        "row": 93,
+                        "row": 94,
                         "element": "<span id='fake-link' class='faked-link'>This link is fake!</span>",
                         "description": "This is a span element but with added event handling. It should just be an <a> element instead since that is recognized by assistive technology."
                     },
                     "deviceLimitations": {
-                        "row": 112,
+                        "row": 113,
                         "element": "<p><img id='mouse-only-link class='img-link' src='images/Operable.png' alt='Go to Operable page'></p>",
                         "description": "This image will not be equally accessible depending on device used."
                     }
@@ -355,7 +355,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "flashingSign": {
-                        "row": 153,
+                        "row": 154,
                         "element": "<div id='gl-2-2-2-sign-w' class='gl-2-2-2-flash flashing'>",
                         "description": "This sign can't be stopped or paused."
                     }
@@ -367,7 +367,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "flashingText": {
-                        "row": 183,
+                        "row": 184,
                         "element": "<div id='gl-2-3-1-sign-w' class='quick-flashing'>",
                         "description": "The text is flashing more than 3 times per second."
                     }
@@ -379,7 +379,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "flashingText": {
-                        "row": 166,
+                        "row": 184,
                         "element": "<div id='gl-2-3-1-sign-w' class='quick-flashing'>",
                         "description": "The rule automatically fails because of the test case given in 2.3.1 that flashes 5 times per second."
                     }
@@ -434,7 +434,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "ambiguousLinkText": {
-                        "row": 277,
+                        "row": 278,
                         "element": "<a href='#'>click here</a>",
                         "description": "Link text 'click here' is not clearly understandable without context."
                     }
@@ -446,7 +446,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "fakeHeading": {
-                        "row": 236,
+                        "row": 282,
                         "element": "<fake-heading>2.4.6: Headings and Labels (Level AA)</fake-heading>",
                         "description": "The heading is manipulated with css and not a proper header element."
                     }
@@ -458,17 +458,17 @@
                 "examplesGiven": 3,
                 "examples": {
                     "hiddenFocus": {
-                        "row": 262,
+                        "row": 308,
                         "element": "<a class='hidden-focus' href='#'>Link</a>",
                         "description": "The focus is hidden, causing disruptions for keyboard navigation."
                     },
                     "unclearOutlineFocus": {
-                        "row": 275,
+                        "row": 321,
                         "element": "<a class='gl-2-4-7-outline' href='#'>Link</a>",
                         "description": "The link has an outline that makes it hard to see when its focused."
                     },
                     "unclearBorderFocus": {
-                        "row": 288,
+                        "row": 334,
                         "element": "<a class='gl-2-4-7-border' href='#''>Link</a>",
                         "description": "The link has a border that makes it hard to see when its focused."
                     }
@@ -492,12 +492,12 @@
                 "examplesGiven": 2,
                 "examples": {
                     "non-specificLink": {
-                        "row": 317,
+                        "row": 363,
                         "element": "<a href='#'>Click here</a> to see the examples on the Operable page.",
                         "description": "The link has nondescriptive text and an unclear purpose."
                     },
                     "image-onlyLink": {
-                        "row": 333,
+                        "row": 379,
                         "element": "<img class='img-link' src='images/W3C_WAI.png'>",
                         "description": "The link has only non-text content (an image)."
                     }
@@ -509,7 +509,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "non-specificLink": {
-                        "row": 372,
+                        "row": 418,
                         "element": "<button class='gl-2-4-13-button'>Reveal the hidden text</button>",
                         "description": "Insufficient contrast to make focus distinct."
                     }
@@ -521,7 +521,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "executionOnDownEvent": {
-                        "row": 444,
+                        "row": 445,
                         "element": "<button onmousedown='...'>",
                         "description": "Event handler triggers on mousedown instead of release/mouseup, preventing cancellation."
                     }
@@ -533,17 +533,17 @@
                 "examplesGiven": 3,
                 "examples": {
                     "non-specificLink": {
-                        "row": 400,
+                        "row": 464,
                         "element": "<button aria-label='Show the hidden text'>Reveal the hidden text</button>",
                         "description": "Mismatching of information between visual and accessible name."
                     },
                     "hiddenLinkName": {
-                        "row": 414,
+                        "row": 478,
                         "element": "<a href='#'>Go to <span class='hidden'>Operable</span> page</a>",
                         "description": "Partially hidden visibility for link name."
                     },
                     "hiddenButtonName": {
-                        "row": 431,
+                        "row": 495,
                         "element": "<div id='hidden-label-w' class='hidden'>Show the hidden text</div><input type='submit' aria-labelledby='hidden-label-w' value='Reveal the hidden text'>",
                         "description": "Partially hidden visibility for link name."
                     }
@@ -555,7 +555,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "insufficientTouchTarget": {
-                        "row": 484,
+                        "row": 548,
                         "element": "<div class='insufficient-touch-target'>",
                         "description": "The formatting between touch targets is not sufficient for proper operability."
                     }
@@ -652,7 +652,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "consistentPageStructure": {
-                        "row": 446,
+                        "row": 549,
                         "element": "<header>",
                         "description": "The header element is not consistent with all other pages."
                     }
@@ -664,7 +664,7 @@
                 "examplesGiven": 1,
                 "examples": {
                     "consistentPageStructure": {
-                        "row": 459,
+                        "row": 563,
                         "element": "<input type='text' name='find' id='find' placeholder='Find on page...'>",
                         "description": "This fulfills the same function as 'search' on the other pages. Naming in 'find' on this page causes inconsistency."
                     }
@@ -717,8 +717,8 @@
                 "examplesGiven": 1,
                 "examples": {
                     "redundantAddressEntry": {
-                        "row": 479,
-                        "element": "<fieldset><legend>Shipping Address</legend>... (No checkbox)",
+                        "row": 471,
+                        "element": "<div class=\"wrong\">",
                         "description": "Form requires re-entry of address information without auto-population or selection option."
                     }
                 }
@@ -729,14 +729,14 @@
                 "examplesGiven": 2,
                 "examples": {
                     "pasteBlockedAttribute": {
-                        "row": 511,
+                        "row": 513,
                         "element": "<input onpaste='return false;'>",
                         "description": "Password field explicitly blocks pasting via attribute."
                     },
                     "pasteBlockedStructure": {
-                        "row": 535,
+                        "row": 537,
                         "element": "<input maxlength='1'> ... <input maxlength='1'>",
-                        "description": "Split input fields (F109) prevent pasting the full code, forcing transcription."
+                        "description": "Split input fields prevent pasting the full code, forcing transcription."
                     }
                 }
             }
@@ -757,7 +757,7 @@
                         "element": "<button>🔍</button>",
                         "description": "Buttons must have discernable text or an accessible name via aria-label."
                     },
-                    "emptyButton": {
+                    "emptyButtonBackground": {
                         "row": 80,
                         "element": "<button style='background: url(...)'>",
                         "description": "Button is technically empty (background image only) and has no accessible name."
@@ -775,7 +775,7 @@
                         "description": "Dynamic status message appears without role='status' or aria-live attribute."
                     },
                     "missingAlertRole": {
-                        "row": 135,
+                        "row": 118,
                         "element": "<div id='error-w'>",
                         "description": "Critical error message appears without role='alert' or aria-live attribute."
                     }
