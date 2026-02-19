@@ -248,7 +248,7 @@
                         "element": "<p class='large-text-bold gl-1-4-6-large-text-insufficient'>This text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient. It should be at least 3:1 but is 4.04:1"
                     },
-                   "normalTextOverImage": {
+                    "normalTextOverImage": {
                         "row": 1164,
                         "element": "<p class='poor-enhanced-normal-overlay'>This overlaying text does not have sufficient contrast!</p>",
                         "description": "The contrast between the text and the background is insufficient."
@@ -261,11 +261,11 @@
                     "boldTextOverImage": {
                         "row": 1214,
                         "element": "<p class='large-text-bold poor-enhanced-normal-overlay'>This overlaying text does not have sufficient contrast!</p>",
-                       "description": "The contrast between the text and the background is insufficient."
+                        "description": "The contrast between the text and the background is insufficient."
                     }
                 }
             },
-             "1.4.8": {
+            "1.4.8": {
                 "urlToCriterion": "https://www.w3.org/WAI/WCAG21/Understanding/visual-presentation.html",
                 "level": "AAA",
                 "examplesGiven": 2,
@@ -313,14 +313,15 @@
                         "row": 1403,
                         "element": "<div style='height: 60px; ... line-height: 1.5'>",
                         "description": "Container breaks immediately due to forced spacing (Detection Test)."
-                    },
-
+                    }
                 }
-            },
+            }
+        }
+    },
     "operable": {
         "operableCriterions": 16,
         "operableExampleErrors": 25,
-        "operablePageErrors": 23,
+        "operablePageErrors": 24,
         "implementedCriterions": {
             "2.1.1": {
                 "urlToCriterion": "https://www.w3.org/TR/WCAG21/#keyboard",
@@ -392,7 +393,7 @@
                 "examples": {
                     "missingSkipLink": {
                         "row": 15,
-                        "page": "home",
+                        "page": "operable",
                         "element": "<body>",
                         "description": "The page is missing a mechanism to bypass blocks of content (Skip Link)."
                     }
@@ -782,4 +783,5 @@
                 }
             }
         }
-    },
+    }
+}
