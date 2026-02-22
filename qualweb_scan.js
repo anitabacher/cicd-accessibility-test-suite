@@ -2,7 +2,7 @@
 // to include testing based on ACTRules uncommend const ACTRules and include act into modules
 // Importing evaluation modules
 const { QualWeb } = require('@qualweb/core');
-// const { ACTRules } = require('@qualweb/act-rules');
+const { ACTRules } = require('@qualweb/act-rules');
 const { WCAGTechniques } = require('@qualweb/wcag-techniques');
 const fs = require('fs');
 
@@ -15,7 +15,7 @@ const urls = process.env.TARGET_URLS
 (async () => {
     // Instantiating Qualweb Core Engine and specific rule sets
     const qualweb = new QualWeb();
-    // const act = new ACTRules();
+    const act = new ACTRules();
     const wcag = new WCAGTechniques();
 
     // Starting the browser engine (Puppeteer)
@@ -40,7 +40,7 @@ const urls = process.env.TARGET_URLS
             // Executing the evaluation against the rendered DOM
             const report = await qualweb.evaluate({
                 url,
-                modules: [wcag], //WCAG only, to check for ACTRules inklude 'act'
+                modules: [wcag, act], //WCAG only, to check for ACTRules inklude 'act'
                 waitUntil: 'networkidle2', // Wait until network is idle (page is loaded)
                 bypassCSP: true, // Bypass Content Security Policy to allow script injection
                 timeout: 300000

@@ -170,6 +170,7 @@ jobs:
   #================================================================================================
   wave:
     runs-on: ubuntu-latest
+    if: false
     steps:
       - uses: actions/checkout@v4
       - name: Install curl and jq
